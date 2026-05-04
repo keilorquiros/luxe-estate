@@ -15,7 +15,7 @@
   --radius-xl: 1.5rem;
   --radius-full: 9999px;
 
-  --shadow-soft: 0 10px 40px -10px rgba(0,0,0,0.05);
+  --shadow-soft: 0 10px 40px -10px rgba(0, 0, 0, 0.05);
   --shadow-card: 0 4px 6px -1px rgba(0, 0, 0, 0.02), 0 2px 4px -1px rgba(0, 0, 0, 0.02);
 }
 
@@ -23,6 +23,7 @@
   .hide-scroll::-webkit-scrollbar {
     display: none;
   }
+
   .hide-scroll {
     -ms-overflow-style: none;
     scrollbar-width: none;
