@@ -23,13 +23,12 @@ export default function SearchArea() {
   };
 
   const handleTypeClick = (type: string) => {
-    const params = new URLSearchParams(searchParams.toString());
-    if (type === "All") {
-      params.delete("type");
-    } else {
+    const params = new URLSearchParams();
+    if (type !== "All") {
       params.set("type", type);
     }
     params.set("page", "1");
+    setSearchQuery("");
     router.push(`/?${params.toString()}`, { scroll: false });
   };
 

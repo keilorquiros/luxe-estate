@@ -67,6 +67,11 @@ export default function FilterModal({ isOpen, onClose }: FilterModalProps) {
     setBeds(0);
     setBaths(0);
     setAmenities([]);
+
+    // Eliminar los parámetros de la URL inmediatamente
+    const params = new URLSearchParams();
+    params.set("page", "1");
+    router.push(`/?${params.toString()}`, { scroll: false });
   };
 
   return (
