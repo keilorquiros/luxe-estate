@@ -1,0 +1,98 @@
+{
+  "nav": {
+    "properties": "Propiedades",
+    "about": "Nosotros",
+    "contact": "Contacto",
+    "language": "Idioma"
+  },
+  "hero": {
+    "title_start": "Encuentra tu",
+    "title_highlight": "santuario",
+    "search_placeholder": "Buscar por ubicación o nombre de propiedad...",
+    "filters": "Filtros"
+  },
+  "home": {
+    "featured_title": "Colecciones Destacadas",
+    "featured_subtitle": "Propiedades seleccionadas para el ojo exigente.",
+    "view_all": "Ver todas",
+    "market_title": "Nuevo en el Mercado",
+    "market_subtitle": "Nuevas oportunidades añadidas esta semana.",
+    "showing": "Mostrando {start}–{end} de {total}",
+    "filters": {
+      "all": "Todo",
+      "buy": "Venta",
+      "rent": "Alquiler",
+      "property_types": {
+        "House": "Casa",
+        "Apartment": "Apartamento",
+        "Villa": "Villa",
+        "Penthouse": "Ático",
+        "Condo": "Condominio",
+        "Townhouse": "Casa adosada"
+      }
+    },
+    "filter_modal": {
+      "title": "Filtros",
+      "search_keyword": "Palabra clave de búsqueda",
+      "search_placeholder": "Ciudad, barrio, dirección o palabra clave...",
+      "price_range": "Rango de precios",
+      "any": "Cualquiera",
+      "min_price": "Precio mín.",
+      "max_price": "Precio máx.",
+      "property_type": "Tipo de propiedad",
+      "bedrooms": "Dormitorios",
+      "bathrooms": "Baños",
+      "amenities_heading": "Comodidades",
+      "clear_all": "Borrar todos los filtros",
+      "show_results": "Ver resultados",
+      "property_types": {
+        "Any Type": "Cualquier tipo",
+        "House": "Casa",
+        "Apartment": "Apartamento",
+        "Condo": "Condominio",
+        "Townhouse": "Casa adosada",
+        "Villa": "Villa",
+        "Penthouse": "Ático"
+      },
+      "amenities": {
+        "pool": "Piscina",
+        "gym": "Gimnasio",
+        "parking": "Aparcamiento",
+        "ac": "Aire acondicionado",
+        "wifi": "Wifi de alta velocidad",
+        "patio": "Patio / terraza"
+      }
+    }
+  },
+  "common": {
+    "beds": "Hab",
+    "baths": "Baños",
+    "sqft": "m²",
+    "price_per_month": "/ mes"
+  },
+  "property_detail": {
+    "meta_title_not_found": "Propiedad no encontrada | LuxeEstate",
+    "meta_description": "Descubre esta propiedad en {location}. Cuenta con {beds} dormitorios y {baths} baños.",
+    "badge_new": "Nuevo",
+    "view_all_photos": "Ver todas las fotos",
+    "gallery_thumb_alt": "{title} — foto {index}",
+    "agent_avatar_alt": "Foto del agente",
+    "top_rated_agent": "Agente mejor valorado",
+    "schedule_visit": "Agendar visita",
+    "contact_agent": "Contactar con el agente",
+    "garage": "Garaje",
+    "features_heading": "Características",
+    "about_heading": "Sobre esta vivienda",
+    "about_p1": "Disfruta del lujo moderno en esta vivienda de arquitectura espectacular en el corazón de {location}. Diseñada con énfasis en la vida interior-exterior, cuenta con muros acristalados que bañan los interiores de luz natural.",
+    "about_p2": "La cocina abierta equipa electrodomésticos de gama alta y mobiliario a medida, ideal para quienes aman cocinar. Refúgiate en la suite principal, un espacio de relax con baño tipo spa y balcón privado.",
+    "read_more": "Leer más",
+    "amenities_heading": "Comodidades",
+    "amenities_list": [
+      "Domótica",
+      "Piscina",
+      "Calefacción y climatización central",
+      "Punto de recarga para vehículo eléctrico"
+    ],
+    "map_loading": "Cargando mapa interactivo..."
+  }
+}

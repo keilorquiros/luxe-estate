@@ -1,9 +1,10 @@
 import Link from "next/link";
 import { Property } from "../../lib/supabase";
+import { Locale } from "../../lib/i18n";
 
-export default function FeaturedPropertyCard({ property }: { property: Property }) {
+export default function FeaturedPropertyCard({ property, lang, dict }: { property: Property, lang: Locale, dict: any }) {
   return (
-    <Link href={`/properties/${property.slug}`} className="group relative rounded-xl overflow-hidden shadow-soft bg-white cursor-pointer block">
+    <Link href={`/${lang}/properties/${property.slug}`} className="group relative rounded-xl overflow-hidden shadow-soft bg-white cursor-pointer block">
       <div className="aspect-[4/3] w-full overflow-hidden relative">
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img alt={property.title} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" src={property.images?.[0] || ""} />
@@ -31,13 +32,13 @@ export default function FeaturedPropertyCard({ property }: { property: Property 
         </div>
         <div className="flex items-center gap-6 mt-6 pt-6 border-t border-nordic-dark/5">
           <div className="flex items-center gap-2 text-nordic-muted text-sm">
-            <span className="material-icons text-lg">king_bed</span> {property.beds} Beds
+            <span className="material-icons text-lg">king_bed</span> {property.beds} {dict.common.beds}
           </div>
           <div className="flex items-center gap-2 text-nordic-muted text-sm">
-            <span className="material-icons text-lg">bathtub</span> {property.baths} Baths
+            <span className="material-icons text-lg">bathtub</span> {property.baths} {dict.common.baths}
           </div>
           <div className="flex items-center gap-2 text-nordic-muted text-sm">
-            <span className="material-icons text-lg">square_foot</span> {property.area}
+            <span className="material-icons text-lg">square_foot</span> {property.area} {dict.common.sqft}
           </div>
         </div>
       </div>

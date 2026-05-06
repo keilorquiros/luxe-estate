@@ -3,8 +3,14 @@
 import { useState, useRef } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import FilterModal from "./FilterModal";
+import { Locale } from "../../lib/i18n";
 
-export default function SearchArea() {
+interface SearchAreaProps {
+  lang: Locale;
+  dict: any;
+}
+
+export default function SearchArea({ lang, dict }: SearchAreaProps) {
   const router = useRouter();
   const searchParams = useSearchParams();
   const inputRef = useRef<HTMLInputElement>(null);
@@ -29,7 +35,7 @@ export default function SearchArea() {
       params.delete("q");
     }
     params.set("page", "1");
-    router.push(`/?${params.toString()}`, { scroll: false });
+    router.push(`/${lang}?${params.toString()}`, { scroll: false });
   };
 
   const handleTypeClick = (type: string) => {
@@ -40,7 +46,7 @@ export default function SearchArea() {
       params.delete("type");
     }
     params.set("page", "1");
-    router.push(`/?${params.toString()}`, { scroll: false });
+    router.push(`/${lang}?${params.toString()}`, { scroll: false });
   };
 
   const currentType = searchParams.get("type") || "All";
@@ -56,7 +62,7 @@ export default function SearchArea() {
           ref={inputRef}
           name="q"
           className="block w-full pl-12 pr-32 py-4 rounded-xl border-none bg-white text-nordic-dark shadow-soft placeholder-nordic-muted/60 focus:ring-2 focus:ring-mosque focus:bg-white transition-all text-lg" 
-          placeholder="Search by city, neighborhood, or address..." 
+          placeholder={dict.hero.search_placeholder} 
           type="text" 
           defaultValue={searchParams.get("q") || ""}
           key={searchParams.get("q")} // Reset input when URL changes (e.g. from FilterModal)
@@ -65,7 +71,7 @@ export default function SearchArea() {
           type="submit"
           className="absolute inset-y-2 right-2 px-6 bg-mosque hover:bg-mosque/90 text-white font-medium rounded-lg transition-colors flex items-center justify-center shadow-lg shadow-mosque/20"
         >
-          Search
+          {dict.nav.language === '言語' ? '検索' : (dict.nav.language === 'Langue' ? 'Rechercher' : (dict.nav.language === 'Idioma' ? 'Buscar' : 'Search'))}
         </button>
       </form>
       
@@ -80,7 +86,7 @@ export default function SearchArea() {
                 : "bg-white border border-nordic-dark/5 text-nordic-muted hover:text-nordic-dark hover:border-mosque/50 hover:bg-mosque/5"
             }`}
           >
-            {type}
+            {type === "All" ? dict.home.filters.all : (dict.home.filters.property_types[type] || type)}
           </button>
         ))}
         
@@ -94,7 +100,7 @@ export default function SearchArea() {
               : "text-nordic-dark hover:bg-black/5"
           }`}
         >
-          <span className="material-icons text-base">tune</span> Filters
+          <span className="material-icons text-base">tune</span> {dict.hero.filters}
           {hasActiveFilters && <span className="w-1.5 h-1.5 rounded-full bg-mosque ml-0.5"></span>}
         </button>
       </div>
@@ -103,6 +109,8 @@ export default function SearchArea() {
         isOpen={isModalOpen} 
         onClose={() => setIsModalOpen(false)} 
         initialSearchQuery={modalInitialQuery}
+        lang={lang}
+        dict={dict}
       />
     </>
   );

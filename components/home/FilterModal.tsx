@@ -2,14 +2,28 @@
 
 import { useState, useEffect } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
+import { Locale } from "../../lib/i18n";
+
+const PROPERTY_TYPE_VALUES = ["Any Type", "House", "Apartment", "Condo", "Townhouse", "Villa", "Penthouse"] as const;
+
+const AMENITY_ITEMS = [
+  { id: "pool", icon: "pool" },
+  { id: "gym", icon: "fitness_center" },
+  { id: "parking", icon: "local_parking" },
+  { id: "ac", icon: "ac_unit" },
+  { id: "wifi", icon: "wifi" },
+  { id: "patio", icon: "deck" },
+] as const;
 
 interface FilterModalProps {
   isOpen: boolean;
   onClose: () => void;
   initialSearchQuery?: string;
+  lang: Locale;
+  dict: Record<string, unknown>;
 }
 
-export default function FilterModal({ isOpen, onClose, initialSearchQuery }: FilterModalProps) {
+export default function FilterModal({ isOpen, onClose, initialSearchQuery, lang, dict }: FilterModalProps) {
   const router = useRouter();
   const searchParams = useSearchParams();
 
@@ -49,6 +63,25 @@ export default function FilterModal({ isOpen, onClose, initialSearchQuery }: Fil
 
   if (!isOpen) return null;
 
+  const home = dict.home as Record<string, unknown>;
+  const fm = home.filter_modal as {
+    title: string;
+    search_keyword: string;
+    search_placeholder: string;
+    price_range: string;
+    any: string;
+    min_price: string;
+    max_price: string;
+    property_type: string;
+    bedrooms: string;
+    bathrooms: string;
+    amenities_heading: string;
+    clear_all: string;
+    show_results: string;
+    property_types: Record<string, string>;
+    amenities: Record<string, string>;
+  };
+
   const toggleAmenity = (amenity: string) => {
     setAmenities(prev => 
       prev.includes(amenity) ? prev.filter(a => a !== amenity) : [...prev, amenity]
@@ -68,7 +101,7 @@ export default function FilterModal({ isOpen, onClose, initialSearchQuery }: Fil
     
     params.set("page", "1"); // Reset pagination
 
-    router.push(`/?${params.toString()}`, { scroll: false });
+    router.push(`/${lang}?${params.toString()}`, { scroll: false });
     onClose();
   };
 
@@ -81,8 +114,8 @@ export default function FilterModal({ isOpen, onClose, initialSearchQuery }: Fil
     setBaths(0);
     setAmenities([]);
 
-    // Navegar a la raíz sin parámetros (excepto página 1) y cerrar modal
-    router.push("/", { scroll: false });
+    // Navegar a la raíz con el idioma pero sin parámetros (excepto página 1) y cerrar modal
+    router.push(`/${lang}`, { scroll: false });
     onClose();
   };
 
@@ -93,7 +126,7 @@ export default function FilterModal({ isOpen, onClose, initialSearchQuery }: Fil
         <div className="w-full max-w-2xl bg-white rounded-xl shadow-2xl overflow-hidden flex flex-col max-h-[90vh] pointer-events-auto">
           {/* Header */}
           <header className="px-8 py-6 border-b border-gray-100 flex justify-between items-center bg-white sticky top-0 z-30">
-            <h1 className="text-2xl font-semibold tracking-tight text-gray-900">Filters</h1>
+            <h1 className="text-2xl font-semibold tracking-tight text-gray-900">{fm.title}</h1>
             <button onClick={onClose} className="p-2 rounded-full hover:bg-gray-100 transition-colors text-gray-500">
               <span className="material-icons">close</span>
             </button>
@@ -104,12 +137,12 @@ export default function FilterModal({ isOpen, onClose, initialSearchQuery }: Fil
             
             {/* Search Keyword */}
             <section>
-              <label className="block text-xs font-semibold text-gray-500 uppercase tracking-wider mb-3">Search Keyword</label>
+              <label className="block text-xs font-semibold text-gray-500 uppercase tracking-wider mb-3">{fm.search_keyword}</label>
               <div className="relative group">
                 <span className="material-icons absolute left-4 top-3.5 text-gray-400 group-focus-within:text-mosque transition-colors">search</span>
                 <input 
                   className="w-full pl-12 pr-4 py-3 bg-background border-0 rounded-lg text-gray-900 placeholder-gray-400 focus:ring-2 focus:ring-mosque focus:bg-white transition-all shadow-sm" 
-                  placeholder="City, neighborhood, address or keyword..." 
+                  placeholder={fm.search_placeholder} 
                   type="text" 
                   value={searchQuery}
                   onChange={e => setSearchQuery(e.target.value)}
@@ -120,16 +153,16 @@ export default function FilterModal({ isOpen, onClose, initialSearchQuery }: Fil
             {/* Price Range */}
             <section>
               <div className="flex justify-between items-end mb-4">
-                <label className="block text-xs font-semibold text-gray-500 uppercase tracking-wider">Price Range</label>
+                <label className="block text-xs font-semibold text-gray-500 uppercase tracking-wider">{fm.price_range}</label>
                 {(minPrice || maxPrice) && (
                   <span className="text-sm font-medium text-mosque">
-                    {minPrice ? `$${parseInt(minPrice).toLocaleString()}` : "$0"} – {maxPrice ? `$${parseInt(maxPrice).toLocaleString()}` : "Any"}
+                    {minPrice ? `$${parseInt(minPrice).toLocaleString()}` : "$0"} – {maxPrice ? `$${parseInt(maxPrice).toLocaleString()}` : fm.any}
                   </span>
                 )}
               </div>
               <div className="grid grid-cols-2 gap-4">
                 <div className="bg-background p-3 rounded-lg border border-transparent focus-within:border-mosque/30 transition-colors">
-                  <label className="block text-[10px] text-gray-500 uppercase font-medium mb-1">Min Price</label>
+                  <label className="block text-[10px] text-gray-500 uppercase font-medium mb-1">{fm.min_price}</label>
                   <div className="flex items-center">
                     <span className="text-gray-400 mr-1">$</span>
                     <input 
@@ -142,13 +175,13 @@ export default function FilterModal({ isOpen, onClose, initialSearchQuery }: Fil
                   </div>
                 </div>
                 <div className="bg-background p-3 rounded-lg border border-transparent focus-within:border-mosque/30 transition-colors">
-                  <label className="block text-[10px] text-gray-500 uppercase font-medium mb-1">Max Price</label>
+                  <label className="block text-[10px] text-gray-500 uppercase font-medium mb-1">{fm.max_price}</label>
                   <div className="flex items-center">
                     <span className="text-gray-400 mr-1">$</span>
                     <input 
                       className="w-full bg-transparent border-0 p-0 text-gray-900 font-medium focus:ring-0 text-sm" 
                       type="number" 
-                      placeholder="Any"
+                      placeholder={fm.any}
                       value={maxPrice}
                       onChange={e => setMaxPrice(e.target.value)}
                     />
@@ -161,20 +194,18 @@ export default function FilterModal({ isOpen, onClose, initialSearchQuery }: Fil
             <section className="grid grid-cols-1 md:grid-cols-2 gap-8">
               {/* Property Type */}
               <div className="space-y-3">
-                <label className="block text-xs font-semibold text-gray-500 uppercase tracking-wider">Property Type</label>
+                <label className="block text-xs font-semibold text-gray-500 uppercase tracking-wider">{fm.property_type}</label>
                 <div className="relative">
                   <select 
                     className="w-full bg-background border-0 rounded-lg py-3 pl-4 pr-10 text-gray-900 appearance-none focus:ring-2 focus:ring-mosque cursor-pointer"
                     value={propertyType}
                     onChange={e => setPropertyType(e.target.value)}
                   >
-                    <option>Any Type</option>
-                    <option>House</option>
-                    <option>Apartment</option>
-                    <option>Condo</option>
-                    <option>Townhouse</option>
-                    <option>Villa</option>
-                    <option>Penthouse</option>
+                    {PROPERTY_TYPE_VALUES.map((value) => (
+                      <option key={value} value={value}>
+                        {fm.property_types[value] ?? value}
+                      </option>
+                    ))}
                   </select>
                   <span className="material-icons absolute right-3 top-3 text-gray-400 pointer-events-none">expand_more</span>
                 </div>
@@ -182,9 +213,9 @@ export default function FilterModal({ isOpen, onClose, initialSearchQuery }: Fil
 
               {/* Rooms */}
               <div className="space-y-4">
-                {/* Beds */}
+                {/* Bedrooms */}
                 <div className="flex justify-between items-center">
-                  <span className="text-sm font-medium text-gray-900">Bedrooms</span>
+                  <span className="text-sm font-medium text-gray-900">{fm.bedrooms}</span>
                   <div className="flex items-center space-x-3 bg-background rounded-full p-1">
                     <button 
                       onClick={() => setBeds(Math.max(0, beds - 1))}
@@ -192,7 +223,7 @@ export default function FilterModal({ isOpen, onClose, initialSearchQuery }: Fil
                     >
                       <span className="material-icons text-base">remove</span>
                     </button>
-                    <span className="text-sm font-semibold w-4 text-center">{beds > 0 ? `${beds}+` : "Any"}</span>
+                    <span className="text-sm font-semibold min-w-[4rem] text-center tabular-nums">{beds > 0 ? `${beds}+` : fm.any}</span>
                     <button 
                       onClick={() => setBeds(beds + 1)}
                       className="w-8 h-8 rounded-full bg-white shadow-sm flex items-center justify-center text-mosque hover:bg-mosque hover:text-white transition-colors"
@@ -202,9 +233,9 @@ export default function FilterModal({ isOpen, onClose, initialSearchQuery }: Fil
                   </div>
                 </div>
 
-                {/* Baths */}
+                {/* Bathrooms */}
                 <div className="flex justify-between items-center">
-                  <span className="text-sm font-medium text-gray-900">Bathrooms</span>
+                  <span className="text-sm font-medium text-gray-900">{fm.bathrooms}</span>
                   <div className="flex items-center space-x-3 bg-background rounded-full p-1">
                     <button 
                       onClick={() => setBaths(Math.max(0, baths - 1))}
@@ -212,7 +243,7 @@ export default function FilterModal({ isOpen, onClose, initialSearchQuery }: Fil
                     >
                       <span className="material-icons text-base">remove</span>
                     </button>
-                    <span className="text-sm font-semibold w-4 text-center">{baths > 0 ? `${baths}+` : "Any"}</span>
+                    <span className="text-sm font-semibold min-w-[4rem] text-center tabular-nums">{baths > 0 ? `${baths}+` : fm.any}</span>
                     <button 
                       onClick={() => setBaths(baths + 1)}
                       className="w-8 h-8 rounded-full bg-white shadow-sm flex items-center justify-center text-mosque hover:bg-mosque hover:text-white transition-colors"
@@ -226,16 +257,9 @@ export default function FilterModal({ isOpen, onClose, initialSearchQuery }: Fil
 
             {/* Amenities */}
             <section>
-              <label className="block text-xs font-semibold text-gray-500 uppercase tracking-wider mb-4">Amenities & Features</label>
+              <label className="block text-xs font-semibold text-gray-500 uppercase tracking-wider mb-4">{fm.amenities_heading}</label>
               <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
-                {[
-                  { id: "pool", label: "Swimming Pool", icon: "pool" },
-                  { id: "gym", label: "Gym", icon: "fitness_center" },
-                  { id: "parking", label: "Parking", icon: "local_parking" },
-                  { id: "ac", label: "Air Conditioning", icon: "ac_unit" },
-                  { id: "wifi", label: "High-speed Wifi", icon: "wifi" },
-                  { id: "patio", label: "Patio / Terrace", icon: "deck" },
-                ].map(amenity => {
+                {AMENITY_ITEMS.map((amenity) => {
                   const isSelected = amenities.includes(amenity.id);
                   return (
                     <label key={amenity.id} className="cursor-pointer group relative">
@@ -253,7 +277,7 @@ export default function FilterModal({ isOpen, onClose, initialSearchQuery }: Fil
                         <span className={`material-icons text-lg ${isSelected ? "" : "text-gray-400 group-hover:text-gray-500"}`}>
                           {amenity.icon}
                         </span>
-                        {amenity.label}
+                        {fm.amenities[amenity.id] ?? amenity.id}
                       </div>
                       {isSelected && (
                         <div className="absolute top-2 right-2 w-2 h-2 bg-mosque rounded-full opacity-100 transition-opacity"></div>
@@ -271,13 +295,13 @@ export default function FilterModal({ isOpen, onClose, initialSearchQuery }: Fil
               onClick={clearFilters}
               className="text-sm font-medium text-gray-500 hover:text-gray-900 transition-colors underline decoration-gray-300 underline-offset-4"
             >
-              Clear all filters
+              {fm.clear_all}
             </button>
             <button 
               onClick={handleApply}
               className="bg-mosque hover:bg-mosque/90 text-white px-8 py-3 rounded-lg font-medium shadow-lg shadow-mosque/30 transition-all hover:shadow-mosque/40 flex items-center gap-2 transform active:scale-95"
             >
-              Show Results
+              {fm.show_results}
               <span className="material-icons text-sm">arrow_forward</span>
             </button>
           </footer>

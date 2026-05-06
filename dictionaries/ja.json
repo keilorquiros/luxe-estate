@@ -1,0 +1,98 @@
+{
+  "nav": {
+    "properties": "物件",
+    "about": "会社概要",
+    "contact": "お問い合わせ",
+    "language": "言語"
+  },
+  "hero": {
+    "title_start": "あなたの",
+    "title_highlight": "聖域",
+    "search_placeholder": "場所や物件名で検索...",
+    "filters": "フィルター"
+  },
+  "home": {
+    "featured_title": "おすすめコレクション",
+    "featured_subtitle": "目の肥えた方のための厳選された物件。",
+    "view_all": "すべて見る",
+    "market_title": "新着物件",
+    "market_subtitle": "今週追加された新しい機会。",
+    "showing": "{total}件中 {start}–{end}件を表示",
+    "filters": {
+      "all": "すべて",
+      "buy": "購入",
+      "rent": "賃貸",
+      "property_types": {
+        "House": "一軒家",
+        "Apartment": "アパート",
+        "Villa": "別荘",
+        "Penthouse": "ペントハウス",
+        "Condo": "分譲マンション",
+        "Townhouse": "タウンハウス"
+      }
+    },
+    "filter_modal": {
+      "title": "フィルター",
+      "search_keyword": "検索キーワード",
+      "search_placeholder": "市区町村、エリア、住所、キーワード…",
+      "price_range": "価格帯",
+      "any": "指定なし",
+      "min_price": "最低価格",
+      "max_price": "最高価格",
+      "property_type": "物件タイプ",
+      "bedrooms": "寝室",
+      "bathrooms": "浴室",
+      "amenities_heading": "設備・特長",
+      "clear_all": "すべてクリア",
+      "show_results": "結果を表示",
+      "property_types": {
+        "Any Type": "すべてのタイプ",
+        "House": "一軒家",
+        "Apartment": "アパート",
+        "Condo": "分譲マンション",
+        "Townhouse": "タウンハウス",
+        "Villa": "別荘",
+        "Penthouse": "ペントハウス"
+      },
+      "amenities": {
+        "pool": "プール",
+        "gym": "ジム",
+        "parking": "駐車場",
+        "ac": "エアコン",
+        "wifi": "高速Wi‑Fi",
+        "patio": "パティオ・テラス"
+      }
+    }
+  },
+  "common": {
+    "beds": "寝室",
+    "baths": "浴室",
+    "sqft": "平米",
+    "price_per_month": "/ 月"
+  },
+  "property_detail": {
+    "meta_title_not_found": "物件が見つかりません | LuxeEstate",
+    "meta_description": "{location}にある魅力的な物件です。寝室{beds}、浴室{baths}。",
+    "badge_new": "新着",
+    "view_all_photos": "すべての写真",
+    "gallery_thumb_alt": "{title} — 写真 {index}",
+    "agent_avatar_alt": "エージェントの写真",
+    "top_rated_agent": "高評価のエージェント",
+    "schedule_visit": "内覧を予約",
+    "contact_agent": "エージェントに連絡",
+    "garage": "駐車場",
+    "features_heading": "物件の特徴",
+    "about_heading": "この物件について",
+    "about_p1": "{location}の中心に位置する、印象的なデザインの邸宅で、モダンな贅沢を体感できます。内外のつながりを重視した設計で、ガラス壁から自然光が室内を満たします。",
+    "about_p2": "オープンキッチンには高級家電と造作キャビネットを完備し、料理好きにも最適です。プライマリースイートはスパ風のバスと専用バルコニーで、くつろぎの時間を過ごせます。",
+    "read_more": "続きを読む",
+    "amenities_heading": "設備・アメニティ",
+    "amenities_list": [
+      "スマートホームシステム",
+      "プール",
+      "セントラル空調・冷暖房",
+      "電気自動車用充電設備"
+    ],
+    "map_loading": "地図を読み込み中..."
+  }
+}

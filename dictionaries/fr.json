@@ -1,0 +1,98 @@
+{
+  "nav": {
+    "properties": "Propriétés",
+    "about": "À propos",
+    "contact": "Contact",
+    "language": "Langue"
+  },
+  "hero": {
+    "title_start": "Trouvez votre",
+    "title_highlight": "sanctuaire",
+    "search_placeholder": "Rechercher par lieu ou nom de propriété...",
+    "filters": "Filtres"
+  },
+  "home": {
+    "featured_title": "Collections Vedettes",
+    "featured_subtitle": "Propriétés sélectionnées pour l'œil averti.",
+    "view_all": "Voir tout",
+    "market_title": "Nouveau sur le Marché",
+    "market_subtitle": "Nouvelles opportunités ajoutées cette semaine.",
+    "showing": "Affichage de {start} à {end} sur {total}",
+    "filters": {
+      "all": "Tout",
+      "buy": "Achat",
+      "rent": "Location",
+      "property_types": {
+        "House": "Maison",
+        "Apartment": "Appartement",
+        "Villa": "Villa",
+        "Penthouse": "Penthouse",
+        "Condo": "Copropriété",
+        "Townhouse": "Maison mitoyenne"
+      }
+    },
+    "filter_modal": {
+      "title": "Filtres",
+      "search_keyword": "Mot-clé de recherche",
+      "search_placeholder": "Ville, quartier, adresse ou mot-clé…",
+      "price_range": "Fourchette de prix",
+      "any": "Indifférent",
+      "min_price": "Prix min",
+      "max_price": "Prix max",
+      "property_type": "Type de bien",
+      "bedrooms": "Chambres",
+      "bathrooms": "Salles de bain",
+      "amenities_heading": "Équipements",
+      "clear_all": "Effacer tous les filtres",
+      "show_results": "Afficher les résultats",
+      "property_types": {
+        "Any Type": "Tous les types",
+        "House": "Maison",
+        "Apartment": "Appartement",
+        "Condo": "Copropriété",
+        "Townhouse": "Maison mitoyenne",
+        "Villa": "Villa",
+        "Penthouse": "Penthouse"
+      },
+      "amenities": {
+        "pool": "Piscine",
+        "gym": "Salle de sport",
+        "parking": "Parking",
+        "ac": "Climatisation",
+        "wifi": "Wifi haut débit",
+        "patio": "Patio / terrasse"
+      }
+    }
+  },
+  "common": {
+    "beds": "Chambres",
+    "baths": "Salles de bain",
+    "sqft": "m²",
+    "price_per_month": "/ mois"
+  },
+  "property_detail": {
+    "meta_title_not_found": "Propriété introuvable | LuxeEstate",
+    "meta_description": "Découvrez cette propriété située à {location}. Elle offre {beds} chambres et {baths} salles de bain.",
+    "badge_new": "Nouveau",
+    "view_all_photos": "Voir toutes les photos",
+    "gallery_thumb_alt": "{title} — photo {index}",
+    "agent_avatar_alt": "Photo de l'agent",
+    "top_rated_agent": "Agent très bien noté",
+    "schedule_visit": "Planifier une visite",
+    "contact_agent": "Contacter l'agent",
+    "garage": "Garage",
+    "features_heading": "Caractéristiques",
+    "about_heading": "À propos de ce bien",
+    "about_p1": "Profitez d'un luxe moderne dans cette demeure au design architectural remarquable, au cœur de {location}. Pensée pour la vie intérieur-extérieur, elle offre des baies vitrées qui inondent les pièces de lumière naturelle.",
+    "about_p2": "La cuisine ouverte est équipée d'électroménager haut de gamme et de rangements sur mesure, idéale pour les passionnés de gastronomie. Retirez-vous dans la suite parentale, un cocon avec salle de bains inspirée du spa et balcon privatif.",
+    "read_more": "Lire la suite",
+    "amenities_heading": "Équipements",
+    "amenities_list": [
+      "Maison intelligente",
+      "Piscine",
+      "Chauffage et climatisation centralisés",
+      "Borne de recharge pour véhicule électrique"
+    ],
+    "map_loading": "Chargement de la carte..."
+  }
+}

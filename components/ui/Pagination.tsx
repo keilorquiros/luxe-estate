@@ -1,14 +1,25 @@
+"use client";
+
 import Link from "next/link";
+import { useSearchParams } from "next/navigation";
+import { Locale } from "../../lib/i18n";
 
 interface PaginationProps {
   currentPage: number;
   totalPages: number;
+  lang: Locale;
 }
 
-export default function Pagination({ currentPage, totalPages }: PaginationProps) {
+export default function Pagination({ currentPage, totalPages, lang }: PaginationProps) {
+  const searchParams = useSearchParams();
+  
   if (totalPages <= 1) return null;
 
-  const getPageHref = (page: number) => `/?page=${page}`;
+  const getPageHref = (page: number) => {
+    const params = new URLSearchParams(searchParams.toString());
+    params.set("page", page.toString());
+    return `/${lang}?${params.toString()}`;
+  };
 
   // Build page range: always show first, last, and a window around current
   const pages: (number | "…")[] = [];

@@ -1,7 +1,8 @@
 import Link from "next/link";
 import { Property } from "../../lib/supabase";
+import { Locale } from "../../lib/i18n";
 
-export default function PropertyCard({ property, className = "" }: { property: Property, className?: string }) {
+export default function PropertyCard({ property, lang, dict, className = "" }: { property: Property, lang: Locale, dict: any, className?: string }) {
   const getTagBgColor = (color?: string | null) => {
     switch (color) {
       case "mosque": return "bg-mosque/90";
@@ -12,7 +13,7 @@ export default function PropertyCard({ property, className = "" }: { property: P
   };
 
   return (
-    <Link href={`/properties/${property.slug}`} className={`bg-white rounded-xl overflow-hidden shadow-card hover:shadow-soft transition-all duration-300 group cursor-pointer h-full flex flex-col block ${className}`}>
+    <Link href={`/${lang}/properties/${property.slug}`} className={`bg-white rounded-xl overflow-hidden shadow-card hover:shadow-soft transition-all duration-300 group cursor-pointer h-full flex flex-col block ${className}`}>
       <div className="relative aspect-[4/3] overflow-hidden">
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img alt={property.title} className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" src={property.images?.[0] || ""} />
@@ -38,13 +39,13 @@ export default function PropertyCard({ property, className = "" }: { property: P
         <p className="text-nordic-muted text-xs mb-4">{property.location}</p>
         
         <div className="mt-auto flex items-center justify-between pt-3 border-t border-gray-100">
-          <div className="flex items-center gap-1 text-nordic-muted text-xs">
+          <div className="flex items-center gap-1 text-nordic-muted text-xs" title={dict.common.beds}>
             <span className="material-icons text-sm text-mosque/80">king_bed</span> {property.beds}
           </div>
-          <div className="flex items-center gap-1 text-nordic-muted text-xs">
+          <div className="flex items-center gap-1 text-nordic-muted text-xs" title={dict.common.baths}>
             <span className="material-icons text-sm text-mosque/80">bathtub</span> {property.baths}
           </div>
-          <div className="flex items-center gap-1 text-nordic-muted text-xs">
+          <div className="flex items-center gap-1 text-nordic-muted text-xs" title={dict.common.sqft}>
             <span className="material-icons text-sm text-mosque/80">square_foot</span> {property.area}
           </div>
         </div>
@@ -52,4 +53,3 @@ export default function PropertyCard({ property, className = "" }: { property: P
     </Link>
   );
 }
-

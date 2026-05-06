@@ -1,0 +1,98 @@
+{
+  "nav": {
+    "properties": "Properties",
+    "about": "About",
+    "contact": "Contact",
+    "language": "Language"
+  },
+  "hero": {
+    "title_start": "Find your",
+    "title_highlight": "sanctuary",
+    "search_placeholder": "Search by location or property name...",
+    "filters": "Filters"
+  },
+  "home": {
+    "featured_title": "Featured Collections",
+    "featured_subtitle": "Curated properties for the discerning eye.",
+    "view_all": "View all",
+    "market_title": "New in Market",
+    "market_subtitle": "Fresh opportunities added this week.",
+    "showing": "Showing {start}–{end} of {total}",
+    "filters": {
+      "all": "All",
+      "buy": "Buy",
+      "rent": "Rent",
+      "property_types": {
+        "House": "House",
+        "Apartment": "Apartment",
+        "Villa": "Villa",
+        "Penthouse": "Penthouse",
+        "Condo": "Condo",
+        "Townhouse": "Townhouse"
+      }
+    },
+    "filter_modal": {
+      "title": "Filters",
+      "search_keyword": "Search Keyword",
+      "search_placeholder": "City, neighborhood, address or keyword...",
+      "price_range": "Price Range",
+      "any": "Any",
+      "min_price": "Min Price",
+      "max_price": "Max Price",
+      "property_type": "Property Type",
+      "bedrooms": "Bedrooms",
+      "bathrooms": "Bathrooms",
+      "amenities_heading": "Amenities & Features",
+      "clear_all": "Clear all filters",
+      "show_results": "Show Results",
+      "property_types": {
+        "Any Type": "Any Type",
+        "House": "House",
+        "Apartment": "Apartment",
+        "Condo": "Condo",
+        "Townhouse": "Townhouse",
+        "Villa": "Villa",
+        "Penthouse": "Penthouse"
+      },
+      "amenities": {
+        "pool": "Swimming Pool",
+        "gym": "Gym",
+        "parking": "Parking",
+        "ac": "Air Conditioning",
+        "wifi": "High-speed Wifi",
+        "patio": "Patio / Terrace"
+      }
+    }
+  },
+  "common": {
+    "beds": "Beds",
+    "baths": "Baths",
+    "sqft": "sqft",
+    "price_per_month": "/ month"
+  },
+  "property_detail": {
+    "meta_title_not_found": "Property Not Found | LuxeEstate",
+    "meta_description": "Discover this amazing property located at {location}. Features {beds} beds and {baths} baths.",
+    "badge_new": "New",
+    "view_all_photos": "View All Photos",
+    "gallery_thumb_alt": "{title} — photo {index}",
+    "agent_avatar_alt": "Agent profile photo",
+    "top_rated_agent": "Top Rated Agent",
+    "schedule_visit": "Schedule Visit",
+    "contact_agent": "Contact Agent",
+    "garage": "Garage",
+    "features_heading": "Property Features",
+    "about_heading": "About this home",
+    "about_p1": "Experience modern luxury in this architecturally stunning home located in the heart of {location}. Designed with an emphasis on indoor-outdoor living, the residence features floor-to-ceiling glass walls that flood the interiors with natural light.",
+    "about_p2": "The open-concept kitchen is equipped with top-of-the-line appliances and custom cabinetry, perfect for culinary enthusiasts. Retreat to the primary suite, a sanctuary of relaxation with a spa-inspired bath and private balcony.",
+    "read_more": "Read more",
+    "amenities_heading": "Amenities",
+    "amenities_list": [
+      "Smart Home System",
+      "Swimming Pool",
+      "Central Heating & Cooling",
+      "Electric Vehicle Charging"
+    ],
+    "map_loading": "Loading interactive map..."
+  }
+}

@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
-import "./globals.css";
+import "../globals.css";
+import { locales, Locale } from "../../lib/i18n";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -9,17 +10,25 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "Home Discover Screen - Premium Real Estate",
-  description: "LuxeEstate - Find your sanctuary.",
+  title: "Luxe Estate - Premium Real Estate",
+  description: "Find your sanctuary.",
 };
 
-export default function RootLayout({
+export async function generateStaticParams() {
+  return locales.map((lang) => ({ lang }));
+}
+
+export default async function RootLayout({
   children,
-}: Readonly<{
+  params,
+}: {
   children: React.ReactNode;
-}>) {
+  params: Promise<{ lang: string }>;
+}) {
+  const { lang } = await params;
+  
   return (
-    <html lang="en">
+    <html lang={lang}>
       <head>
         <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
         <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet" />
