@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { Property } from "../../lib/supabase";
 
 export default function PropertyCard({ property, className = "" }: { property: Property, className?: string }) {
@@ -11,7 +12,7 @@ export default function PropertyCard({ property, className = "" }: { property: P
   };
 
   return (
-    <article className={`bg-white rounded-xl overflow-hidden shadow-card hover:shadow-soft transition-all duration-300 group cursor-pointer h-full flex flex-col ${className}`}>
+    <Link href={`/properties/${property.slug}`} className={`bg-white rounded-xl overflow-hidden shadow-card hover:shadow-soft transition-all duration-300 group cursor-pointer h-full flex flex-col block ${className}`}>
       <div className="relative aspect-[4/3] overflow-hidden">
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img alt={property.image_alt} className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" src={property.image_url} />
@@ -48,7 +49,7 @@ export default function PropertyCard({ property, className = "" }: { property: P
           </div>
         </div>
       </div>
-    </article>
+    </Link>
   );
 }
 

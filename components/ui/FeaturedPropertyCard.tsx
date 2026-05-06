@@ -1,8 +1,9 @@
+import Link from "next/link";
 import { Property } from "../../lib/supabase";
 
 export default function FeaturedPropertyCard({ property }: { property: Property }) {
   return (
-    <div className="group relative rounded-xl overflow-hidden shadow-soft bg-white cursor-pointer">
+    <Link href={`/properties/${property.slug}`} className="group relative rounded-xl overflow-hidden shadow-soft bg-white cursor-pointer block">
       <div className="aspect-[4/3] w-full overflow-hidden relative">
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img alt={property.image_alt} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" src={property.image_url} />
@@ -40,6 +41,6 @@ export default function FeaturedPropertyCard({ property }: { property: Property 
           </div>
         </div>
       </div>
-    </div>
+    </Link>
   );
 }

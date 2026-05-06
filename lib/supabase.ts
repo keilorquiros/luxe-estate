@@ -23,6 +23,14 @@ export interface Property {
   is_featured: boolean;
   is_favorite: boolean;
   created_at: string;
+  slug: string;
+}
+
+export interface PropertyImage {
+  id: string;
+  property_id: string;
+  image_url: string;
+  image_alt: string | null;
 }
 
 // ─── Queries ──────────────────────────────────────────────────────────────────
@@ -72,3 +80,28 @@ export async function getMarketProperties(
     totalPages: Math.ceil(total / PAGE_SIZE),
   };
 }
+
+export async function getPropertyBySlug(slug: string): Promise<Property | null> {
+  const { data, error } = await supabase
+    .from("properties")
+    .select("*")
+    .eq("slug", slug)
+    .single();
+
+  if (error) {
+    if (error.code === 'PGRST116') return null; // No rows found
+    throw new Error(error.message);
+  }
+  return data;
+}
+
+export async function getPropertyImages(propertyId: string): Promise<PropertyImage[]> {
+  const { data, error } = await supabase
+    .from("property_images")
+    .select("*")
+    .eq("property_id", propertyId);
+
+  if (error) throw new Error(error.message);
+  return data ?? [];
+}
+
