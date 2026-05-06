@@ -9,22 +9,51 @@ import { getFeaturedProperties, getMarketProperties } from "../lib/supabase";
 export const dynamic = "force-dynamic";
 
 interface HomePageProps {
-  searchParams: Promise<{ page?: string }>;
+  searchParams: Promise<{ 
+    page?: string;
+    location?: string;
+    type?: string;
+    beds?: string;
+    baths?: string;
+    minPrice?: string;
+    maxPrice?: string;
+    amenities?: string;
+  }>;
 }
 
 export default async function Home({ searchParams }: HomePageProps) {
   const params = await searchParams;
   const currentPage = Math.max(1, parseInt(params.page ?? "1", 10));
 
+  const filters = {
+    location: params.location,
+    type: params.type,
+    beds: params.beds ? parseInt(params.beds, 10) : undefined,
+    baths: params.baths ? parseInt(params.baths, 10) : undefined,
+    minPrice: params.minPrice ? parseInt(params.minPrice, 10) : undefined,
+    maxPrice: params.maxPrice ? parseInt(params.maxPrice, 10) : undefined,
+    amenities: params.amenities ? params.amenities.split(",") : undefined,
+  };
+
   // Fetch both sections in parallel on the server
   const [featuredProperties, marketData] = await Promise.all([
     getFeaturedProperties(),
-    getMarketProperties(currentPage),
+    getMarketProperties(currentPage, filters),
   ]);
 
   const { properties: marketProperties, totalPages, total } = marketData;
-  const startItem = (currentPage - 1) * marketData.pageSize + 1;
+  const startItem = total === 0 ? 0 : (currentPage - 1) * marketData.pageSize + 1;
   const endItem = Math.min(currentPage * marketData.pageSize, total);
+
+  const isFilterApplied = !!(
+    params.location ||
+    params.type ||
+    params.beds ||
+    params.baths ||
+    params.minPrice ||
+    params.maxPrice ||
+    params.amenities
+  );
 
   return (
     <>
@@ -33,26 +62,28 @@ export default async function Home({ searchParams }: HomePageProps) {
         <HeroSection />
 
         {/* ── Featured Collections ──────────────────────────────────────── */}
-        <section className="mb-16">
-          <div className="flex items-end justify-between mb-8">
-            <div>
-              <h2 className="text-2xl font-light text-nordic-dark">Featured Collections</h2>
-              <p className="text-nordic-muted mt-1 text-sm">Curated properties for the discerning eye.</p>
+        {!isFilterApplied && (
+          <section className="mb-16">
+            <div className="flex items-end justify-between mb-8">
+              <div>
+                <h2 className="text-2xl font-light text-nordic-dark">Featured Collections</h2>
+                <p className="text-nordic-muted mt-1 text-sm">Curated properties for the discerning eye.</p>
+              </div>
+              <a
+                className="hidden sm:flex items-center gap-1 text-sm font-medium text-mosque hover:opacity-70 transition-opacity"
+                href="#"
+              >
+                View all <span className="material-icons text-sm">arrow_forward</span>
+              </a>
             </div>
-            <a
-              className="hidden sm:flex items-center gap-1 text-sm font-medium text-mosque hover:opacity-70 transition-opacity"
-              href="#"
-            >
-              View all <span className="material-icons text-sm">arrow_forward</span>
-            </a>
-          </div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-            {featuredProperties.map((property) => (
-              <FeaturedPropertyCard key={property.id} property={property} />
-            ))}
-          </div>
-        </section>
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+              {featuredProperties.slice(0, 2).map((property) => (
+                <FeaturedPropertyCard key={property.id} property={property} />
+              ))}
+            </div>
+          </section>
+        )}
 
         {/* ── New in Market ─────────────────────────────────────────────── */}
         <section>

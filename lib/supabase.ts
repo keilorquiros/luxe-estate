@@ -13,10 +13,12 @@ export interface Property {
   location: string;
   price: string;
   price_suffix: string | null;
+  price_numeric?: number; // Added for filtering
   beds: number;
   baths: number;
   area: string;
   images: string[];
+  amenities?: string[]; // Added for filtering
   tag: string;
   tag_color: "white" | "mosque" | "nordic-dark" | null;
   is_featured: boolean;
@@ -48,17 +50,65 @@ export interface PaginatedProperties {
   totalPages: number;
 }
 
+export interface PropertyFilters {
+  location?: string;
+  type?: string;
+  beds?: number;
+  baths?: number;
+  minPrice?: number;
+  maxPrice?: number;
+  amenities?: string[];
+}
+
 export async function getMarketProperties(
-  page: number = 1
+  page: number = 1,
+  filters: PropertyFilters = {}
 ): Promise<PaginatedProperties> {
   const from = (page - 1) * PAGE_SIZE;
   const to = from + PAGE_SIZE - 1;
 
-  const { data, error, count } = await supabase
+  let query = supabase
     .from("properties")
     .select("*", { count: "exact" })
-    .eq("is_featured", false)
-    .order("created_at", { ascending: true })
+    .eq("is_featured", false);
+
+  if (filters.location) {
+    // Basic text search on location or title
+    query = query.or(`location.ilike.%${filters.location}%,title.ilike.%${filters.location}%`);
+  }
+  
+  if (filters.type && filters.type !== "All" && filters.type !== "Any Type") {
+    if (filters.type === "House") {
+      query = query.or(`title.ilike.%House%,title.ilike.%Home%,title.ilike.%Mansion%,title.ilike.%Estate%,title.ilike.%Chalet%,title.ilike.%Retreat%`);
+    } else if (filters.type === "Apartment") {
+      query = query.or(`title.ilike.%Apartment%,title.ilike.%Loft%,title.ilike.%Condo%,title.ilike.%Studio%`);
+    } else {
+      query = query.ilike('title', `%${filters.type}%`);
+    }
+  }
+  
+  if (filters.beds && filters.beds > 0) {
+    query = query.gte('beds', filters.beds);
+  }
+  
+  if (filters.baths && filters.baths > 0) {
+    query = query.gte('baths', filters.baths);
+  }
+  
+  if (filters.minPrice) {
+    query = query.gte('price_numeric', filters.minPrice);
+  }
+  
+  if (filters.maxPrice) {
+    query = query.lte('price_numeric', filters.maxPrice);
+  }
+
+  if (filters.amenities && filters.amenities.length > 0) {
+    query = query.contains('amenities', filters.amenities);
+  }
+
+  const { data, error, count } = await query
+    .order("created_at", { ascending: false }) // Changed to false to show new properties first
     .range(from, to);
 
   if (error) throw new Error(error.message);
