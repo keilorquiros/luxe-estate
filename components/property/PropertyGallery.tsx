@@ -1,30 +1,24 @@
 "use client";
 
 import { useState } from "react";
-import { PropertyImage } from "../../lib/supabase";
 
 interface PropertyGalleryProps {
-  primaryImage: string;
-  primaryAlt: string;
-  galleryImages: PropertyImage[];
+  images: string[];
+  title: string;
   tag?: string;
 }
 
-export default function PropertyGallery({ primaryImage, primaryAlt, galleryImages, tag }: PropertyGalleryProps) {
-  const [activeImage, setActiveImage] = useState(primaryImage);
+export default function PropertyGallery({ images, title, tag }: PropertyGalleryProps) {
+  const [activeImage, setActiveImage] = useState(images?.[0] || "");
 
-  // Combine primary with gallery, deduplicating if needed (though we'll assume they're distinct)
-  const allImages = [
-    { url: primaryImage, alt: primaryAlt },
-    ...galleryImages.map(img => ({ url: img.image_url, alt: img.image_alt || "Property image" }))
-  ];
+  const allImages = images || [];
 
   return (
     <div className="space-y-4">
       <div className="relative aspect-[16/10] overflow-hidden rounded-xl shadow-sm group">
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img 
-          alt={primaryAlt} 
+          alt={title} 
           className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" 
           src={activeImage} 
         />
@@ -49,11 +43,11 @@ export default function PropertyGallery({ primaryImage, primaryAlt, galleryImage
           {allImages.map((img, idx) => (
             <div 
               key={idx} 
-              onClick={() => setActiveImage(img.url)}
-              className={`flex-none w-48 aspect-[4/3] rounded-lg overflow-hidden cursor-pointer snap-start transition-opacity ${activeImage === img.url ? 'ring-2 ring-mosque ring-offset-2 ring-offset-background-light opacity-100' : 'opacity-70 hover:opacity-100'}`}
+              onClick={() => setActiveImage(img)}
+              className={`flex-none w-48 aspect-[4/3] rounded-lg overflow-hidden cursor-pointer snap-start transition-opacity ${activeImage === img ? 'ring-2 ring-mosque ring-offset-2 ring-offset-background-light opacity-100' : 'opacity-70 hover:opacity-100'}`}
             >
               {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img alt={img.alt} className="w-full h-full object-cover" src={img.url} />
+              <img alt={`${title} image ${idx + 1}`} className="w-full h-full object-cover" src={img} />
             </div>
           ))}
         </div>

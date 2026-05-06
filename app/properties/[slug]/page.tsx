@@ -2,7 +2,7 @@ import { Metadata } from "next";
 import { notFound } from "next/navigation";
 import dynamic from "next/dynamic";
 import Navbar from "../../../components/layout/Navbar";
-import { getPropertyBySlug, getPropertyImages } from "../../../lib/supabase";
+import { getPropertyBySlug } from "../../../lib/supabase";
 import PropertyGallery from "../../../components/property/PropertyGallery";
 
 import MapWrapper from "../../../components/property/MapWrapper";
@@ -29,8 +29,6 @@ export default async function PropertyDetailsPage({ params }: { params: Promise<
     notFound();
   }
 
-  const galleryImages = await getPropertyImages(property.id);
-
   return (
     <>
       <Navbar />
@@ -40,9 +38,8 @@ export default async function PropertyDetailsPage({ params }: { params: Promise<
           {/* Left Column: Gallery */}
           <div className="lg:col-span-8 space-y-4">
             <PropertyGallery 
-              primaryImage={property.image_url} 
-              primaryAlt={property.image_alt} 
-              galleryImages={galleryImages} 
+              images={property.images} 
+              title={property.title} 
               tag={property.tag} 
             />
           </div>

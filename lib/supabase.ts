@@ -16,21 +16,13 @@ export interface Property {
   beds: number;
   baths: number;
   area: string;
-  image_url: string;
-  image_alt: string;
+  images: string[];
   tag: string;
   tag_color: "white" | "mosque" | "nordic-dark" | null;
   is_featured: boolean;
   is_favorite: boolean;
   created_at: string;
   slug: string;
-}
-
-export interface PropertyImage {
-  id: string;
-  property_id: string;
-  image_url: string;
-  image_alt: string | null;
 }
 
 // ─── Queries ──────────────────────────────────────────────────────────────────
@@ -93,15 +85,5 @@ export async function getPropertyBySlug(slug: string): Promise<Property | null> 
     throw new Error(error.message);
   }
   return data;
-}
-
-export async function getPropertyImages(propertyId: string): Promise<PropertyImage[]> {
-  const { data, error } = await supabase
-    .from("property_images")
-    .select("*")
-    .eq("property_id", propertyId);
-
-  if (error) throw new Error(error.message);
-  return data ?? [];
 }
 
