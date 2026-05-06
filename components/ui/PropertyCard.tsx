@@ -1,7 +1,7 @@
-import { Property } from "../../data/mockProperties";
+import { Property } from "../../lib/supabase";
 
 export default function PropertyCard({ property, className = "" }: { property: Property, className?: string }) {
-  const getTagBgColor = (color?: string) => {
+  const getTagBgColor = (color?: string | null) => {
     switch (color) {
       case "mosque": return "bg-mosque/90";
       case "nordic-dark": return "bg-nordic-dark/90";
@@ -14,14 +14,14 @@ export default function PropertyCard({ property, className = "" }: { property: P
     <article className={`bg-white rounded-xl overflow-hidden shadow-card hover:shadow-soft transition-all duration-300 group cursor-pointer h-full flex flex-col ${className}`}>
       <div className="relative aspect-[4/3] overflow-hidden">
         {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img alt={property.imageAlt} className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" src={property.imageUrl} />
+        <img alt={property.image_alt} className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" src={property.image_url} />
         
         <button className="absolute top-3 right-3 p-2 bg-white/90 rounded-full hover:bg-mosque hover:text-white transition-colors text-nordic-dark">
           <span className="material-icons text-lg">favorite_border</span>
         </button>
         
         {property.tag && (
-          <div className={`absolute bottom-3 left-3 text-white text-xs font-bold px-2 py-1 rounded ${getTagBgColor(property.tagColor)}`}>
+          <div className={`absolute bottom-3 left-3 text-white text-xs font-bold px-2 py-1 rounded ${getTagBgColor(property.tag_color)}`}>
             {property.tag}
           </div>
         )}
@@ -30,7 +30,7 @@ export default function PropertyCard({ property, className = "" }: { property: P
         <div className="flex justify-between items-baseline mb-2">
           <h3 className="font-bold text-lg text-nordic-dark">
             {property.price}
-            {property.priceSuffix && <span className="text-sm font-normal text-nordic-muted">{property.priceSuffix}</span>}
+            {property.price_suffix && <span className="text-sm font-normal text-nordic-muted">{property.price_suffix}</span>}
           </h3>
         </div>
         <h4 className="text-nordic-dark font-medium truncate mb-1">{property.title}</h4>
@@ -51,3 +51,4 @@ export default function PropertyCard({ property, className = "" }: { property: P
     </article>
   );
 }
+
