@@ -6,21 +6,34 @@ import { useRouter, useSearchParams } from "next/navigation";
 interface FilterModalProps {
   isOpen: boolean;
   onClose: () => void;
+  initialSearchQuery?: string;
 }
 
-export default function FilterModal({ isOpen, onClose }: FilterModalProps) {
+export default function FilterModal({ isOpen, onClose, initialSearchQuery }: FilterModalProps) {
   const router = useRouter();
   const searchParams = useSearchParams();
 
-  const [location, setLocation] = useState(searchParams.get("location") || "");
-  const [minPrice, setMinPrice] = useState(searchParams.get("minPrice") || "");
-  const [maxPrice, setMaxPrice] = useState(searchParams.get("maxPrice") || "");
-  const [propertyType, setPropertyType] = useState(searchParams.get("type") || "Any Type");
-  const [beds, setBeds] = useState(parseInt(searchParams.get("beds") || "0", 10));
-  const [baths, setBaths] = useState(parseInt(searchParams.get("baths") || "0", 10));
-  
-  const initialAmenities = searchParams.get("amenities") ? searchParams.get("amenities")!.split(",") : [];
-  const [amenities, setAmenities] = useState<string[]>(initialAmenities);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [minPrice, setMinPrice] = useState("");
+  const [maxPrice, setMaxPrice] = useState("");
+  const [propertyType, setPropertyType] = useState("Any Type");
+  const [beds, setBeds] = useState(0);
+  const [baths, setBaths] = useState(0);
+  const [amenities, setAmenities] = useState<string[]>([]);
+
+  // Sync internal state with external query when modal opens
+  useEffect(() => {
+    if (isOpen) {
+      setSearchQuery(initialSearchQuery || searchParams.get("q") || "");
+      setMinPrice(searchParams.get("minPrice") || "");
+      setMaxPrice(searchParams.get("maxPrice") || "");
+      setPropertyType(searchParams.get("type") || "Any Type");
+      setBeds(parseInt(searchParams.get("beds") || "0", 10));
+      setBaths(parseInt(searchParams.get("baths") || "0", 10));
+      const urlAmenities = searchParams.get("amenities") ? searchParams.get("amenities")!.split(",") : [];
+      setAmenities(urlAmenities);
+    }
+  }, [isOpen, initialSearchQuery, searchParams]);
 
   // Prevent background scrolling when modal is open
   useEffect(() => {
@@ -45,7 +58,7 @@ export default function FilterModal({ isOpen, onClose }: FilterModalProps) {
   const handleApply = () => {
     const params = new URLSearchParams(searchParams.toString());
     
-    if (location) params.set("location", location); else params.delete("location");
+    if (searchQuery) params.set("q", searchQuery); else params.delete("q");
     if (minPrice) params.set("minPrice", minPrice); else params.delete("minPrice");
     if (maxPrice) params.set("maxPrice", maxPrice); else params.delete("maxPrice");
     if (propertyType && propertyType !== "Any Type") params.set("type", propertyType); else params.delete("type");
@@ -60,7 +73,7 @@ export default function FilterModal({ isOpen, onClose }: FilterModalProps) {
   };
 
   const clearFilters = () => {
-    setLocation("");
+    setSearchQuery("");
     setMinPrice("");
     setMaxPrice("");
     setPropertyType("Any Type");
@@ -68,10 +81,9 @@ export default function FilterModal({ isOpen, onClose }: FilterModalProps) {
     setBaths(0);
     setAmenities([]);
 
-    // Eliminar los parámetros de la URL inmediatamente
-    const params = new URLSearchParams();
-    params.set("page", "1");
-    router.push(`/?${params.toString()}`, { scroll: false });
+    // Navegar a la raíz sin parámetros (excepto página 1) y cerrar modal
+    router.push("/", { scroll: false });
+    onClose();
   };
 
   return (
@@ -90,17 +102,17 @@ export default function FilterModal({ isOpen, onClose }: FilterModalProps) {
           {/* Scrollable Content */}
           <div className="flex-1 overflow-y-auto p-8 space-y-10 hide-scroll">
             
-            {/* Location */}
+            {/* Search Keyword */}
             <section>
-              <label className="block text-xs font-semibold text-gray-500 uppercase tracking-wider mb-3">Location</label>
+              <label className="block text-xs font-semibold text-gray-500 uppercase tracking-wider mb-3">Search Keyword</label>
               <div className="relative group">
-                <span className="material-icons absolute left-4 top-3.5 text-gray-400 group-focus-within:text-mosque transition-colors">location_on</span>
+                <span className="material-icons absolute left-4 top-3.5 text-gray-400 group-focus-within:text-mosque transition-colors">search</span>
                 <input 
                   className="w-full pl-12 pr-4 py-3 bg-background border-0 rounded-lg text-gray-900 placeholder-gray-400 focus:ring-2 focus:ring-mosque focus:bg-white transition-all shadow-sm" 
-                  placeholder="City, neighborhood, or address" 
+                  placeholder="City, neighborhood, address or keyword..." 
                   type="text" 
-                  value={location}
-                  onChange={e => setLocation(e.target.value)}
+                  value={searchQuery}
+                  onChange={e => setSearchQuery(e.target.value)}
                 />
               </div>
             </section>

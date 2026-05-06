@@ -11,7 +11,7 @@ export const dynamic = "force-dynamic";
 interface HomePageProps {
   searchParams: Promise<{ 
     page?: string;
-    location?: string;
+    q?: string;
     type?: string;
     beds?: string;
     baths?: string;
@@ -26,7 +26,7 @@ export default async function Home({ searchParams }: HomePageProps) {
   const currentPage = Math.max(1, parseInt(params.page ?? "1", 10));
 
   const filters = {
-    location: params.location,
+    q: params.q,
     type: params.type,
     beds: params.beds ? parseInt(params.beds, 10) : undefined,
     baths: params.baths ? parseInt(params.baths, 10) : undefined,
@@ -46,7 +46,7 @@ export default async function Home({ searchParams }: HomePageProps) {
   const endItem = Math.min(currentPage * marketData.pageSize, total);
 
   const isFilterApplied = !!(
-    params.location ||
+    params.q ||
     params.type ||
     params.beds ||
     params.baths ||

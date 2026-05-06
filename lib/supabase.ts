@@ -51,7 +51,7 @@ export interface PaginatedProperties {
 }
 
 export interface PropertyFilters {
-  location?: string;
+  q?: string;
   type?: string;
   beds?: number;
   baths?: number;
@@ -72,9 +72,9 @@ export async function getMarketProperties(
     .select("*", { count: "exact" })
     .eq("is_featured", false);
 
-  if (filters.location) {
+  if (filters.q) {
     // Basic text search on location or title
-    query = query.or(`location.ilike.%${filters.location}%,title.ilike.%${filters.location}%`);
+    query = query.or(`location.ilike.%${filters.q}%,title.ilike.%${filters.q}%`);
   }
   
   if (filters.type && filters.type !== "All" && filters.type !== "Any Type") {
