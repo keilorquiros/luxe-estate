@@ -1,7 +1,7 @@
-import AdminSidebar from '../../../components/admin/AdminSidebar';
 import { createClient } from '../../../lib/supabase/server';
 import { redirect } from 'next/navigation';
 import type { Metadata } from 'next';
+import AdminNavbar from '../../../components/admin/AdminNavbar';
 
 export const metadata: Metadata = {
   title: 'Admin Panel | LuxeEstate',
@@ -35,41 +35,18 @@ export default async function AdminLayout({
     redirect(`/${lang}`);
   }
 
+  const currentUserData = {
+    name: user.user_metadata?.full_name || user.email || 'Admin User',
+    role: 'Administrator', // Since we checked role === 'admin' above
+    avatar: user.user_metadata?.avatar_url || `https://ui-avatars.com/api/?name=${encodeURIComponent(user.email ?? 'A')}&background=006655&color=fff`,
+  };
+
   return (
-    <div className="flex min-h-screen bg-background-light">
-      <AdminSidebar lang={lang} />
-
-      <div className="flex-1 overflow-auto">
-        {/* Top bar */}
-        <header className="sticky top-0 z-10 bg-white/90 backdrop-blur-md border-b border-nordic-dark/10 px-8 py-4 flex items-center justify-between">
-          <div>
-            <p className="text-xs text-nordic-muted uppercase tracking-widest font-medium">Panel de Administración</p>
-          </div>
-          <div className="flex items-center gap-3">
-            <div className="w-8 h-8 rounded-full overflow-hidden ring-2 ring-nordic-dark/10">
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
-                src={
-                  user.user_metadata?.avatar_url ||
-                  `https://ui-avatars.com/api/?name=${encodeURIComponent(
-                    user.email ?? 'A'
-                  )}&background=006655&color=fff`
-                }
-                alt="Admin avatar"
-                className="w-full h-full object-cover"
-              />
-            </div>
-            <div>
-              <p className="text-xs font-semibold text-nordic-dark">
-                {user.user_metadata?.full_name ?? user.email}
-              </p>
-              <p className="text-[10px] text-mosque font-medium uppercase tracking-wide">Admin</p>
-            </div>
-          </div>
-        </header>
-
-        {/* Page content */}
-        <main className="p-8">{children}</main>
+    <div className="flex min-h-screen bg-background-light dark:bg-background-dark font-display flex-col">
+      <AdminNavbar lang={lang} currentUserData={currentUserData} />
+      {/* Page content handles its own layout */}
+      <div className="flex-1 overflow-auto flex flex-col">
+        {children}
       </div>
     </div>
   );
