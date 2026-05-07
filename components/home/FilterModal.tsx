@@ -107,7 +107,7 @@ export default function FilterModal({ isOpen, onClose, initialSearchQuery, lang,
     
     params.set("page", "1"); // Reset pagination
 
-    router.push(`/${lang}?${params.toString()}`, { scroll: false });
+    router.push(`/${lang}?${params.toString()}#market-section`, { scroll: true });
     onClose();
   };
 
@@ -122,7 +122,7 @@ export default function FilterModal({ isOpen, onClose, initialSearchQuery, lang,
     setAmenities([]);
 
     // Navegar a la raíz con el idioma pero sin parámetros (excepto página 1) y cerrar modal
-    router.push(`/${lang}`, { scroll: false });
+    router.push(`/${lang}#market-section`, { scroll: true });
     onClose();
   };
 

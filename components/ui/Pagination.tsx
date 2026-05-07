@@ -18,7 +18,7 @@ export default function Pagination({ currentPage, totalPages, lang }: Pagination
   const getPageHref = (page: number) => {
     const params = new URLSearchParams(searchParams.toString());
     params.set("page", page.toString());
-    return `/${lang}?${params.toString()}`;
+    return `/${lang}?${params.toString()}#market-section`;
   };
 
   // Build page range: always show first, last, and a window around current

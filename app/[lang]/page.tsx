@@ -3,6 +3,7 @@ import HeroSection from "../../components/home/HeroSection";
 import FeaturedPropertyCard from "../../components/ui/FeaturedPropertyCard";
 import PropertyCard from "../../components/ui/PropertyCard";
 import Pagination from "../../components/ui/Pagination";
+import MarketFilters from "../../components/home/MarketFilters";
 import { getFeaturedProperties, getMarketProperties } from "../../lib/supabase";
 import { getDictionary, Locale, locales } from "../../lib/i18n";
 import { notFound } from "next/navigation";
@@ -99,7 +100,7 @@ export default async function Home({ params, searchParams }: HomePageProps) {
         )}
 
         {/* ── New in Market ─────────────────────────────────────────────── */}
-        <section>
+        <section id="market-section" className="scroll-mt-24">
           <div className="flex items-end justify-between mb-8">
             <div>
               <h2 className="text-2xl font-light text-nordic-dark">{dict.home.market_title}</h2>
@@ -110,11 +111,7 @@ export default async function Home({ params, searchParams }: HomePageProps) {
                 </span>
               </p>
             </div>
-            <div className="hidden md:flex bg-white p-1 rounded-lg">
-              <button className="px-4 py-1.5 rounded-md text-sm font-medium bg-nordic-dark text-white shadow-sm">{dict.home.filters.all}</button>
-              <button className="px-4 py-1.5 rounded-md text-sm font-medium text-nordic-muted hover:text-nordic-dark">{dict.home.filters.buy}</button>
-              <button className="px-4 py-1.5 rounded-md text-sm font-medium text-nordic-muted hover:text-nordic-dark">{dict.home.filters.rent}</button>
-            </div>
+            <MarketFilters lang={lang as string} dict={dict} />
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
