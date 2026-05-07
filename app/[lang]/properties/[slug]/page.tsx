@@ -162,7 +162,7 @@ export default async function PropertyDetailsPage({ params }: { params: Promise<
 
               <div className="bg-white p-2 rounded-xl shadow-sm border border-mosque/5">
                 <div className="relative w-full aspect-[4/3] rounded-lg overflow-hidden bg-slate-100">
-                  <MapWrapper location={property.location} loadingLabel={pd.map_loading} />
+                  <MapWrapper location={property.location} latitude={property.latitude} longitude={property.longitude} loadingLabel={pd.map_loading} />
                 </div>
               </div>
             </div>

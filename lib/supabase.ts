@@ -14,6 +14,8 @@ export interface Property {
   price: string;
   price_suffix: string | null;
   price_numeric?: number; // Added for filtering
+  latitude?: number;
+  longitude?: number;
   beds: number;
   baths: number;
   area: string;

@@ -18,9 +18,11 @@ const DefaultIcon = L.icon({
 
 L.Marker.prototype.options.icon = DefaultIcon;
 
-export default function PropertyMap({ location }: { location: string }) {
-  // Using a mock coordinate as placeholder since we don't have lat/lng in DB
-  const position: [number, number] = [37.4419, -122.1430];
+export default function PropertyMap({ location, latitude, longitude }: { location: string; latitude?: number; longitude?: number }) {
+  // Use provided coordinates or fallback to a default (e.g. Palo Alto)
+  const lat = latitude !== undefined && latitude !== 0 ? latitude : 37.4419;
+  const lng = longitude !== undefined && longitude !== 0 ? longitude : -122.1430;
+  const position: [number, number] = [lat, lng];
 
   return (
     <div className="w-full h-full min-h-[300px] relative z-0">

@@ -3,9 +3,14 @@
 import dynamic from "next/dynamic";
 import { useMemo } from "react";
 
-type MapWrapperProps = { location: string; loadingLabel: string };
+type MapWrapperProps = { 
+  location: string; 
+  loadingLabel: string;
+  latitude?: number;
+  longitude?: number;
+};
 
-export default function MapWrapper({ location, loadingLabel }: MapWrapperProps) {
+export default function MapWrapper({ location, loadingLabel, latitude, longitude }: MapWrapperProps) {
   const PropertyMap = useMemo(
     () =>
       dynamic(() => import("./PropertyMap"), {
@@ -19,5 +24,5 @@ export default function MapWrapper({ location, loadingLabel }: MapWrapperProps) 
     [loadingLabel]
   );
 
-  return <PropertyMap location={location} />;
+  return <PropertyMap location={location} latitude={latitude} longitude={longitude} />;
 }
