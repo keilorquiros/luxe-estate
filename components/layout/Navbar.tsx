@@ -1,13 +1,16 @@
-import Link from "next/link";
-import LanguageSelector from "../ui/LanguageSelector";
-import { Locale } from "../../lib/i18n";
+'use client';
 
-interface NavbarProps {
+import Link from "next/link";
+import { useState } from "react";
+import LanguageSelector from "../ui/LanguageSelector";
+import { Locale } from "../../lib/i18n";interface NavbarProps {
   lang?: Locale;
   dict?: any;
 }
 
 export default function Navbar({ lang = 'es', dict }: NavbarProps) {
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+
   // If dict is not provided, we could fetch it, but better to pass it from server component
   // For now, if no dict, use fallback or limited UI
   
@@ -21,7 +24,7 @@ export default function Navbar({ lang = 'es', dict }: NavbarProps) {
             </div>
             <span className="text-xl font-semibold tracking-tight text-nordic-dark">LuxeEstate</span>
           </Link>
-          <div className="hidden md:flex items-center space-x-8">
+          <div className="hidden lg:flex items-center space-x-8">
             <Link className="text-mosque font-medium text-sm border-b-2 border-mosque px-1 py-1" href={`/${lang}`}>{dict?.home?.filters?.buy || 'Buy'}</Link>
             <Link className="text-nordic-dark/70 hover:text-nordic-dark font-medium text-sm hover:border-b-2 hover:border-nordic-dark/20 px-1 py-1 transition-all" href={`/${lang}`}>{dict?.home?.filters?.rent || 'Rent'}</Link>
             <Link className="text-nordic-dark/70 hover:text-nordic-dark font-medium text-sm hover:border-b-2 hover:border-nordic-dark/20 px-1 py-1 transition-all" href={`/${lang}`}>{dict?.nav?.about || 'About'}</Link>
@@ -44,9 +47,50 @@ export default function Navbar({ lang = 'es', dict }: NavbarProps) {
                 <img alt="Profile" className="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCAWhQZ663Bd08kmzjbOPmUk4UIxYooNONShMEFXLR-DtmVi6Oz-TiaY77SPwFk7g0OobkeZEOMvt6v29mSOD0Xm2g95WbBG3ZjWXmiABOUwGU0LOySRfVDo-JTXQ0-gtwjWxbmue0qDm91m-zEOEZwAW6iRFB1qC1bAU-wkjxm67Sbztq8w7srHkFT9bVEC86qG-FzhOBTomhAurNRmx9l8Yfqabk328NfdKuVLckgCdaPsNFE3yN65MeoRi05GA_gXIMwG4YDIeA" />
               </div>
             </button>
+            <button 
+              className="lg:hidden flex items-center justify-center w-9 h-9 text-nordic-dark hover:text-mosque hover:bg-mosque/5 rounded-full transition-colors ml-2"
+              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+              aria-label="Toggle menu"
+            >
+              <span className="material-icons">{isMobileMenuOpen ? 'close' : 'menu'}</span>
+            </button>
           </div>
         </div>
       </div>
+
+      {/* Mobile Menu Dropdown */}
+      {isMobileMenuOpen && (
+        <div className="lg:hidden border-t border-nordic-dark/10 bg-background-light px-4 py-4 space-y-2 shadow-lg animate-in fade-in slide-in-from-top-2 duration-200">
+          <Link 
+            className="block text-mosque font-medium text-base hover:bg-mosque/5 px-3 py-2 rounded-lg transition-colors" 
+            href={`/${lang}`}
+            onClick={() => setIsMobileMenuOpen(false)}
+          >
+            {dict?.home?.filters?.buy || 'Buy'}
+          </Link>
+          <Link 
+            className="block text-nordic-dark/70 hover:text-nordic-dark font-medium text-base hover:bg-mosque/5 px-3 py-2 rounded-lg transition-colors" 
+            href={`/${lang}`}
+            onClick={() => setIsMobileMenuOpen(false)}
+          >
+            {dict?.home?.filters?.rent || 'Rent'}
+          </Link>
+          <Link 
+            className="block text-nordic-dark/70 hover:text-nordic-dark font-medium text-base hover:bg-mosque/5 px-3 py-2 rounded-lg transition-colors" 
+            href={`/${lang}`}
+            onClick={() => setIsMobileMenuOpen(false)}
+          >
+            {dict?.nav?.about || 'About'}
+          </Link>
+          <Link 
+            className="block text-nordic-dark/70 hover:text-nordic-dark font-medium text-base hover:bg-mosque/5 px-3 py-2 rounded-lg transition-colors" 
+            href={`/${lang}`}
+            onClick={() => setIsMobileMenuOpen(false)}
+          >
+            {dict?.nav?.contact || 'Contact'}
+          </Link>
+        </div>
+      )}
     </nav>
   );
 }
