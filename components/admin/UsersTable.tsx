@@ -6,11 +6,12 @@ import RoleBadge from './RoleBadge';
 
 interface UsersTableProps {
   users: UserWithRole[];
+  currentUserId?: string;
 }
 
 const ROLES: UserRole[] = ['admin', 'agent', 'user'];
 
-export default function UsersTable({ users: initialUsers }: UsersTableProps) {
+export default function UsersTable({ users: initialUsers, currentUserId }: UsersTableProps) {
   const [users, setUsers] = useState(initialUsers);
   const [isPending, startTransition] = useTransition();
   const [updatingId, setUpdatingId] = useState<string | null>(null);
@@ -64,7 +65,7 @@ export default function UsersTable({ users: initialUsers }: UsersTableProps) {
           </thead>
           <tbody className="divide-y divide-nordic-dark/5">
             {users.map((user) => (
-              <tr key={user.id} className="hover:bg-background-light/50 transition-colors">
+              <tr key={user.id} className={`transition-colors ${user.id === currentUserId ? 'bg-mosque/5 hover:bg-mosque/10' : 'hover:bg-background-light/50'}`}>
                 {/* Avatar + Name */}
                 <td className="px-5 py-4">
                   <div className="flex items-center gap-3">
@@ -82,9 +83,16 @@ export default function UsersTable({ users: initialUsers }: UsersTableProps) {
                         </div>
                       )}
                     </div>
-                    <span className="font-medium text-nordic-dark truncate max-w-[140px]">
-                      {user.full_name ?? '—'}
-                    </span>
+                    <div className="flex items-center gap-2">
+                      <span className="font-medium text-nordic-dark truncate max-w-[140px]">
+                        {user.full_name ?? '—'}
+                      </span>
+                      {user.id === currentUserId && (
+                        <span className="text-[10px] uppercase font-bold text-mosque bg-mosque/10 px-1.5 py-0.5 rounded flex-shrink-0">
+                          Tú
+                        </span>
+                      )}
+                    </div>
                   </div>
                 </td>
 
@@ -106,7 +114,7 @@ export default function UsersTable({ users: initialUsers }: UsersTableProps) {
                   <div className="flex items-center gap-2">
                     <select
                       defaultValue={user.role}
-                      disabled={isPending && updatingId === user.id}
+                      disabled={(isPending && updatingId === user.id) || user.id === currentUserId}
                       onChange={(e) =>
                         handleRoleChange(user.id, e.target.value as UserRole)
                       }

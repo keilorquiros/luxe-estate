@@ -1,5 +1,6 @@
 import { getUsersWithRoles } from '../../../../lib/actions/admin';
 import UsersTable from '../../../../components/admin/UsersTable';
+import { createClient } from '../../../../lib/supabase/server';
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
@@ -10,6 +11,16 @@ export const dynamic = 'force-dynamic';
 
 export default async function AdminUsersPage() {
   const users = await getUsersWithRoles();
+  const supabase = await createClient();
+  const { data: { user } } = await supabase.auth.getUser();
+  const currentUserId = user?.id;
+
+  // Mover el usuario actual (Tú) al principio de la lista
+  const sortedUsers = [...users].sort((a, b) => {
+    if (a.id === currentUserId) return -1;
+    if (b.id === currentUserId) return 1;
+    return 0;
+  });
 
   const admins = users.filter((u) => u.role === 'admin').length;
   const agents = users.filter((u) => u.role === 'agent').length;
@@ -48,7 +59,7 @@ export default async function AdminUsersPage() {
       </div>
 
       {/* Table */}
-      <UsersTable users={users} />
+      <UsersTable users={sortedUsers} currentUserId={currentUserId} />
     </div>
   );
 }

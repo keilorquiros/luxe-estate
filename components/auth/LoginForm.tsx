@@ -4,9 +4,10 @@ import { useState } from 'react';
 import { createClient } from '../../lib/supabase/client';
 import Link from 'next/link';
 
-export default function LoginForm({ lang, dict }: { lang: string; dict: any }) {
+export default function LoginForm({ lang, dict, redirectTo }: { lang: string; dict: any; redirectTo?: string }) {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const supabase = createClient();
+  const nextUrl = redirectTo || `/${lang}`;
 
   const handleOAuthLogin = async (provider: 'google' | 'github') => {
     setIsLoading(true);
@@ -14,7 +15,7 @@ export default function LoginForm({ lang, dict }: { lang: string; dict: any }) {
       await supabase.auth.signInWithOAuth({
         provider,
         options: {
-          redirectTo: `${window.location.origin}/auth/callback?next=/${lang}`,
+          redirectTo: `${window.location.origin}/auth/callback?next=${encodeURIComponent(nextUrl)}`,
         },
       });
     } catch (error) {
