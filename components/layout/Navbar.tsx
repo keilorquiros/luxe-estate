@@ -15,23 +15,37 @@ interface NavbarProps {
 export default function Navbar({ lang = 'es', dict }: NavbarProps) {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [user, setUser] = useState<User | null>(null);
+  const [isAdmin, setIsAdmin] = useState(false);
   const supabase = createClient();
+
+  const checkRole = async (userId: string | undefined) => {
+    if (!userId) { setIsAdmin(false); return; }
+    const { data } = await supabase
+      .from('user_roles')
+      .select('role')
+      .eq('user_id', userId)
+      .single();
+    setIsAdmin(data?.role === 'admin');
+  };
 
   useEffect(() => {
     const getUser = async () => {
       const { data: { user } } = await supabase.auth.getUser();
       setUser(user);
+      await checkRole(user?.id);
     };
     getUser();
 
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
-      (_event, session) => {
+      async (_event, session) => {
         setUser(session?.user ?? null);
+        await checkRole(session?.user?.id);
       }
     );
 
     return () => subscription.unsubscribe();
-  }, [supabase.auth]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const handleSignOut = async () => {
     await supabase.auth.signOut();
@@ -56,6 +70,15 @@ export default function Navbar({ lang = 'es', dict }: NavbarProps) {
             <Link className="text-nordic-dark/70 hover:text-nordic-dark font-medium text-sm hover:border-b-2 hover:border-nordic-dark/20 px-1 py-1 transition-all" href={`/${lang}`}>{dict?.home?.filters?.rent || 'Rent'}</Link>
             <Link className="text-nordic-dark/70 hover:text-nordic-dark font-medium text-sm hover:border-b-2 hover:border-nordic-dark/20 px-1 py-1 transition-all" href={`/${lang}`}>{dict?.nav?.about || 'About'}</Link>
             <Link className="text-nordic-dark/70 hover:text-nordic-dark font-medium text-sm hover:border-b-2 hover:border-nordic-dark/20 px-1 py-1 transition-all" href={`/${lang}`}>{dict?.nav?.contact || 'Contact'}</Link>
+            {isAdmin && (
+              <Link
+                href={`/${lang}/admin`}
+                className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-mosque/10 text-mosque hover:bg-mosque hover:text-white font-medium text-sm transition-all"
+              >
+                <span className="material-icons text-[16px]">admin_panel_settings</span>
+                Admin
+              </Link>
+            )}
           </div>
           <div className="flex items-center space-x-4 md:space-x-6">
             <div className="hidden sm:block">
@@ -147,6 +170,16 @@ export default function Navbar({ lang = 'es', dict }: NavbarProps) {
           >
             {dict?.nav?.contact || 'Contact'}
           </Link>
+          {isAdmin && (
+            <Link 
+              className="flex items-center gap-2 text-mosque font-medium text-base hover:bg-mosque/5 px-3 py-2 rounded-lg transition-colors" 
+              href={`/${lang}/admin`}
+              onClick={() => setIsMobileMenuOpen(false)}
+            >
+              <span className="material-icons text-[18px]">admin_panel_settings</span>
+              Admin Panel
+            </Link>
+          )}
         </div>
       )}
     </nav>

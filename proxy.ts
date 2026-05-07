@@ -3,6 +3,9 @@ import type { NextRequest } from 'next/server';
 import { locales, defaultLocale } from './lib/i18n';
 import { match } from '@formatjs/intl-localematcher';
 import Negotiator from 'negotiator';
+import { createServerClient } from '@supabase/ssr';
+
+// ─── i18n helpers ─────────────────────────────────────────────────────────────
 
 function getLocale(request: NextRequest): string {
   // 1. Check for cookie
@@ -17,7 +20,7 @@ function getLocale(request: NextRequest): string {
 
   // @ts-ignore
   const languages = new Negotiator({ headers: negotiatorHeaders }).languages();
-  
+
   try {
     return match(languages, locales as unknown as string[], defaultLocale);
   } catch (e) {
@@ -25,21 +28,85 @@ function getLocale(request: NextRequest): string {
   }
 }
 
-export function proxy(request: NextRequest) {
+// ─── Proxy ─────────────────────────────────────────────────────────────────────
+
+export async function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
-  // Check if there is any supported locale in the pathname
+  // ── 1. i18n redirect ────────────────────────────────────────────────────────
   const pathnameHasLocale = locales.some(
     (locale) => pathname.startsWith(`/${locale}/`) || pathname === `/${locale}`
   );
 
-  if (pathnameHasLocale) return;
+  if (!pathnameHasLocale) {
+    const locale = getLocale(request);
+    request.nextUrl.pathname = `/${locale}${pathname}`;
+    return NextResponse.redirect(request.nextUrl);
+  }
 
-  // Redirect if there is no locale
-  const locale = getLocale(request);
-  request.nextUrl.pathname = `/${locale}${pathname}`;
+  // ── 2. RBAC: protect /[lang]/admin/** ────────────────────────────────────────
+  // Determine current locale from path
+  const lang = locales.find(
+    (l) => pathname.startsWith(`/${l}/`) || pathname === `/${l}`
+  ) ?? defaultLocale;
 
-  return NextResponse.redirect(request.nextUrl);
+  const isAdminRoute = pathname.startsWith(`/${lang}/admin`);
+
+  if (isAdminRoute) {
+    // Build Supabase SSR client using request cookies (session refresh)
+    let response = NextResponse.next({ request });
+
+    const supabase = createServerClient(
+      process.env.NEXT_PUBLIC_SUPABASE_URL!,
+      process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+      {
+        cookies: {
+          getAll() {
+            return request.cookies.getAll();
+          },
+          setAll(cookiesToSet) {
+            cookiesToSet.forEach(({ name, value }) =>
+              request.cookies.set(name, value)
+            );
+            response = NextResponse.next({ request });
+            cookiesToSet.forEach(({ name, value, options }) =>
+              response.cookies.set(name, value, options)
+            );
+          },
+        },
+      }
+    );
+
+    // Verify session — always call getUser() per Supabase recommendation
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
+
+    // Not authenticated → redirect to login
+    if (!user) {
+      const loginUrl = request.nextUrl.clone();
+      loginUrl.pathname = `/${lang}/login`;
+      loginUrl.searchParams.set('redirectTo', pathname);
+      return NextResponse.redirect(loginUrl);
+    }
+
+    // Check role via RPC (avoids RLS self-referencing recursion)
+    const { data: role } = await supabase.rpc('get_my_role');
+
+    if (role !== 'admin') {
+      // Authenticated but not admin → redirect to home
+      const homeUrl = request.nextUrl.clone();
+      homeUrl.pathname = `/${lang}`;
+      homeUrl.search = '';
+      return NextResponse.redirect(homeUrl);
+    }
+
+    // Admin ✓ — continue, passing refreshed cookies
+    return response;
+  }
+
+  // Default: pass through
+  return NextResponse.next();
 }
 
 export const config = {
