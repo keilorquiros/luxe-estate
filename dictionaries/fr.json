@@ -3,7 +3,9 @@
     "properties": "Propriétés",
     "about": "À propos",
     "contact": "Contact",
-    "language": "Langue"
+    "language": "Langue",
+    "login": "Se connecter",
+    "logout": "Se déconnecter"
   },
   "hero": {
     "title_start": "Trouvez votre",

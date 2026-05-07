@@ -3,7 +3,9 @@
     "properties": "Propiedades",
     "about": "Nosotros",
     "contact": "Contacto",
-    "language": "Idioma"
+    "language": "Idioma",
+    "login": "Iniciar Sesión",
+    "logout": "Cerrar Sesión"
   },
   "hero": {
     "title_start": "Encuentra tu",

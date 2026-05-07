@@ -3,7 +3,9 @@
     "properties": "物件",
     "about": "会社概要",
     "contact": "お問い合わせ",
-    "language": "言語"
+    "language": "言語",
+    "login": "ログイン",
+    "logout": "ログアウト"
   },
   "hero": {
     "title_start": "あなたの",

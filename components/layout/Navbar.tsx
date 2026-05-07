@@ -68,28 +68,40 @@ export default function Navbar({ lang = 'es', dict }: NavbarProps) {
               <span className="material-icons">notifications_none</span>
               <span className="absolute top-0 right-0 w-2 h-2 bg-red-500 rounded-full border-2 border-background-light"></span>
             </button>
-            <div className="flex items-center gap-2 pl-2 border-l border-nordic-dark/10 ml-2">
+            <div className="flex items-center gap-1 pl-2 border-l border-nordic-dark/10 ml-2">
               {user ? (
-                <button 
-                  onClick={handleSignOut}
-                  title="Sign out"
-                  className="w-9 h-9 rounded-full bg-gray-200 overflow-hidden ring-2 ring-transparent hover:ring-red-500 transition-all flex items-center justify-center group relative cursor-pointer"
-                >
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img 
-                    alt="Profile" 
-                    className="w-full h-full object-cover group-hover:opacity-30 transition-opacity" 
-                    src={user.user_metadata?.avatar_url || "https://ui-avatars.com/api/?name=" + (user.email || "User")} 
-                  />
-                  <span className="material-icons absolute opacity-0 group-hover:opacity-100 text-red-500 text-sm">logout</span>
-                </button>
+                <>
+                  {/* Avatar → future profile page */}
+                  <Link
+                    href={`/${lang}/profile`}
+                    title={user.user_metadata?.full_name || user.email || 'Profile'}
+                    className="w-9 h-9 rounded-full overflow-hidden ring-2 ring-transparent hover:ring-mosque transition-all flex-shrink-0"
+                  >
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img
+                      alt="Profile"
+                      className="w-full h-full object-cover"
+                      src={user.user_metadata?.avatar_url || 'https://ui-avatars.com/api/?name=' + encodeURIComponent(user.email || 'User')}
+                    />
+                  </Link>
+                  {/* Sign Out button */}
+                  <button
+                    onClick={handleSignOut}
+                    title={dict?.nav?.logout || 'Sign out'}
+                    className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-full text-nordic-dark/60 hover:text-red-600 hover:bg-red-50 transition-all text-sm font-medium"
+                  >
+                    <span className="material-icons text-[18px]">logout</span>
+                    <span className="hidden sm:block">{dict?.nav?.logout || 'Sign out'}</span>
+                  </button>
+                </>
               ) : (
-                <Link 
+                <Link
                   href={`/${lang}/login`}
-                  className="flex items-center justify-center w-9 h-9 rounded-full text-nordic-dark hover:text-mosque hover:bg-mosque/5 transition-all"
-                  title="Sign in"
+                  className="flex items-center gap-2 px-4 py-2 rounded-full bg-mosque text-white hover:bg-mosque/90 transition-all shadow-sm"
+                  title={dict?.nav?.login || 'Sign in'}
                 >
-                  <span className="material-icons text-2xl">account_circle</span>
+                  <span className="material-icons text-[20px] hidden sm:block">login</span>
+                  <span className="text-sm font-medium">{dict?.nav?.login || 'Sign In'}</span>
                 </Link>
               )}
             </div>

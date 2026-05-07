@@ -3,7 +3,9 @@
     "properties": "Properties",
     "about": "About",
     "contact": "Contact",
-    "language": "Language"
+    "language": "Language",
+    "login": "Sign In",
+    "logout": "Sign Out"
   },
   "hero": {
     "title_start": "Find your",
