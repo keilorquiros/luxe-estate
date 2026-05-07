@@ -83,16 +83,8 @@
     "garage": "Garage",
     "features_heading": "Property Features",
     "about_heading": "About this home",
-    "about_p1": "Experience modern luxury in this architecturally stunning home located in the heart of {location}. Designed with an emphasis on indoor-outdoor living, the residence features floor-to-ceiling glass walls that flood the interiors with natural light.",
-    "about_p2": "The open-concept kitchen is equipped with top-of-the-line appliances and custom cabinetry, perfect for culinary enthusiasts. Retreat to the primary suite, a sanctuary of relaxation with a spa-inspired bath and private balcony.",
     "read_more": "Read more",
     "amenities_heading": "Amenities",
-    "amenities_list": [
-      "Smart Home System",
-      "Swimming Pool",
-      "Central Heating & Cooling",
-      "Electric Vehicle Charging"
-    ],
     "map_loading": "Loading interactive map..."
   }
 }

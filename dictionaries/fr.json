@@ -83,16 +83,8 @@
     "garage": "Garage",
     "features_heading": "Caractéristiques",
     "about_heading": "À propos de ce bien",
-    "about_p1": "Profitez d'un luxe moderne dans cette demeure au design architectural remarquable, au cœur de {location}. Pensée pour la vie intérieur-extérieur, elle offre des baies vitrées qui inondent les pièces de lumière naturelle.",
-    "about_p2": "La cuisine ouverte est équipée d'électroménager haut de gamme et de rangements sur mesure, idéale pour les passionnés de gastronomie. Retirez-vous dans la suite parentale, un cocon avec salle de bains inspirée du spa et balcon privatif.",
     "read_more": "Lire la suite",
     "amenities_heading": "Équipements",
-    "amenities_list": [
-      "Maison intelligente",
-      "Piscine",
-      "Chauffage et climatisation centralisés",
-      "Borne de recharge pour véhicule électrique"
-    ],
     "map_loading": "Chargement de la carte..."
   }
 }

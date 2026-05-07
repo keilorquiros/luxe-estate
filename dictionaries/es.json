@@ -83,16 +83,8 @@
     "garage": "Garaje",
     "features_heading": "Características",
     "about_heading": "Sobre esta vivienda",
-    "about_p1": "Disfruta del lujo moderno en esta vivienda de arquitectura espectacular en el corazón de {location}. Diseñada con énfasis en la vida interior-exterior, cuenta con muros acristalados que bañan los interiores de luz natural.",
-    "about_p2": "La cocina abierta equipa electrodomésticos de gama alta y mobiliario a medida, ideal para quienes aman cocinar. Refúgiate en la suite principal, un espacio de relax con baño tipo spa y balcón privado.",
     "read_more": "Leer más",
     "amenities_heading": "Comodidades",
-    "amenities_list": [
-      "Domótica",
-      "Piscina",
-      "Calefacción y climatización central",
-      "Punto de recarga para vehículo eléctrico"
-    ],
     "map_loading": "Cargando mapa interactivo..."
   }
 }

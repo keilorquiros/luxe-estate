@@ -1,6 +1,7 @@
 import { Metadata } from "next";
 import { notFound } from "next/navigation";
 import Navbar from "../../../../components/layout/Navbar";
+import { propertyDescriptionParagraphs, resolvePropertyAmenities, resolvePropertyDescription } from "../../../../lib/property-i18n";
 import { getPropertyBySlug } from "../../../../lib/supabase";
 import PropertyGallery from "../../../../components/property/PropertyGallery";
 import MapWrapper from "../../../../components/property/MapWrapper";
@@ -29,13 +30,17 @@ export async function generateMetadata({ params }: { params: Promise<{ lang: str
     return { title: pd.meta_title_not_found };
   }
 
+  const longDesc = resolvePropertyDescription(property, locale).replace(/\s+/g, " ").trim();
+
   return {
     title: `${property.title} | ${property.price}${property.price_suffix || ""} | LuxeEstate`,
-    description: fillTemplate(pd.meta_description, {
-      location: property.location,
-      beds: property.beds,
-      baths: property.baths,
-    }),
+    description:
+      longDesc.slice(0, 155) ||
+      fillTemplate(pd.meta_description, {
+        location: property.location,
+        beds: property.beds,
+        baths: property.baths,
+      }),
   };
 }
 
@@ -68,13 +73,13 @@ export default async function PropertyDetailsPage({ params }: { params: Promise<
     garage: string;
     features_heading: string;
     about_heading: string;
-    about_p1: string;
-    about_p2: string;
     read_more: string;
     amenities_heading: string;
-    amenities_list: string[];
     map_loading: string;
   };
+
+  const aboutParagraphs = propertyDescriptionParagraphs(property, lang as Locale);
+  const amenityLines = resolvePropertyAmenities(property, lang as Locale);
 
   return (
     <>
@@ -193,8 +198,11 @@ export default async function PropertyDetailsPage({ params }: { params: Promise<
             <div className="bg-white p-8 rounded-xl shadow-sm border border-mosque/5">
               <h2 className="text-lg font-semibold mb-4 text-nordic-dark">{pd.about_heading}</h2>
               <div className="prose prose-slate max-w-none text-nordic-dark/70 leading-relaxed">
-                <p className="mb-4">{fillTemplate(pd.about_p1, { location: property.location })}</p>
-                <p>{pd.about_p2}</p>
+                {aboutParagraphs.map((para, i) => (
+                  <p key={`about-${slug}-${i}`} className={i < aboutParagraphs.length - 1 ? "mb-4" : ""}>
+                    {para}
+                  </p>
+                ))}
               </div>
               <button type="button" className="mt-4 text-mosque font-semibold text-sm flex items-center gap-1 hover:gap-2 transition-all">
                 {pd.read_more}
@@ -205,8 +213,8 @@ export default async function PropertyDetailsPage({ params }: { params: Promise<
             <div className="bg-white p-8 rounded-xl shadow-sm border border-mosque/5">
               <h2 className="text-lg font-semibold mb-6 text-nordic-dark">{pd.amenities_heading}</h2>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-y-4 gap-x-8">
-                {pd.amenities_list.map((label) => (
-                  <div key={label} className="flex items-center gap-3 text-nordic-dark/70">
+                {amenityLines.map((label, i) => (
+                  <div key={`amenity-${slug}-${i}-${label.slice(0, 32)}`} className="flex items-center gap-3 text-nordic-dark/70">
                     <span className="material-icons text-mosque/60 text-sm">check_circle</span>
                     <span>{label}</span>
                   </div>

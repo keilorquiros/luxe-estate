@@ -18,7 +18,11 @@ export interface Property {
   baths: number;
   area: string;
   images: string[];
-  amenities?: string[]; // Added for filtering
+  amenities?: string[]; // filter slugs — keep separate from multilingual display list
+  /** English is canonical in Supabase rows; UI falls back locale → `en`. */
+  description_i18n?: Record<string, string> | null;
+  /** Parallel lists per locale, same phrases translated (not filter keys). */
+  amenities_detail_i18n?: Record<string, string[]> | null;
   tag: string;
   tag_color: "white" | "mosque" | "nordic-dark" | null;
   is_featured: boolean;

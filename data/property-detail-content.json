@@ -1,0 +1,142 @@
+{
+  "descriptionTemplates": [
+    {
+      "en": "{{title}} reimagines refinement near {{location}}. Sunlight pours through precise openings, muted finishes calm the senses, and the flow invites slow evenings.\n\nA tailored kitchen anchors daily ritual, bedrooms feel intentionally quiet, and the primary quarters open to a sculpted bath and a private perch above the skyline.",
+      "es": "{{title}} reinventa la sofisticación junto a {{location}}. La luz atraviesa huecos muy estudiados, los acabados suaves ordenan los sentidos y el recorrido invita a las tardes tranquilas.\n\nUna cocina a medida sostiene el día a día, los dormitorios se sienten deliberadamente serenos y los espacios principales desembocan en un baño esculpido y un rincón privado ante el horizonte.",
+      "fr": "{{title}} redéfinit la finesse aux abords de {{location}}. La lumière glisse dans des percées précises, les finitions feutrées calment les sens, et les circulations donnent envie de soirées posées.\n\nUne cuisine sur mesure rythme les journées, les chambres restent délibérément sereines, et les quartiers nobles donnent sur une salle de bain sculptée et une retraite privée dominant le ciel.",
+      "ja": "{{title}} は {{location}} 周辺の洗練を新しく描き出します。光は計算された開口へ差し込み、落ち着いた仕上げが感覚を整え、導線はゆったり過ごす夕方へ誘います。\n\n造作のキッチンが暮らしの中心になり、寝室は静かに整えられた余韻を残し、主寝室からは調度の効いた浴室と地平線へ向かう私人のバルコニーへ続きます。"
+    },
+    {
+      "en": "Set beside {{location}}, {{title}} is composed for gatherings and solitude in equal measure. Terraces braid interior rooms with fragrant air.\n\nThe plan saves its best daylight for communal tables, hides utilitarian clutter, and crowns the night in a luminous gallery corridor that reads like curated art.",
+      "es": "Junto a {{location}}, {{title}} equilibra convivencias y intimidad sin esfuerzo. Las terrazas enlazan cada estancia con aire aromático.\n\nLa planta reserva el mejor sol para mesas largas, esconde el servicio práctico y culmina la noche en un pasillo-galería luminoso como una colección cotidania.",
+      "fr": "Nichée près de {{location}}, {{title}} marie réceptions fines et retraites silencieuses. Les terrasses cousent espaces clos et vents parfumés.\n\nLe plan confie les meilleures heures lumineuses aux tables conviviales, dissimule l’arrière‑service domestique et clôt la journée dans un corridor galerie baigné comme une œuvre composée.",
+      "ja": "{{location}} の傍らに立地する {{title}} は社交とひとり時間を両立させます。テラスは室内と芳しい外気とを編みます。\n\n日当たりの良さは共用のダイニングへ、実務動線は隠され、一日の終わりはギャラリーのような光の回廊で締めくくられます。"
+    },
+    {
+      "en": "{{title}} listens to {{location}}: broad living planes, acoustically softened corners, storage that disappears into joinery.\n\nEntertain without ceremony, linger by a hearth-inspired wall, drift toward a serene bath wrapped in tonal stone.",
+      "es": "{{title}} escucha a {{location}}: volúmenes amplios, esquinas acústicamente suavizadas, almacén fundido en la carpintería.\n\nSe recibe sin protocolo, se permanece junto un muro de fuego contenido y se llega a un baño sereno envuelto en piedra monocroma.",
+      "fr": "{{title}} capte {{location}} : plans généreux, angles atténués au niveau sonore, rangements avalés par la menuiserie.\n\nRecevoir sans cérémonie, s’arrêter près du mur-cheminée suggéré puis glisser vers un bain serein gainé de pierres ton-sur-ton.",
+      "ja": "{{title}} は {{location}} に耳を澄ませた設計です。広いリビング、吸音を緩やかにした隅、収納は造作に溶けます。\n\n儀礼を感じさせずに人也を迎え、暖炉を想起させるウォールでもたれ、同色の石材に包まれた静かな浴室へ移れます。"
+    },
+    {
+      "en": "From {{title}} you pivot daily life through {{location}} with unusual calm. Zinc-wrapped volumes catch rainlight; oak underfoot insists on barefoot mornings.\n\nThe kitchen behaves like a studio, the closets read as mini galleries, balconies stage quiet coffee rituals.",
+      "es": "{{title}} deja vivir {{location}} con calma sorprendente. Volúmenes forrados en zinc captan la llovizna luminosa y la madera bajo los pies reclama tardes descalzas.\n\nLa cocina se comporta como un taller, los armarios se leen como galerías y los balcones bastan para un café en silencio.",
+      "fr": "À {{title}}, la vie autour de {{location}} prend une tonalité inhabituellement douce. Des volumes gainés zinc captent des lueurs mouillées ; le parquet chêne impose matins pieds nus.\n\nLa cuisine se comporte comme atelier, les dressings ressemblent à des mini galeries et les balcons donnent leur mesure aux cafés avant l’effervescence.",
+      "ja": "{{title}} から見る {{location}} の暮らしは異様にしんとしている。亜鉛で包んだ体が雨のような光を受け止め、足元の無垢材は裸足を誘う朝をつくります。\n\nキッチンはアトリエ気分、クローゼットは小さな展示室として読め、バルコニーは静かなコーヒーを舞台化します。"
+    },
+    {
+      "en": "{{title}} offers a restrained palette near {{location}} where materials do the storytelling: flamed granite, silky plaster, tactile bronze hardware.\n\nSecondary suites multitask as offices, motorized shades tame western exposure, rainwater feeds a restrained courtyard grove.",
+      "es": "{{title}} apuesta por una paleta contenida junto a {{location}} donde los materiales narran solo: granito flameado, yeso satinado y Bronce al tacto.\n\nLas suites secundarias funcionan también como despachos, toldos motorizados suavizan el oeste y el agua recuperada riega un patioscape sobrio.",
+      "fr": "Près de {{location}}, {{title}} choisit une palette disciplinée : ce sont les matériaux qui parlent, granit flammé, plâtre satiné, bronzes tactiles.\n\nLes suites annexes jouent aussi bureaux, les stores tamisent les ouest violents et l’eau récupérée arrose une cour contenue.",
+      "ja": "{{location}} 近くの {{title}} は抑えめな色彩にしていますが語るのは材料です——炎焼仕上げのスラブ、緞子のような漆喰、手に馴染む真鍮。\n\n客用スイートも執務の補佐となり、モーターブラインドが強い夕陽を和らげ、再利用水が中庭の小さな樹群へ届きます。"
+    },
+    {
+      "en": "Life at {{title}} arcs across {{location}} with layered privacy: frosted portals, pivoting partitions, glimpses withheld until you arrive.\n\nCooking unfolds beside a planter wall that humidifies subtly, bedtime paths avoid glare, wardrobes breathe cedar.",
+      "es": "{{title}} traza capas de privacidad frente a {{location}}: portales mate, paneles pivoteantes y vistas retenidas hasta el último paso.\n\nLa cocina se abre sobre un macetero mural que humidifica de paso y los itinerarios nocturnos evitan halos molestos, los armarios huelen a cedro.",
+      "fr": "{{title}}, face à {{location}}, superpose l’intimité : portails dépolis, cloisons pivotantes, vues retardées jusqu’à votre arrivée.\n\nLa cuisine s’articule contre un mur végétal qui humidifie en finesse ; les trajets vers le repos évitent l’éblouissement ; les robes sentent un peu le cèdre.",
+      "ja": "{{location}} を生活の舞台にした {{title}} は私性を重ねます。霜降りガラスのポータル、回旋する仕切り、来訪まで留められる見せ景。\n\n調理動線は静かな湿度を増やすプランター壁へ向かい、就寝への導線は反射光を寄せず、クローゼットには杉の気配があります。"
+    },
+    {
+      "en": "{{title}} frames {{location}} as theater: balconies become loggias; windows align on axis; stair flights float on hidden steel.\n\nAn intimate wine nook cools thoughtfully, linens hide in tactile timber drawers, dusk turns every surface metallic.",
+      "es": "{{title}} lee {{location}} como escenario: balcones tipo loggia, huecos sobre eje y tramos suspendidos sobre acero escondido.\n\nHay un nook para vinos enfriado sin fanfarrias, telas guardadas en cajones de madera y un atardecer que vuelve metálica cada cara.",
+      "fr": "{{title}} traite {{location}} comme mise en scène : balcons façon loggias, fenêtres sur axe, cascades suspendues dont l’acier se cache.\n\nUn nook à vins sourdement climatisé, le linge dort dans du bois très tact et le crépuscule métallise chaque relief.",
+      "ja": "{{title}} は {{location}} を情景として組みます。ログギアのようなバルコニ、軸線に揃う窓、隠鉄で浮かぶ階段。\n\nワイン用小スペースは静かに冷え、寝室のリネンは手触りの木引出に収め、夕暮れは面をすべて金属質にひっくり返します。"
+    },
+    {
+      "en": "{{title}} is tuned for tactile seasons around {{location}}: radiant slabs, skylights calibrated for glare, pergolas slicing sun into stripes.\n\nChildren or guests carve space without interrupting acoustics in the lofted volume.",
+      "es": "{{title}} se calibra a las temporadas cercanas {{location}}: suelo radiante, claraboyas filtradas y pérgolas que rayan la luz.\n\nNiños u huéspedes encuentran rincones sin romper la acústica del volumen en doble altura.",
+      "fr": "Près de {{location}}, {{title}} suit les saisons avec peau attentive : dallage radiant, sheds calibrés contre l’éblouissement, pergolas qui strient le soleil.\n\nJeunes enfants comme visiteurs s’approprient niches sans perdre la justesse acoustique sous la double hauteur.",
+      "ja": "{{location}} に添う季節感で {{title}} を微調しています——放射床、グルアを絞った天窓、光をしまに切るペルゴラ。\n\n子どもにも客人にもひっそり座れる凹凸があり、吹抜けの音色は乱しません。"
+    },
+    {
+      "en": "Expect {{title}} beside {{location}} to choreograph errands and leisure quietly: arrivals slip under a sculpted canopy; mudrooms disguise gear.\n\nAn outdoor kitchen survives coastal breeze, planters screen neighbors with scent, dusk lighting layers stone like jewelry.",
+      "es": "{{title}}, al lado de {{location}}, ordena recados y ocio sin estribillo: llegada bajo marquesina esculpida y guardarropas prácticos bien discretos.\n\nCocina exterior resistente a la brisa, setos aromáticos y la piedra prendida cual joyería con la luz crepuscular.",
+      "fr": "À proximité de {{location}}, {{title}} chorégraphie courses et repos sans mise en avant : entrée sous un porche sculpté vestiaires intégrés discrets.\n\nCuisine de plein air qui tient aux embruns haies odorantes crépuscules qui dorment comme bijoux sur pierre brute.",
+      "ja": "{{location}} 近くに建つ {{title}} は用事と憩いを静音で並べます。彫られた庇のしたを潜れ、玄関衛生は視界からフェード。\n\n外厨は潮風に耐え、香る植え垣が視線と匂いの緩衝になり、暮色の照明が石材を細身のジュエリーに見せます。"
+    },
+    {
+      "en": "{{title}} whispers pedigree near {{location}} through craft: dovetail vanities, stitched leather pulls, corridors that widen unexpectedly.\n\nSound-isolated media cocoons coexist with salons built for improvised music evenings.",
+      "es": "{{title}} insinúa pedigrí próximo a {{location}} por el oficio manual: lavabos ensamblados, tiradores de piel y pasillos que se ensanchan al respirar.\n\nCabinas acústicas conviven con salones listos para noches improvisadas de música.",
+      "fr": "Près de {{location}}, {{title}} laisse comprendre l’atelier mobilier queues d’arro tirages cousus couloirs qui se libèrent soudain.\n\nUne cabine média isolée côtoie séjours où la musique se joue après le dîner.",
+      "ja": "{{location}} 周辺の {{title}} は匠の手癖で血統をほのめかします。蟻組の洗面、革の引手、不意にゆるむ廊下。\n\n遮音されたメディアの芯と、アドリブ演奏に向いたサロンが同居します。"
+    },
+    {
+      "en": "Within {{title}} at {{location}}, circulation hugs the façade so every room steals borrowed landscape. Radiant corridors warm winter socks.\n\nSpa vapors temper glass, wardrobes compress seasonal chaos, skylit stairs braid levels as ribbon.",
+      "es": "{{title}}, en {{location}}, pega la circulación a la fachada para que cada estancia robe paisaje. Los pasillos radiantes templan calcetines.\n\nVapor contenido templa vidrios vestidores tragamudas y lucernarios anudan plantas cual cinta.",
+      "fr": "À {{location}}, les circulations de {{title}} étreignent façade et chaque pièce dérobe un morceau de paysage chauffées douces les allées hiver.\n\nBains vapeur calment verre robes compressent chaos lucarnes ficellent niveaux façon ruban.",
+      "ja": "{{location}} にある {{title}} はガラス面に動線を寄せ、各部屋が景を借ります。廊下まで放射でも靴下があったかい。\n\nスパ由来の湿度がガラスの冷たさを和らげ、クローゼットは季節の散らばりを収め、照明階段は縞のように層へ連れていきます。"
+    },
+    {
+      "en": "{{title}} curates dusk rituals along {{location}}: west-facing planters cool arriving heat, motorized pergola slats hum almost inaudibly.\n\nInside, a sculpted bench invites shoe removal choreography; baths cycle between steam and icy plunge suggestions.",
+      "es": "{{title}} orquesta crepúculos frente {{location}}: jardín oeste amortigua el calque de sol lamas motorizadas apenas audibles.\n\nDentro banco esculpido marca el ballet de quitarse zapato baños pensados para vapor o chapuzón rápido.",
+      "fr": "{{title}} façonne vos rituels dorés depuis {{location}} jardinières ouest calment surchauffe lames pergola presque silence.\n\nBanc sculpture guide le passage aux chaussons bains préparent balance vapeur contre plongeon express.",
+      "ja": "{{location}} の暮色を仕立てているのが {{title}}です。西面プランターが入室熱を和らげ、モーターブラインドはほぼ静音。\n\n彫られたベンチは靴を脱ぐ所作を促し浴室はモチーフだけでも蒸気とひんやりの往復が想像できます。"
+    },
+    {
+      "en": "Approach {{title}} through {{location}} as a procession: cobbles or boardwalk rhythms slow tires, lanterns mark thresholds politely.\n\nCeilings rake for acoustic bloom, tactile stairs reward curious hands, mezzanine peeks choreograph voyeur glimpses responsibly.",
+      "es": "{{title}}, accedida desde {{location}}, convierte la llegada en procesión suave: adoquines o duelas desaceleran el paso, faroles marcan cada umbral sin teatralidades.\n\nLos techos se inclinan para afianzar la envolvente sonora y las escaleras invitan a rozar los pasamanos conscientemente.",
+      "fr": "Chemin vers {{title}} depuis {{location}} devient procession pavés lames lanternes discrète.\n\nPlafonds pincés pour diffuser son escaliers invitent les mains mérranine contrôle voyages visuels polis.",
+      "ja": "{{location}} へ至る道中が {{title}} の序になります——石または板の経路が速度をほどけ、ランタンが境界を上品に。\n\n斜め天井は音を柔らげ、楼梯は触感で誘う、メザニンの覗きはフェアに演出されます。"
+    },
+    {
+      "en": "{{title}} pairs industrial bones with softness around {{location}}: blackened steel, wool panels, kiln glass veils.\n\nEvening dimmers stage film-like silhouettes across courtyards, HVAC registers vanish behind woven screens.",
+      "es": "{{title}} empareja hueso industrial y suavidades alrededor de {{location}} acero templado paneles laneros vidrio kiln.\n\nLuz dimmerizada compone cortometrajes patios rejillas HVAC ocultos tras redes tejidas.",
+      "fr": "{{title}} juxtapose ossature brute et duvet près {{location}} aciers noircis lainages verre kiln.\n\nVariateurs chantent façon storyboard cours grilles hvac camouflées grille tissées.",
+      "ja": "{{location}} で {{title}} は骨組みと柔らかさを重ねています——黒焼鉄、ウォールナットのウール、kilnグラスの翳。\n\n夕方ディマーが中庭に映画的な剪影を載せ換気格子は織屏风の向こうに消えます。"
+    },
+    {
+      "en": "{{title}} thinks about {{location}} families: washable corners, stroller garages, blackout pockets that tuck away.\n\nAdults reclaim height in a vaulted reading bay; teens hide behind acoustic felt pinboards pretending homework.",
+      "es": "{{title}} piensa familia en torno {{location}} esquinas llevaderas zona carrito negros retractable.\n\nAdultos suben vista en bahía biblioteca ado pinboard acústico finge deber.",
+      "fr": "{{title}} anticipe famille autour {{location}} angles tenaces garage poussettes occultantes escamotables.\n\nLes parents gagnent hauteur sur baie lisible ado feutre acoustique camouflage révisions.",
+      "ja": "{{title}} は {{location}} の家族単位でも考える——洗える角、ベビーカー収納、畳んで眠る遮光。\n\n大人は天井の高い読書バルジへ、中高生は吸音フェルトのピンボード背後へと家庭科をごまかす。"
+    },
+    {
+      "en": "{{title}} courts collectors near {{location}}: vitrine lighting with museum CRI, climate pockets for instruments, corridors wide enough for large canvases.\n\nWine stays secondary but perfectly cellared beneath floating treads.",
+      "es": "{{title}} enamora coleccionistas cerca {{location}} luz museo IRC altos zonas térmicas para instrumentos anchura para lienzos grandes.\n\nEl vino se queda segundo plano pero muy enterridad bajo peldaños levitando.",
+      "fr": "{{title}} attire collectionneurs juxtaposé {{location}} éclairage musée thermes instrumentales couloirs larges toiles massives.\n\nLe vin reste discret mais parfaitement cave sous marches flottantes.",
+      "ja": "{{location}} 近くのコレクターを {{title}} は迎え入れます——博物館級CRIのショーケース照明、楽器用の温湿ゾーン、大型キャンバスを運べる幅。\n\nワインは主役ではないが浮遊段の下に完璧なセラー。"
+    },
+    {
+      "en": "{{title}} negotiates {{location}} microclimate: brise-soleil pleats, operable clerestories, planted buffers that taste of rosemary.\n\nKitchen exhaust routes away from bedrooms with surgical care; powder rooms double as storm shelters of calm.",
+      "es": "{{title}} negocia microclima de {{location}} lamas brise-soleil lucernas maniobrables setos que huelen romero.\n\nLa extracción de cocina evita dormitorios con precisión vano y aseo doble abrigo frente tormentas personales.",
+      "fr": "{{title}} négocie microclimat {{location}} plis brise-soleil lucarnes actionnables haies romarin.\n\nExtraction cuisine détourne chambres powder room devient abri tempête intime.",
+      "ja": "{{title}} は {{location}} の微気候と交渉します——ブリーゼソレイユの襞、開閉するクリアストーリ、ロsemaryのようなバッファ植栽。\n\nキッチンの排気は寝室から外科的迂回、パウダールームは嵐でも静かになる核。"
+    },
+    {
+      "en": "{{title}} stages slow mornings anchored in {{location}}: breakfast benches catch first sun, planters mist on timers responsibly.\n\nEvenings invite vinyl listening with hidden subs, blackout curtains glide on ceiling tracks theatrical but quiet.",
+      "es": "{{title}} alenta mañanas con {{location}} bancadas desayuno toman primera luz pulverizadores con temporizador comedido.\n\nNoches invitan vinilo sub graves ocultos cortinas cenitales algo teatrales en silencio.",
+      "fr": "{{title}} étire les matins depuis {{location}} banquettes petits-déjeuners première lumière brumes programmées modérément.\n\nSoirs vinyles caissons invisibles rideaux noir plafonds rails théâtre silence.",
+      "ja": "{{location}} を基点にした {{title}} の朝は遅めです——朝食べンチが最初の日光をキャッチタイマーミストが自重ある湿度を。\n\n夜はヴィニールと見えないサブ、天井レールの遮光が劇場的だけど静音。"
+    }
+  ],
+  "amenityPhrases": [
+    { "en": "Biophilic planters with drip irrigation", "es": "Jardín interior con riego por goteo", "fr": "Jardinières biophiles arrosées au goutte-à-goutte", "ja": "滴灌で見守るビオフィリックの植栽壁" },
+    { "en": "Dual-pane acoustic glazing", "es": "Acristalamiento acústico doble capa", "fr": "Double vitrage acoustique", "ja": "二重防音サッシ" },
+    { "en": "Heated stone floors in wet areas", "es": "Piedra radiante en zonas húmedas", "fr": "Pierre chauffante dans les zones humides", "ja": "水回りのストーン床暖" },
+    { "en": "Keyless entry with temporary guest codes", "es": "Entrada sin llave con PIN de invitado", "fr": "Accès badge et codes temporaires", "ja": "ゲストPIN付き鍵レス" },
+    { "en": "Rainwater-fed courtyard irrigation", "es": "Riego de patios con agua recuperada", "fr": "Cour arrosée avec eaux pluviales", "ja": "雨水再利用のパティオ灌漑" },
+    { "en": "Concealed motorised shades throughout", "es": "Toldos ocultos motorizados generalizados", "fr": "Stores motorisés intégrés partout", "ja": "全区画のコンシールド自動シェード" },
+    { "en": "Solar-ready breaker panel labeling", "es": "Cuadro elétrico etiquetado listo fotovoltaico", "fr": "Tableau électrique prêt PV étiqueté", "ja": "ソーラーを意識した分電盤表示" },
+    { "en": "Cat-6 prewire to every workstation niche", "es": "Preinstalación Cat-6 hasta cada trabajo", "fr": "Étoile Cat 6 jusqu’aux alcôves bureau", "ja": "作業アルコーブまでCAT6引出し" },
+    { "en": "Thermostatic mixing valves in all showers", "es": "Válvulas termostáticas en todas las duchas", "fr": "Vanites thermostatiques sous chaque pommeau", "ja": "シャワーの恒温混合弁すべて" },
+    { "en": "Induction cooktop paired with downdraft", "es": "Placa por inducción con extracción rebajada", "fr": "Induction downdraft intégré", "ja": "ダウンドラフト併用IH" },
+    { "en": "Walk-in pantry with appliance garage", "es": "Despensa con garaje de electrodomésticos", "fr": "Cellier walk-in plus garage électroménager", "ja": "ウォークインと家電ガレージ" },
+    { "en": "Ceiling fans with DC motors", "es": "Ventiladores de techo con motor DC", "fr": "Plafonniers ventilés moteur DC", "ja": "DCモーター吊扇" },
+    { "en": "Solid-core bedroom doors with drop seals", "es": "Puertas macizas con burlete automático", "fr": "Portes pleines joints automatisés", "ja": "下降シール付き実芯寝室扉" },
+    { "en": "Custom entry millwork with bench", "es": "Mueble de entrada a medida con banco", "fr": "Menuiserie d’entrée et banc intégré", "ja": "ベンチ付き造作玄関収納" },
+    { "en": "Hot-water recirculation loop", "es": "Recirculación de agua caliente", "fr": "Boucle de recirculation ECS", "ja": "給湯循環ループ" },
+    { "en": "Level-2 EV-ready garage circuit", "es": "Circuito garaje listo carga EV nivel 2", "fr": "Garage prêt borne EV niveau 2", "ja": "レベル2EV向けガレージ回路" },
+    { "en": "Floating vanity with underlighting", "es": "Lavabo flotante con luz inferior", "fr": "Meuble vasque flottant rétroéclairé", "ja": "下照付きフローティング洗面" },
+    { "en": "Steam hookups in primary bath", "es": "Tomas listas vapor en baño principal", "fr": "Raccords vapeur dans la suite majeure", "ja": "主浴室のスチーム準備工事" },
+    { "en": "Outdoor teppanyaki with wind deflectors", "es": "Teppan exterior con pantallas antisalpicaduras", "fr": "Teppanyaki extérieur déflecteurs", "ja": "風よけ鉄板カウンター" },
+    { "en": "Nightly exterior lighting scenes", "es": "Escenas luminarias exterior nocturnas", "fr": "Scènes luminaires façade scénarisées", "ja": "夜の屋外照明シーン" },
+    { "en": "Rooftop cold plunge prep", "es": "Preparación jacuzzi frío en cubierta", "fr": "Pré-accord plunge pool toit", "ja": "屋上冷水プランジ準備" },
+    { "en": "Workshop nook with epoxy floor", "es": "Rincón taller con epoxi", "fr": "Alcôve atelier et sol époxy", "ja": "エポ床のワークショップ角" },
+    { "en": "Package receiving vestibule", "es": "Vestíbulo para paquetes", "fr": "Vestibule livraisons", "ja": "宅配受け取り前室" },
+    { "en": "Dog wash station near service entry", "es": "Lavadero para mascotas en servicio", "fr": "Dog wash près sas technique", "ja": "動線側ドッグウォッシュ" },
+    { "en": "Rooftop photovoltaic-ready zones", "es": "Cubierta con zonas listas fotovoltaicas", "fr": "Toiture zones pré-équipées PV", "ja": "PV設置備え屋上エリア" },
+    { "en": "Bike storage with charger hooks", "es": "Biciario con cargadores mini", "fr": "Vélos rangés crochet charge", "ja": "充電対応サイクル収納" },
+    { "en": "HRV with MERV 13 filtration", "es": "VMC con filtros equivalentes MERV 13", "fr": "VMC double flux filtration MERV 13", "ja": "MERV13級の熱交換換気" },
+    { "en": "Invisible insect screens on patios", "es": "Mosquiteros integrados terrazas", "fr": "Moustiques intégrés terrasses", "ja": "テラス収納式防虫ネット" }
+  ]
+}

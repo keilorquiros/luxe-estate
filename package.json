@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "db:gen-property-detail-migration": "node scripts/build-property-i18n-migration.mjs"
   },
   "dependencies": {
     "@formatjs/intl-localematcher": "^0.8.6",
