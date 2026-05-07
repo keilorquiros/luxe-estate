@@ -54,6 +54,14 @@
         "Villa": "Villa",
         "Penthouse": "Penthouse"
       },
+      "tag": "Status",
+      "tags": {
+        "any tag": "Any Status",
+        "for sale": "For Sale",
+        "for rent": "For Rent",
+        "exclusive": "Exclusive",
+        "new arrival": "New Arrival"
+      },
       "amenities": {
         "pool": "Swimming Pool",
         "gym": "Gym",

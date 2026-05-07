@@ -61,6 +61,7 @@ export interface PropertyFilters {
   baths?: number;
   minPrice?: number;
   maxPrice?: number;
+  tag?: string;
   amenities?: string[];
 }
 
@@ -73,8 +74,16 @@ export async function getMarketProperties(
 
   let query = supabase
     .from("properties")
-    .select("*", { count: "exact" })
-    .eq("is_featured", false);
+    .select("*", { count: "exact" });
+
+  const hasTypeFilter = filters.type && filters.type !== "All" && filters.type !== "Any Type";
+  const hasTagFilter = filters.tag && filters.tag !== "Any Tag" && filters.tag !== "any tag";
+  const hasAmenitiesFilter = filters.amenities && filters.amenities.length > 0;
+  const hasAnyFilter = !!(filters.q || hasTypeFilter || filters.beds || filters.baths || filters.minPrice || filters.maxPrice || hasTagFilter || hasAmenitiesFilter);
+
+  if (!hasAnyFilter) {
+    query = query.eq("is_featured", false);
+  }
 
   if (filters.q) {
     // Basic text search on location or title
@@ -105,6 +114,10 @@ export async function getMarketProperties(
   
   if (filters.maxPrice) {
     query = query.lte('price_numeric', filters.maxPrice);
+  }
+
+  if (filters.tag && filters.tag !== "Any Tag") {
+    query = query.eq('tag', filters.tag);
   }
 
   if (filters.amenities && filters.amenities.length > 0) {

@@ -3,12 +3,12 @@ import { Property } from "../../lib/supabase";
 import { Locale } from "../../lib/i18n";
 
 export default function PropertyCard({ property, lang, dict, className = "" }: { property: Property, lang: Locale, dict: any, className?: string }) {
-  const getTagBgColor = (color?: string | null) => {
+  const getTagColorClasses = (color?: string | null) => {
     switch (color) {
-      case "mosque": return "bg-mosque/90";
-      case "nordic-dark": return "bg-nordic-dark/90";
-      case "white": return "bg-white/90";
-      default: return "bg-nordic-dark/90";
+      case "mosque": return "bg-mosque/90 text-white";
+      case "nordic-dark": return "bg-nordic-dark/90 text-white";
+      case "white": return "bg-white/90 text-nordic-dark";
+      default: return "bg-nordic-dark/90 text-white";
     }
   };
 
@@ -23,7 +23,7 @@ export default function PropertyCard({ property, lang, dict, className = "" }: {
         </button>
         
         {property.tag && (
-          <div className={`absolute bottom-3 left-3 text-white text-xs font-bold px-2 py-1 rounded ${getTagBgColor(property.tag_color)}`}>
+          <div className={`absolute bottom-3 left-3 text-xs font-bold px-2 py-1 rounded uppercase ${getTagColorClasses(property.tag_color)}`}>
             {property.tag}
           </div>
         )}

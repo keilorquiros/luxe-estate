@@ -54,6 +54,14 @@
         "Villa": "Villa",
         "Penthouse": "Ático"
       },
+      "tag": "Estado",
+      "tags": {
+        "any tag": "Cualquier estado",
+        "for sale": "En Venta",
+        "for rent": "En Alquiler",
+        "exclusive": "Exclusivo",
+        "new arrival": "Nuevo Ingreso"
+      },
       "amenities": {
         "pool": "Piscina",
         "gym": "Gimnasio",

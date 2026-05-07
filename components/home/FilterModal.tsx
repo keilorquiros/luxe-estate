@@ -5,6 +5,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { Locale } from "../../lib/i18n";
 
 const PROPERTY_TYPE_VALUES = ["Any Type", "House", "Apartment", "Condo", "Townhouse", "Villa", "Penthouse"] as const;
+const TAG_VALUES = ["any tag", "for sale", "for rent", "exclusive", "new arrival"] as const;
 
 const AMENITY_ITEMS = [
   { id: "pool", icon: "pool" },
@@ -31,6 +32,7 @@ export default function FilterModal({ isOpen, onClose, initialSearchQuery, lang,
   const [minPrice, setMinPrice] = useState("");
   const [maxPrice, setMaxPrice] = useState("");
   const [propertyType, setPropertyType] = useState("Any Type");
+  const [tag, setTag] = useState("any tag");
   const [beds, setBeds] = useState(0);
   const [baths, setBaths] = useState(0);
   const [amenities, setAmenities] = useState<string[]>([]);
@@ -42,6 +44,7 @@ export default function FilterModal({ isOpen, onClose, initialSearchQuery, lang,
       setMinPrice(searchParams.get("minPrice") || "");
       setMaxPrice(searchParams.get("maxPrice") || "");
       setPropertyType(searchParams.get("type") || "Any Type");
+      setTag(searchParams.get("tag") || "any tag");
       setBeds(parseInt(searchParams.get("beds") || "0", 10));
       setBaths(parseInt(searchParams.get("baths") || "0", 10));
       const urlAmenities = searchParams.get("amenities") ? searchParams.get("amenities")!.split(",") : [];
@@ -79,6 +82,8 @@ export default function FilterModal({ isOpen, onClose, initialSearchQuery, lang,
     clear_all: string;
     show_results: string;
     property_types: Record<string, string>;
+    tag: string;
+    tags: Record<string, string>;
     amenities: Record<string, string>;
   };
 
@@ -95,6 +100,7 @@ export default function FilterModal({ isOpen, onClose, initialSearchQuery, lang,
     if (minPrice) params.set("minPrice", minPrice); else params.delete("minPrice");
     if (maxPrice) params.set("maxPrice", maxPrice); else params.delete("maxPrice");
     if (propertyType && propertyType !== "Any Type") params.set("type", propertyType); else params.delete("type");
+    if (tag && tag !== "any tag") params.set("tag", tag); else params.delete("tag");
     if (beds > 0) params.set("beds", beds.toString()); else params.delete("beds");
     if (baths > 0) params.set("baths", baths.toString()); else params.delete("baths");
     if (amenities.length > 0) params.set("amenities", amenities.join(",")); else params.delete("amenities");
@@ -110,6 +116,7 @@ export default function FilterModal({ isOpen, onClose, initialSearchQuery, lang,
     setMinPrice("");
     setMaxPrice("");
     setPropertyType("Any Type");
+    setTag("any tag");
     setBeds(0);
     setBaths(0);
     setAmenities([]);
@@ -192,22 +199,43 @@ export default function FilterModal({ isOpen, onClose, initialSearchQuery, lang,
 
             {/* Property Details */}
             <section className="grid grid-cols-1 md:grid-cols-2 gap-8">
-              {/* Property Type */}
-              <div className="space-y-3">
-                <label className="block text-xs font-semibold text-gray-500 uppercase tracking-wider">{fm.property_type}</label>
-                <div className="relative">
-                  <select 
-                    className="w-full bg-background border-0 rounded-lg py-3 pl-4 pr-10 text-gray-900 appearance-none focus:ring-2 focus:ring-mosque cursor-pointer"
-                    value={propertyType}
-                    onChange={e => setPropertyType(e.target.value)}
-                  >
-                    {PROPERTY_TYPE_VALUES.map((value) => (
-                      <option key={value} value={value}>
-                        {fm.property_types[value] ?? value}
-                      </option>
-                    ))}
-                  </select>
-                  <span className="material-icons absolute right-3 top-3 text-gray-400 pointer-events-none">expand_more</span>
+              <div className="space-y-6">
+                {/* Property Type */}
+                <div className="space-y-3">
+                  <label className="block text-xs font-semibold text-gray-500 uppercase tracking-wider">{fm.property_type}</label>
+                  <div className="relative">
+                    <select 
+                      className="w-full bg-background border-0 rounded-lg py-3 pl-4 pr-10 text-gray-900 appearance-none focus:ring-2 focus:ring-mosque cursor-pointer"
+                      value={propertyType}
+                      onChange={e => setPropertyType(e.target.value)}
+                    >
+                      {PROPERTY_TYPE_VALUES.map((value) => (
+                        <option key={value} value={value}>
+                          {fm.property_types[value] ?? value}
+                        </option>
+                      ))}
+                    </select>
+                    <span className="material-icons absolute right-3 top-3 text-gray-400 pointer-events-none">expand_more</span>
+                  </div>
+                </div>
+
+                {/* Status / Tag */}
+                <div className="space-y-3">
+                  <label className="block text-xs font-semibold text-gray-500 uppercase tracking-wider">{fm.tag || "Status"}</label>
+                  <div className="relative">
+                    <select 
+                      className="w-full bg-background border-0 rounded-lg py-3 pl-4 pr-10 text-gray-900 appearance-none focus:ring-2 focus:ring-mosque cursor-pointer"
+                      value={tag}
+                      onChange={e => setTag(e.target.value)}
+                    >
+                      {TAG_VALUES.map((value) => (
+                        <option key={value} value={value}>
+                          {fm.tags && fm.tags[value] ? fm.tags[value] : value}
+                        </option>
+                      ))}
+                    </select>
+                    <span className="material-icons absolute right-3 top-3 text-gray-400 pointer-events-none">expand_more</span>
+                  </div>
                 </div>
               </div>
 

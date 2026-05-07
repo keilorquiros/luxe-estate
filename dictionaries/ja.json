@@ -54,6 +54,14 @@
         "Villa": "別荘",
         "Penthouse": "ペントハウス"
       },
+      "tag": "ステータス",
+      "tags": {
+        "any tag": "すべてのステータス",
+        "for sale": "販売中",
+        "for rent": "賃貸",
+        "exclusive": "限定",
+        "new arrival": "新着"
+      },
       "amenities": {
         "pool": "プール",
         "gym": "ジム",

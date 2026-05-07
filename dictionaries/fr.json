@@ -54,6 +54,14 @@
         "Villa": "Villa",
         "Penthouse": "Penthouse"
       },
+      "tag": "Statut",
+      "tags": {
+        "any tag": "Tous statuts",
+        "for sale": "À Vendre",
+        "for rent": "À Louer",
+        "exclusive": "Exclusif",
+        "new arrival": "Nouveauté"
+      },
       "amenities": {
         "pool": "Piscine",
         "gym": "Salle de sport",
