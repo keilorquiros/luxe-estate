@@ -94,5 +94,16 @@
     "read_more": "Lire la suite",
     "amenities_heading": "Équipements",
     "map_loading": "Chargement de la carte..."
+  },
+  "login": {
+    "title": "Bienvenue chez Luxe Estate",
+    "subtitle": "Débloquez des propriétés exclusives dans le monde entier.",
+    "continue_with_google": "Continuer avec Google",
+    "continue_with_github": "Continuer avec GitHub",
+    "no_account": "Vous n'avez pas de compte ?",
+    "sign_up": "S'inscrire",
+    "privacy_policy": "Politique de confidentialité",
+    "terms_of_service": "Conditions d'utilisation",
+    "help_center": "Centre d'aide"
   }
 }

@@ -1,15 +1,41 @@
 'use client';
 
 import Link from "next/link";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import LanguageSelector from "../ui/LanguageSelector";
-import { Locale } from "../../lib/i18n";interface NavbarProps {
+import { Locale } from "../../lib/i18n";
+import { createClient } from "../../lib/supabase/client";
+import { User } from "@supabase/supabase-js";
+
+interface NavbarProps {
   lang?: Locale;
   dict?: any;
 }
 
 export default function Navbar({ lang = 'es', dict }: NavbarProps) {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [user, setUser] = useState<User | null>(null);
+  const supabase = createClient();
+
+  useEffect(() => {
+    const getUser = async () => {
+      const { data: { user } } = await supabase.auth.getUser();
+      setUser(user);
+    };
+    getUser();
+
+    const { data: { subscription } } = supabase.auth.onAuthStateChange(
+      (_event, session) => {
+        setUser(session?.user ?? null);
+      }
+    );
+
+    return () => subscription.unsubscribe();
+  }, [supabase.auth]);
+
+  const handleSignOut = async () => {
+    await supabase.auth.signOut();
+  };
 
   // If dict is not provided, we could fetch it, but better to pass it from server component
   // For now, if no dict, use fallback or limited UI
@@ -19,8 +45,9 @@ export default function Navbar({ lang = 'es', dict }: NavbarProps) {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-20">
           <Link href={`/${lang}`} className="flex-shrink-0 flex items-center gap-2 cursor-pointer">
-            <div className="w-8 h-8 rounded-lg bg-nordic-dark flex items-center justify-center">
-              <span className="material-icons text-white text-lg">apartment</span>
+            <div className="w-8 h-8 rounded-lg overflow-hidden flex items-center justify-center">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src="/logo.svg" alt="Luxe Estate Logo" className="w-full h-full object-contain" />
             </div>
             <span className="text-xl font-semibold tracking-tight text-nordic-dark">LuxeEstate</span>
           </Link>
@@ -41,12 +68,31 @@ export default function Navbar({ lang = 'es', dict }: NavbarProps) {
               <span className="material-icons">notifications_none</span>
               <span className="absolute top-0 right-0 w-2 h-2 bg-red-500 rounded-full border-2 border-background-light"></span>
             </button>
-            <button className="flex items-center gap-2 pl-2 border-l border-nordic-dark/10 ml-2">
-              <div className="w-9 h-9 rounded-full bg-gray-200 overflow-hidden ring-2 ring-transparent hover:ring-mosque transition-all">
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img alt="Profile" className="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCAWhQZ663Bd08kmzjbOPmUk4UIxYooNONShMEFXLR-DtmVi6Oz-TiaY77SPwFk7g0OobkeZEOMvt6v29mSOD0Xm2g95WbBG3ZjWXmiABOUwGU0LOySRfVDo-JTXQ0-gtwjWxbmue0qDm91m-zEOEZwAW6iRFB1qC1bAU-wkjxm67Sbztq8w7srHkFT9bVEC86qG-FzhOBTomhAurNRmx9l8Yfqabk328NfdKuVLckgCdaPsNFE3yN65MeoRi05GA_gXIMwG4YDIeA" />
-              </div>
-            </button>
+            <div className="flex items-center gap-2 pl-2 border-l border-nordic-dark/10 ml-2">
+              {user ? (
+                <button 
+                  onClick={handleSignOut}
+                  title="Sign out"
+                  className="w-9 h-9 rounded-full bg-gray-200 overflow-hidden ring-2 ring-transparent hover:ring-red-500 transition-all flex items-center justify-center group relative cursor-pointer"
+                >
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img 
+                    alt="Profile" 
+                    className="w-full h-full object-cover group-hover:opacity-30 transition-opacity" 
+                    src={user.user_metadata?.avatar_url || "https://ui-avatars.com/api/?name=" + (user.email || "User")} 
+                  />
+                  <span className="material-icons absolute opacity-0 group-hover:opacity-100 text-red-500 text-sm">logout</span>
+                </button>
+              ) : (
+                <Link 
+                  href={`/${lang}/login`}
+                  className="flex items-center justify-center w-9 h-9 rounded-full text-nordic-dark hover:text-mosque hover:bg-mosque/5 transition-all"
+                  title="Sign in"
+                >
+                  <span className="material-icons text-2xl">account_circle</span>
+                </Link>
+              )}
+            </div>
             <button 
               className="lg:hidden flex items-center justify-center w-9 h-9 text-nordic-dark hover:text-mosque hover:bg-mosque/5 rounded-full transition-colors ml-2"
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}

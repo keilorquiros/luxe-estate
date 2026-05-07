@@ -94,5 +94,16 @@
     "read_more": "続きを読む",
     "amenities_heading": "設備・アメニティ",
     "map_loading": "地図を読み込み中..."
+  },
+  "login": {
+    "title": "Luxe Estateへようこそ",
+    "subtitle": "世界中の限定物件のロックを解除します。",
+    "continue_with_google": "Googleで続行",
+    "continue_with_github": "GitHubで続行",
+    "no_account": "アカウントをお持ちではありませんか？",
+    "sign_up": "サインアップ",
+    "privacy_policy": "プライバシーポリシー",
+    "terms_of_service": "利用規約",
+    "help_center": "ヘルプセンター"
   }
 }

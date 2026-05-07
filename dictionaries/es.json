@@ -94,5 +94,16 @@
     "read_more": "Leer más",
     "amenities_heading": "Comodidades",
     "map_loading": "Cargando mapa interactivo..."
+  },
+  "login": {
+    "title": "Bienvenido a Luxe Estate",
+    "subtitle": "Desbloquea propiedades exclusivas en todo el mundo.",
+    "continue_with_google": "Continuar con Google",
+    "continue_with_github": "Continuar con GitHub",
+    "no_account": "¿No tienes una cuenta?",
+    "sign_up": "Regístrate",
+    "privacy_policy": "Política de Privacidad",
+    "terms_of_service": "Términos de Servicio",
+    "help_center": "Centro de Ayuda"
   }
 }
