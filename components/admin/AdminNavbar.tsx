@@ -94,7 +94,7 @@ export default function AdminNavbar({ lang, currentUserData }: AdminNavbarProps)
                 <span className="text-xs text-gray-500">{currentUserData?.role}</span>
               </div>
               <div 
-                className="h-9 w-9 rounded-full bg-gray-200 overflow-hidden ring-2 ring-white cursor-pointer flex items-center justify-center"
+                className="h-9 w-9 rounded-full bg-gray-200 overflow-hidden ring-2 ring-white hover:ring-primary cursor-pointer flex items-center justify-center transition-all duration-200 hover:scale-105"
                 onClick={() => setIsDropdownOpen(!isDropdownOpen)}
               >
                 {currentUserData?.avatar ? (
