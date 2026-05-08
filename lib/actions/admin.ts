@@ -6,7 +6,7 @@ import { revalidatePath } from 'next/cache';
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
-export type UserRole = 'admin' | 'agent' | 'user';
+export type UserRole = 'admin' | 'agent' | 'user' | 'broker';
 
 export interface UserWithRole {
   id: string;
@@ -15,6 +15,10 @@ export interface UserWithRole {
   avatar_url: string | null;
   created_at: string;
   role: UserRole;
+  status: string;
+  sales_ytd: number;
+  last_login: string | null;
+  properties_count: number;
 }
 
 // ─── Admin client (bypasses RLS via service role) ─────────────────────────────
@@ -75,23 +79,48 @@ export async function getUsersWithRoles(): Promise<UserWithRole[]> {
 
   const users = authData?.users ?? [];
 
-  // Fetch all roles
+  // Fetch all roles and metadata
   const { data: roles } = await adminClient
     .from('user_roles')
-    .select('user_id, role');
+    .select('user_id, role, status, sales_ytd, last_login');
 
-  const roleMap = new Map<string, UserRole>(
-    (roles ?? []).map((r) => [r.user_id, r.role as UserRole])
+  const roleMap = new Map<string, { role: UserRole; status: string; sales_ytd: number; last_login: string | null }>(
+    (roles ?? []).map((r) => [r.user_id, { 
+      role: r.role as UserRole, 
+      status: r.status ?? 'active', 
+      sales_ytd: Number(r.sales_ytd ?? 0), 
+      last_login: r.last_login 
+    }])
   );
 
-  return users.map((u) => ({
-    id: u.id,
-    email: u.email ?? '',
-    full_name: (u.user_metadata?.full_name as string) ?? null,
-    avatar_url: (u.user_metadata?.avatar_url as string) ?? null,
-    created_at: u.created_at,
-    role: roleMap.get(u.id) ?? 'user',
-  }));
+  // Fetch properties to count
+  const { data: propCounts } = await adminClient
+    .from('properties')
+    .select('agent_id')
+    .not('agent_id', 'is', null);
+  
+  const propCountMap = new Map<string, number>();
+  (propCounts ?? []).forEach(p => {
+    if (p.agent_id) {
+      propCountMap.set(p.agent_id, (propCountMap.get(p.agent_id) ?? 0) + 1);
+    }
+  });
+
+  return users.map((u) => {
+    const roleData = roleMap.get(u.id);
+    return {
+      id: u.id,
+      email: u.email ?? '',
+      full_name: (u.user_metadata?.full_name as string) ?? null,
+      avatar_url: (u.user_metadata?.avatar_url as string) ?? null,
+      created_at: u.created_at,
+      role: roleData?.role ?? 'user',
+      status: roleData?.status ?? 'active',
+      sales_ytd: roleData?.sales_ytd ?? 0,
+      last_login: roleData?.last_login ?? null,
+      properties_count: propCountMap.get(u.id) ?? 0,
+    };
+  });
 }
 
 /**

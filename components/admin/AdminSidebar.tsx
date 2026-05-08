@@ -16,7 +16,7 @@ export default function AdminSidebar({ lang }: AdminSidebarProps) {
   const pathname = usePathname();
 
   return (
-    <aside className="w-64 min-h-screen bg-nordic-dark text-white flex flex-col">
+    <aside className="w-64 min-h-screen bg-nordic text-white flex flex-col">
       {/* Brand */}
       <div className="px-6 py-6 border-b border-white/10">
         <Link href={`/${lang}`} className="flex items-center gap-2 group">

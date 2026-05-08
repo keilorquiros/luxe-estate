@@ -12,9 +12,13 @@ export async function GET(request: Request) {
 
     if (!error && data.user) {
       // Garantizar fila en user_roles:
-      // - Si no existe → inserta con rol 'user'
-      // - Si ya existe → no modifica (admin sigue siendo admin)
       await supabase.rpc('ensure_user_role', { p_user_id: data.user.id });
+
+      // Actualizar last_login
+      await supabase
+        .from('user_roles')
+        .update({ last_login: new Date().toISOString() })
+        .eq('user_id', data.user.id);
 
       const forwardedHost = request.headers.get('x-forwarded-host');
       const isLocalEnv = process.env.NODE_ENV === 'development';

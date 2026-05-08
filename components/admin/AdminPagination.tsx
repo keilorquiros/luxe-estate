@@ -41,15 +41,15 @@ export default function AdminPagination({
   const endItem = Math.min(currentPage * pageSize, total);
 
   return (
-    <div className="px-6 py-4 border-t border-gray-100 dark:border-mosque/20 bg-gray-50/50 dark:bg-mosque/5 flex flex-col sm:flex-row items-center justify-between gap-4">
+    <div className="px-6 py-4 border-t border-gray-100 bg-gray-50/50 flex flex-col sm:flex-row items-center justify-between gap-4">
       {/* Info text */}
-      <p className="text-sm text-gray-500 dark:text-gray-400 order-2 sm:order-1">
+      <p className="text-sm text-gray-500 order-2 sm:order-1">
         Showing{' '}
-        <span className="font-semibold text-nordic-dark dark:text-white">{startItem}</span>
+        <span className="font-semibold text-nordic">{startItem}</span>
         {' – '}
-        <span className="font-semibold text-nordic-dark dark:text-white">{endItem}</span>
+        <span className="font-semibold text-nordic">{endItem}</span>
         {' of '}
-        <span className="font-semibold text-nordic-dark dark:text-white">{total}</span>
+        <span className="font-semibold text-nordic">{total}</span>
         {' properties'}
       </p>
 
@@ -59,13 +59,13 @@ export default function AdminPagination({
         {currentPage > 1 ? (
           <Link
             href={getPageHref(currentPage - 1)}
-            className="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg text-sm font-medium border border-gray-200 dark:border-mosque/30 bg-white dark:bg-[#152e2a] text-gray-600 dark:text-gray-300 hover:bg-mosque/5 dark:hover:bg-mosque/20 hover:border-mosque/40 hover:text-mosque transition-all"
+            className="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg text-sm font-medium border border-gray-200 bg-white text-gray-600 hover:bg-primary/5 hover:border-primary/40 hover:text-primary transition-all"
           >
             <span className="material-icons text-[16px]">chevron_left</span>
             Prev
           </Link>
         ) : (
-          <span className="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg text-sm font-medium border border-gray-100 dark:border-mosque/10 bg-white/60 dark:bg-[#152e2a]/60 text-gray-300 dark:text-gray-600 cursor-not-allowed select-none">
+          <span className="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg text-sm font-medium border border-gray-100 bg-white/60 text-gray-300 cursor-not-allowed select-none">
             <span className="material-icons text-[16px]">chevron_left</span>
             Prev
           </span>
@@ -76,7 +76,7 @@ export default function AdminPagination({
           page === '…' ? (
             <span
               key={`ellipsis-${idx}`}
-              className="inline-flex items-center justify-center w-9 h-9 text-sm text-gray-400 dark:text-gray-600 select-none"
+              className="inline-flex items-center justify-center w-9 h-9 text-sm text-gray-400 select-none"
             >
               …
             </span>
@@ -87,8 +87,8 @@ export default function AdminPagination({
               aria-current={page === currentPage ? 'page' : undefined}
               className={`inline-flex items-center justify-center w-9 h-9 rounded-lg text-sm font-semibold transition-all ${
                 page === currentPage
-                  ? 'bg-gradient-to-br from-mosque to-mosque/80 text-white shadow-md shadow-mosque/30 border border-mosque'
-                  : 'border border-gray-200 dark:border-mosque/30 bg-white dark:bg-[#152e2a] text-gray-600 dark:text-gray-300 hover:border-mosque/50 hover:text-mosque hover:bg-mosque/5 dark:hover:bg-mosque/20'
+                  ? 'bg-gradient-to-br from-primary to-primary/80 text-white shadow-md shadow-primary/30 border border-primary'
+                  : 'border border-gray-200 bg-white text-gray-600 hover:border-primary/50 hover:text-primary hover:bg-primary/5'
               }`}
             >
               {page}
@@ -100,13 +100,13 @@ export default function AdminPagination({
         {currentPage < totalPages ? (
           <Link
             href={getPageHref(currentPage + 1)}
-            className="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg text-sm font-medium border border-gray-200 dark:border-mosque/30 bg-white dark:bg-[#152e2a] text-gray-600 dark:text-gray-300 hover:bg-mosque/5 dark:hover:bg-mosque/20 hover:border-mosque/40 hover:text-mosque transition-all"
+            className="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg text-sm font-medium border border-gray-200 bg-white text-gray-600 hover:bg-primary/5 hover:border-primary/40 hover:text-primary transition-all"
           >
             Next
             <span className="material-icons text-[16px]">chevron_right</span>
           </Link>
         ) : (
-          <span className="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg text-sm font-medium border border-gray-100 dark:border-mosque/10 bg-white/60 dark:bg-[#152e2a]/60 text-gray-300 dark:text-gray-600 cursor-not-allowed select-none">
+          <span className="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg text-sm font-medium border border-gray-100 bg-white/60 text-gray-300 cursor-not-allowed select-none">
             Next
             <span className="material-icons text-[16px]">chevron_right</span>
           </span>

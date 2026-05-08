@@ -1,6 +1,7 @@
 import { getAdminProperties } from '../../../../lib/actions/admin';
 import PropertiesTable from '../../../../components/admin/PropertiesTable';
 import AdminPagination from '../../../../components/admin/AdminPagination';
+import Footer from '../../../../components/layout/Footer';
 import { createClient } from '../../../../lib/supabase/server';
 import type { Metadata } from 'next';
 
@@ -48,20 +49,20 @@ export default async function AdminPropertiesPage({
   const forRent = allProps.filter((p) => p.tag === 'for rent').length;
 
   return (
-    <div className="flex-grow flex flex-col w-full min-h-screen bg-background-light dark:bg-background-dark text-nordic-dark dark:text-gray-100 font-display antialiased">
+    <div className="flex-grow flex flex-col w-full min-h-screen bg-background-light text-nordic font-display antialiased">
       {/* Main Content */}
       <main className="flex-grow max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-10">
         {/* Header Section */}
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8">
           <div>
-            <h1 className="text-3xl font-bold text-nordic-dark dark:text-white tracking-tight">My Properties</h1>
-            <p className="text-gray-500 dark:text-gray-400 mt-1">Manage your portfolio and track performance.</p>
+            <h1 className="text-3xl font-bold text-nordic tracking-tight">My Properties</h1>
+            <p className="text-gray-500 mt-1">Manage your portfolio and track performance.</p>
           </div>
           <div className="flex items-center gap-3">
-            <button className="bg-white dark:bg-[#152e2a] border border-gray-200 dark:border-mosque/30 text-nordic-dark dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-mosque/10 px-4 py-2.5 rounded-lg text-sm font-medium transition-colors shadow-sm inline-flex items-center gap-2">
+            <button className="bg-white border border-gray-200 text-nordic hover:bg-gray-50 px-4 py-2.5 rounded-lg text-sm font-medium transition-colors shadow-sm inline-flex items-center gap-2">
               <span className="material-icons text-base">filter_list</span> Filter
             </button>
-            <button className="bg-mosque hover:bg-mosque/90 text-white px-5 py-2.5 rounded-lg text-sm font-medium shadow-md shadow-mosque/20 transition-all transform hover:-translate-y-0.5 inline-flex items-center gap-2">
+            <button className="bg-primary hover:bg-primary/90 text-white px-5 py-2.5 rounded-lg text-sm font-medium shadow-md shadow-primary/20 transition-all transform hover:-translate-y-0.5 inline-flex items-center gap-2">
               <span className="material-icons text-base">add</span> Add New Property
             </button>
           </div>
@@ -69,37 +70,37 @@ export default async function AdminPropertiesPage({
 
         {/* Stats Overview */}
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 mb-8">
-          <div className="bg-white dark:bg-[#152e2a] p-5 rounded-xl border border-mosque/10 shadow-sm flex items-center justify-between">
+          <div className="bg-white p-5 rounded-xl border border-primary/10 shadow-sm flex items-center justify-between">
             <div>
-              <p className="text-sm font-medium text-gray-500 dark:text-gray-400">Total Listings</p>
-              <p className="text-2xl font-bold text-nordic-dark dark:text-white mt-1">{total}</p>
+              <p className="text-sm font-medium text-gray-500">Total Listings</p>
+              <p className="text-2xl font-bold text-nordic mt-1">{total}</p>
             </div>
-            <div className="h-10 w-10 rounded-full bg-mosque/10 flex items-center justify-center text-mosque">
+            <div className="h-10 w-10 rounded-full bg-primary/10 flex items-center justify-center text-primary">
               <span className="material-icons">apartment</span>
             </div>
           </div>
-          <div className="bg-white dark:bg-[#152e2a] p-5 rounded-xl border border-mosque/10 shadow-sm flex items-center justify-between">
+          <div className="bg-white p-5 rounded-xl border border-primary/10 shadow-sm flex items-center justify-between">
             <div>
-              <p className="text-sm font-medium text-gray-500 dark:text-gray-400">For Sale</p>
-              <p className="text-2xl font-bold text-nordic-dark dark:text-white mt-1">{forSale}</p>
+              <p className="text-sm font-medium text-gray-500">For Sale</p>
+              <p className="text-2xl font-bold text-nordic mt-1">{forSale}</p>
             </div>
-            <div className="h-10 w-10 rounded-full bg-hint-green flex items-center justify-center text-mosque">
-              <span className="material-icons">sell</span>
+            <div className="h-10 w-10 rounded-full bg-hint-green flex items-center justify-center text-primary">
+              <span className="material-icons">check_circle</span>
             </div>
           </div>
-          <div className="bg-white dark:bg-[#152e2a] p-5 rounded-xl border border-mosque/10 shadow-sm flex items-center justify-between">
+          <div className="bg-white p-5 rounded-xl border border-primary/10 shadow-sm flex items-center justify-between">
             <div>
-              <p className="text-sm font-medium text-gray-500 dark:text-gray-400">For Rent</p>
-              <p className="text-2xl font-bold text-nordic-dark dark:text-white mt-1">{forRent}</p>
+              <p className="text-sm font-medium text-gray-500">For Rent</p>
+              <p className="text-2xl font-bold text-nordic mt-1">{forRent}</p>
             </div>
-            <div className="h-10 w-10 rounded-full bg-blue-100 dark:bg-blue-900/30 flex items-center justify-center text-blue-600 dark:text-blue-400">
-              <span className="material-icons">key</span>
+            <div className="h-10 w-10 rounded-full bg-orange-100 flex items-center justify-center text-orange-600">
+              <span className="material-icons">pending</span>
             </div>
           </div>
         </div>
 
         {/* Property List + Pagination */}
-        <div className="bg-white dark:bg-[#152e2a] rounded-xl shadow-sm border border-gray-200 dark:border-mosque/20 overflow-hidden">
+        <div className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
           <PropertiesTable properties={properties} lang={lang} />
           <AdminPagination
             currentPage={currentPage}
@@ -110,12 +111,7 @@ export default async function AdminPropertiesPage({
         </div>
       </main>
 
-      {/* Footer */}
-      <footer className="mt-auto border-t border-gray-200 dark:border-mosque/20 bg-white dark:bg-[#152e2a]">
-        <div className="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
-          <p className="text-center text-sm text-gray-400 dark:text-gray-500">© 2023 Haven Property Management. All rights reserved.</p>
-        </div>
-      </footer>
+      <Footer />
     </div>
   );
 }

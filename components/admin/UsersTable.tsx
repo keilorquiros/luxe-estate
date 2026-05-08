@@ -10,6 +10,7 @@ interface UsersTableProps {
 
 const ROLES: { id: UserRole; label: string; icon: string }[] = [
   { id: 'admin', label: 'Administrator', icon: 'shield' },
+  { id: 'broker', label: 'Broker', icon: 'business' },
   { id: 'agent', label: 'Agent', icon: 'support_agent' },
   { id: 'user', label: 'Viewer', icon: 'visibility' },
 ];
@@ -58,9 +59,10 @@ export default function UsersTable({ users: initialUsers, currentUserId }: Users
 
   const getRoleDisplay = (role: UserRole) => {
     switch (role) {
-      case 'admin': return { label: 'Administrator', classes: 'bg-mosque text-white' };
-      case 'agent': return { label: 'Agent', classes: 'bg-gray-100 text-gray-600 dark:bg-gray-700 dark:text-gray-300' };
-      default: return { label: 'Viewer', classes: 'bg-gray-100 text-gray-500 dark:bg-gray-700 dark:text-gray-400' };
+      case 'admin': return { label: 'Administrator', classes: 'bg-nordic text-white' };
+      case 'broker': return { label: 'Broker', classes: 'bg-primary/10 text-primary' };
+      case 'agent': return { label: 'Agent', classes: 'bg-gray-100 text-gray-600' };
+      default: return { label: 'Viewer', classes: 'bg-gray-100 text-gray-500' };
     }
   };
 
@@ -82,7 +84,7 @@ export default function UsersTable({ users: initialUsers, currentUserId }: Users
         </div>
       )}
 
-      <div className="hidden md:grid grid-cols-12 gap-4 px-6 text-xs font-semibold uppercase tracking-wider text-nordic-dark/50 mb-2 mt-4">
+      <div className="hidden md:grid grid-cols-12 gap-4 px-6 text-xs font-semibold uppercase tracking-wider text-nordic/50 mb-2 mt-4">
         <div className="col-span-4">User Details</div>
         <div className="col-span-3">Role & Status</div>
         <div className="col-span-3">Performance</div>
@@ -99,13 +101,13 @@ export default function UsersTable({ users: initialUsers, currentUserId }: Users
           return (
             <div 
               key={user.id} 
-              className={`user-card group relative rounded-xl p-5 shadow-sm border border-transparent hover:shadow-soft flex flex-col md:grid md:grid-cols-12 gap-4 items-center transition-all duration-200 ${
-                isCurrentUser ? 'bg-active-green dark:bg-mosque/20 border-mosque/20' : 'bg-white dark:bg-gray-800 border-gray-100 dark:border-gray-700 hover:bg-active-green/50 dark:hover:bg-mosque/10'
+              className={`user-card group relative rounded-xl p-5 shadow-sm flex flex-col md:grid md:grid-cols-12 gap-4 items-center transition-all duration-200 ${
+                isCurrentUser ? 'bg-active-green border border-transparent' : 'bg-white border border-gray-100 hover:bg-active-green'
               }`}
             >
               {/* User Details */}
               <div className="col-span-12 md:col-span-4 flex items-center w-full">
-                <div className="relative flex-shrink-0 w-12 h-12 rounded-full bg-nordic-dark/10 flex items-center justify-center overflow-hidden">
+                <div className="relative flex-shrink-0 w-12 h-12 rounded-full bg-nordic/10 flex items-center justify-center overflow-hidden">
                   {user.avatar_url ? (
                     // eslint-disable-next-line @next/next/no-img-element
                     <img
@@ -123,12 +125,12 @@ export default function UsersTable({ users: initialUsers, currentUserId }: Users
                   )}
                 </div>
                 <div className="ml-4 overflow-hidden">
-                  <div className="text-sm font-bold text-nordic-dark dark:text-white truncate flex items-center gap-2">
+                  <div className="text-sm font-bold text-nordic truncate flex items-center gap-2">
                     {user.full_name ?? '—'}
-                    {isCurrentUser && <span className="text-[10px] bg-mosque/10 text-mosque px-1.5 py-0.5 rounded uppercase tracking-wider">You</span>}
+                    {isCurrentUser && <span className="text-[10px] bg-primary/10 text-primary px-1.5 py-0.5 rounded uppercase tracking-wider">You</span>}
                   </div>
-                  <div className="text-xs text-nordic-dark/60 dark:text-gray-400 truncate">{user.email}</div>
-                  <div className="mt-1 text-[10px] px-2 py-0.5 inline-block bg-gray-50 dark:bg-white/10 rounded text-nordic-dark/50 dark:text-gray-400 group-hover:bg-white/50 transition-colors">
+                  <div className="text-xs text-nordic/60 truncate">{user.email}</div>
+                  <div className="mt-1 text-[10px] px-2 py-0.5 inline-block bg-gray-50 rounded text-nordic/50 group-hover:bg-white/50 transition-colors">
                     ID: #{user.id.substring(0, 8)}
                   </div>
                 </div>
@@ -139,27 +141,37 @@ export default function UsersTable({ users: initialUsers, currentUserId }: Users
                 <span className={`inline-flex items-center px-2.5 py-1 rounded-md text-xs font-medium ${roleDisplay.classes}`}>
                   {roleDisplay.label}
                 </span>
-                <div className="flex items-center text-xs text-nordic-dark/60 dark:text-gray-400">
-                  <span className={`material-icons text-[14px] mr-1 ${isUpdating ? 'animate-spin text-mosque' : isCurrentUser ? 'text-mosque' : 'text-gray-400'}`}>
-                    {isUpdating ? 'refresh' : 'check_circle'}
+                <div className="flex items-center text-xs text-nordic/60">
+                  <span className={`material-icons text-[14px] mr-1 ${isUpdating ? 'animate-spin text-primary' : user.status === 'active' ? 'text-primary' : 'text-gray-400'}`}>
+                    {isUpdating ? 'refresh' : user.status === 'active' ? 'check_circle' : 'schedule'}
                   </span>
-                  {isUpdating ? 'Updating...' : 'Active'}
+                  {isUpdating ? 'Updating...' : (user.status.charAt(0).toUpperCase() + user.status.slice(1))}
                 </div>
               </div>
 
-              {/* Performance (Mock data as per design but adapting to existing fields) */}
               <div className="col-span-12 md:col-span-3 w-full grid grid-cols-2 gap-4">
                 <div>
-                  <div className="text-[10px] uppercase tracking-wider text-nordic-dark/40">Joined</div>
-                  <div className="text-sm font-semibold text-nordic-dark dark:text-white">
-                    {new Date(user.created_at).toLocaleDateString('en-US', { month: 'short', year: 'numeric' })}
+                  <div className="text-[10px] uppercase tracking-wider text-nordic/40">Properties</div>
+                  <div className={`text-sm font-semibold ${user.role === 'user' ? 'text-nordic/30' : 'text-nordic'}`}>
+                    {user.properties_count}
                   </div>
                 </div>
                 <div>
-                  <div className="text-[10px] uppercase tracking-wider text-nordic-dark/40">Access Level</div>
-                  <div className="text-sm font-semibold text-nordic-dark dark:text-white">
-                    {user.role === 'admin' ? 'Level 5' : user.role === 'agent' ? 'Level 3' : 'Level 1'}
-                  </div>
+                  {user.role === 'user' ? (
+                    <>
+                      <div className="text-[10px] uppercase tracking-wider text-nordic/40">Last Login</div>
+                      <div className="text-sm font-semibold text-nordic">
+                        {user.last_login ? new Date(user.last_login).toLocaleDateString('en-US', { month: 'short', day: 'numeric' }) : '—'}
+                      </div>
+                    </>
+                  ) : (
+                    <>
+                      <div className="text-[10px] uppercase tracking-wider text-nordic/40">Sales (YTD)</div>
+                      <div className="text-sm font-semibold text-nordic">
+                        ${(user.sales_ytd / 1000000).toFixed(1)}M
+                      </div>
+                    </>
+                  )}
                 </div>
               </div>
 
@@ -170,8 +182,8 @@ export default function UsersTable({ users: initialUsers, currentUserId }: Users
                   disabled={isCurrentUser || isUpdating}
                   className={`inline-flex items-center px-4 py-2 text-xs font-medium rounded-lg focus:outline-none transition-colors w-full md:w-auto justify-center ${
                     isCurrentUser 
-                      ? 'bg-transparent text-nordic-dark/30 cursor-not-allowed border border-transparent' 
-                      : 'border border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-800 shadow-sm text-nordic-dark dark:text-gray-300 hover:border-nordic-dark hover:text-nordic-dark dark:hover:text-white group-hover:shadow-sm'
+                      ? 'bg-transparent text-nordic/30 cursor-not-allowed border border-transparent' 
+                      : 'border border-gray-200 bg-white shadow-sm text-nordic hover:border-nordic hover:text-nordic group-hover:shadow-sm'
                   }`}
                 >
                   Change Role
@@ -181,7 +193,7 @@ export default function UsersTable({ users: initialUsers, currentUserId }: Users
                 </button>
 
                 {isDropdownOpen && !isCurrentUser && (
-                  <div className="absolute top-full right-0 mt-2 w-48 rounded-lg shadow-lg bg-mosque ring-1 ring-black ring-opacity-5 focus:outline-none overflow-hidden z-50 origin-top-right animate-in fade-in zoom-in-95 duration-100">
+                  <div className="absolute top-full right-0 mt-2 w-48 rounded-lg shadow-lg bg-primary ring-1 ring-black ring-opacity-5 focus:outline-none overflow-hidden z-50 origin-top-right animate-in fade-in zoom-in-95 duration-100">
                     <div aria-orientation="vertical" className="py-1" role="menu">
                       {ROLES.map((r) => (
                         <button
@@ -214,7 +226,7 @@ export default function UsersTable({ users: initialUsers, currentUserId }: Users
         })}
 
         {users.length === 0 && (
-          <div className="py-16 text-center text-nordic-muted bg-white dark:bg-gray-800 rounded-xl border border-gray-100 dark:border-gray-700">
+          <div className="py-16 text-center text-nordic-muted bg-white rounded-xl border border-gray-100">
             <span className="material-icons text-4xl mb-3 block">group</span>
             No users found.
           </div>
