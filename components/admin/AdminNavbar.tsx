@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { createClient } from '../../lib/supabase/client';
 
 interface AdminNavbarProps {
@@ -17,7 +17,21 @@ interface AdminNavbarProps {
 export default function AdminNavbar({ lang, currentUserData }: AdminNavbarProps) {
   const pathname = usePathname();
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const dropdownRef = useRef<HTMLDivElement>(null);
   const supabase = createClient();
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+        setIsDropdownOpen(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, []);
 
   const handleSignOut = async () => {
     try {
@@ -74,7 +88,7 @@ export default function AdminNavbar({ lang, currentUserData }: AdminNavbarProps)
             <button className="p-2 rounded-full text-gray-400 hover:text-primary hover:bg-primary/5 transition-colors">
               <span className="material-icons text-xl">notifications_none</span>
             </button>
-            <div className="flex items-center gap-3 pl-4 border-l border-gray-200 relative">
+            <div ref={dropdownRef} className="flex items-center gap-3 pl-4 border-l border-gray-200 relative">
               <div className="flex flex-col items-end hidden sm:flex">
                 <span className="text-sm font-semibold text-nordic">{currentUserData?.name}</span>
                 <span className="text-xs text-gray-500">{currentUserData?.role}</span>
