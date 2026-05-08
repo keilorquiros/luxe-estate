@@ -8,6 +8,7 @@ interface AdminPaginationProps {
   totalPages: number;
   total: number;
   pageSize: number;
+  itemName?: string;
 }
 
 export default function AdminPagination({
@@ -15,6 +16,7 @@ export default function AdminPagination({
   totalPages,
   total,
   pageSize,
+  itemName = 'properties',
 }: AdminPaginationProps) {
   const pathname = usePathname();
   const searchParams = useSearchParams();
@@ -50,11 +52,11 @@ export default function AdminPagination({
         <span className="font-semibold text-nordic">{endItem}</span>
         {' of '}
         <span className="font-semibold text-nordic">{total}</span>
-        {' properties'}
+        {' '}{itemName}
       </p>
 
       {/* Controls */}
-      <nav aria-label="Admin properties pagination" className="flex items-center gap-1 order-1 sm:order-2">
+      <nav aria-label={`Admin ${itemName} pagination`} className="flex items-center gap-1 order-1 sm:order-2">
         {/* Previous */}
         {currentPage > 1 ? (
           <Link

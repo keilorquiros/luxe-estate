@@ -124,6 +124,26 @@ export async function getUsersWithRoles(): Promise<UserWithRole[]> {
 }
 
 /**
+ * Fetch paginated users for admin view.
+ */
+export async function getAdminUsers(page = 1) {
+  const allUsers = await getUsersWithRoles();
+  const total = allUsers.length;
+  const pageSize = 20;
+  const totalPages = Math.max(1, Math.ceil(total / pageSize));
+  const from = (page - 1) * pageSize;
+  const to = from + pageSize;
+  
+  return {
+    data: allUsers.slice(from, to),
+    total,
+    totalPages,
+    page,
+    pageSize,
+  };
+}
+
+/**
  * Update the role of a user.
  * Only admins can call this.
  */
