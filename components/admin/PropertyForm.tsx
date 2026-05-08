@@ -1,8 +1,14 @@
 'use client';
 
-import { useState, useTransition } from 'react';
+import { useState, useTransition, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
+import dynamic from 'next/dynamic';
+
+const MapSelector = dynamic(() => import('./MapSelector'), {
+  ssr: false,
+  loading: () => <div className="w-full h-[300px] bg-gray-100 animate-pulse rounded-lg flex items-center justify-center text-gray-400">Loading map...</div>
+});
 import { createClient } from '../../lib/supabase/client';
 import { createProperty, updateProperty } from '../../lib/actions/admin';
 
@@ -16,6 +22,8 @@ export default function PropertyForm({ lang, property }: PropertyFormProps) {
   const router = useRouter();
   const [isPending, startTransition] = useTransition();
   const [uploading, setUploading] = useState(false);
+
+  const [isGeocoding, setIsGeocoding] = useState(false);
 
   const [formData, setFormData] = useState({
     title: property?.title || '',
@@ -34,6 +42,41 @@ export default function PropertyForm({ lang, property }: PropertyFormProps) {
     images: property?.images || [],
     highlight_tag: Array.isArray(property?.highlight_tag) ? property.highlight_tag.join(', ') : (property?.highlight_tag || ''),
   });
+
+  const geocodeAddress = async (address: string) => {
+    if (!address.trim()) return;
+    
+    setIsGeocoding(true);
+    try {
+      const response = await fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(address)}&limit=1`);
+      const data = await response.json();
+      
+      if (data && data.length > 0) {
+        const { lat, lon } = data[0];
+        setFormData(prev => ({
+          ...prev,
+          latitude: lat,
+          longitude: lon
+        }));
+      }
+    } catch (error) {
+      console.error('Error geocoding address:', error);
+    } finally {
+      setIsGeocoding(false);
+    }
+  };
+
+  useEffect(() => {
+    if (formData.location === property?.location || !formData.location.trim()) {
+      return;
+    }
+
+    const timer = setTimeout(() => {
+      geocodeAddress(formData.location);
+    }, 1000);
+
+    return () => clearTimeout(timer);
+  }, [formData.location]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { id, value } = e.target;
@@ -370,14 +413,25 @@ export default function PropertyForm({ lang, property }: PropertyFormProps) {
             <div className="p-6 space-y-4">
               <div>
                 <label className="block text-sm font-medium text-nordic mb-1.5 font-sf-pro" htmlFor="location">Address</label>
-                <input 
-                  className="w-full px-4 py-2.5 rounded-md border-gray-200 bg-white text-nordic placeholder-gray-400 focus:ring-1 focus:ring-mosque focus:border-mosque transition-all text-sm font-sf-pro" 
-                  id="location" 
-                  placeholder="Street Address, City, Zip" 
-                  type="text"
-                  value={formData.location}
-                  onChange={handleChange}
-                />
+                <div className="flex gap-2">
+                  <input 
+                    className="flex-1 px-4 py-2.5 rounded-md border-gray-200 bg-white text-nordic placeholder-gray-400 focus:ring-1 focus:ring-mosque focus:border-mosque transition-all text-sm font-sf-pro" 
+                    id="location" 
+                    placeholder="Street Address, City, Zip" 
+                    type="text"
+                    value={formData.location}
+                    onChange={handleChange}
+                  />
+                  <button
+                    type="button"
+                    onClick={() => geocodeAddress(formData.location)}
+                    disabled={isGeocoding || !formData.location.trim()}
+                    className="px-4 py-2.5 bg-mosque hover:bg-nordic text-white rounded-md transition-colors text-sm font-medium font-sf-pro flex items-center gap-1 disabled:opacity-50"
+                  >
+                    <span className="material-icons text-sm">{isGeocoding ? 'refresh' : 'search'}</span>
+                    {isGeocoding ? '...' : 'Buscar'}
+                  </button>
+                </div>
               </div>
               
               {/* Added Latitude and Longitude */}
@@ -406,6 +460,21 @@ export default function PropertyForm({ lang, property }: PropertyFormProps) {
                     onChange={handleChange}
                   />
                 </div>
+              </div>
+              
+              <div className="mt-4">
+                <label className="block text-sm font-medium text-nordic mb-1.5 font-sf-pro">Map Location</label>
+                <MapSelector 
+                  latitude={Number(formData.latitude)} 
+                  longitude={Number(formData.longitude)} 
+                  onChange={(lat, lng) => {
+                    setFormData(prev => ({
+                      ...prev,
+                      latitude: lat.toString(),
+                      longitude: lng.toString()
+                    }));
+                  }}
+                />
               </div>
             </div>
           </div>
