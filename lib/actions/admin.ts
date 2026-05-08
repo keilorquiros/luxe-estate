@@ -175,6 +175,7 @@ export interface AdminPropertiesFilters {
   minPrice?: number;
   maxPrice?: number;
   tag?: string;
+  highlightTag?: string;
   beds?: number;
   baths?: number;
   search?: string;
@@ -195,7 +196,7 @@ export async function getAdminProperties(page = 1, filters: AdminPropertiesFilte
   let query = supabase
     .from('properties')
     .select(
-      'id, title, location, price, price_numeric, tag, tag_color, is_featured, is_favorite, beds, baths, area, slug, created_at, images',
+      'id, title, location, price, price_numeric, tag, highlight_tag, tag_color, is_featured, is_favorite, beds, baths, area, slug, created_at, images',
       { count: 'exact' }
     );
 
@@ -208,6 +209,9 @@ export async function getAdminProperties(page = 1, filters: AdminPropertiesFilte
   }
   if (filters.tag && filters.tag !== 'any tag') {
     query = query.eq('tag', filters.tag);
+  }
+  if (filters.highlightTag && filters.highlightTag !== 'any tag' && filters.highlightTag !== 'any highlight') {
+    query = query.eq('highlight_tag', filters.highlightTag);
   }
   if (filters.beds) {
     query = query.gte('beds', filters.beds);

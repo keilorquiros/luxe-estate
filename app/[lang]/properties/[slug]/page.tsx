@@ -90,7 +90,8 @@ export default async function PropertyDetailsPage({ params }: { params: Promise<
             <PropertyGallery
               images={property.images}
               title={property.title}
-              tag={property.tag}
+              tag={property.tag || undefined}
+              highlightTag={property.highlight_tag}
               galleryDict={{
                 badge_new: pd.badge_new,
                 view_all_photos: pd.view_all_photos,

@@ -5,7 +5,8 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { Locale } from "../../lib/i18n";
 
 const PROPERTY_TYPE_VALUES = ["Any Type", "House", "Apartment", "Condo", "Townhouse", "Villa", "Penthouse"] as const;
-const TAG_VALUES = ["any tag", "for sale", "for rent", "exclusive", "new arrival"] as const;
+const STATUS_TAG_VALUES = ["any status", "for sale", "for rent", "sold"] as const;
+const HIGHLIGHT_TAG_VALUES = ["any highlight", "exclusive", "new arrival"] as const;
 
 const AMENITY_ITEMS = [
   { id: "pool", icon: "pool" },
@@ -32,7 +33,8 @@ export default function FilterModal({ isOpen, onClose, initialSearchQuery, lang,
   const [minPrice, setMinPrice] = useState("");
   const [maxPrice, setMaxPrice] = useState("");
   const [propertyType, setPropertyType] = useState("Any Type");
-  const [tag, setTag] = useState("any tag");
+  const [tag, setTag] = useState("any status");
+  const [highlightTag, setHighlightTag] = useState("any highlight");
   const [beds, setBeds] = useState(0);
   const [baths, setBaths] = useState(0);
   const [amenities, setAmenities] = useState<string[]>([]);
@@ -44,7 +46,8 @@ export default function FilterModal({ isOpen, onClose, initialSearchQuery, lang,
       setMinPrice(searchParams.get("minPrice") || "");
       setMaxPrice(searchParams.get("maxPrice") || "");
       setPropertyType(searchParams.get("type") || "Any Type");
-      setTag(searchParams.get("tag") || "any tag");
+      setTag(searchParams.get("tag") || "any status");
+      setHighlightTag(searchParams.get("highlightTag") || "any highlight");
       setBeds(parseInt(searchParams.get("beds") || "0", 10));
       setBaths(parseInt(searchParams.get("baths") || "0", 10));
       const urlAmenities = searchParams.get("amenities") ? searchParams.get("amenities")!.split(",") : [];
@@ -100,7 +103,8 @@ export default function FilterModal({ isOpen, onClose, initialSearchQuery, lang,
     if (minPrice) params.set("minPrice", minPrice); else params.delete("minPrice");
     if (maxPrice) params.set("maxPrice", maxPrice); else params.delete("maxPrice");
     if (propertyType && propertyType !== "Any Type") params.set("type", propertyType); else params.delete("type");
-    if (tag && tag !== "any tag") params.set("tag", tag); else params.delete("tag");
+    if (tag && tag !== "any status" && tag !== "any tag") params.set("tag", tag); else params.delete("tag");
+    if (highlightTag && highlightTag !== "any highlight") params.set("highlightTag", highlightTag); else params.delete("highlightTag");
     if (beds > 0) params.set("beds", beds.toString()); else params.delete("beds");
     if (baths > 0) params.set("baths", baths.toString()); else params.delete("baths");
     if (amenities.length > 0) params.set("amenities", amenities.join(",")); else params.delete("amenities");
@@ -116,7 +120,8 @@ export default function FilterModal({ isOpen, onClose, initialSearchQuery, lang,
     setMinPrice("");
     setMaxPrice("");
     setPropertyType("Any Type");
-    setTag("any tag");
+    setTag("any status");
+    setHighlightTag("any highlight");
     setBeds(0);
     setBaths(0);
     setAmenities([]);
@@ -221,16 +226,35 @@ export default function FilterModal({ isOpen, onClose, initialSearchQuery, lang,
 
                 {/* Status / Tag */}
                 <div className="space-y-3">
-                  <label className="block text-xs font-semibold text-gray-500 uppercase tracking-wider">{fm.tag || "Status"}</label>
+                  <label className="block text-xs font-semibold text-gray-500 uppercase tracking-wider">Status</label>
                   <div className="relative">
                     <select 
-                      className="w-full bg-background border-0 rounded-lg py-3 pl-4 pr-10 text-gray-900 appearance-none focus:ring-2 focus:ring-mosque cursor-pointer"
+                      className="w-full bg-background border-0 rounded-lg py-3 pl-4 pr-10 text-gray-900 appearance-none focus:ring-2 focus:ring-mosque cursor-pointer capitalize"
                       value={tag}
                       onChange={e => setTag(e.target.value)}
                     >
-                      {TAG_VALUES.map((value) => (
+                      {STATUS_TAG_VALUES.map((value) => (
                         <option key={value} value={value}>
-                          {fm.tags && fm.tags[value] ? fm.tags[value] : value}
+                          {value.charAt(0).toUpperCase() + value.slice(1)}
+                        </option>
+                      ))}
+                    </select>
+                    <span className="material-icons absolute right-3 top-3 text-gray-400 pointer-events-none">expand_more</span>
+                  </div>
+                </div>
+
+                {/* Highlight Tag */}
+                <div className="space-y-3">
+                  <label className="block text-xs font-semibold text-gray-500 uppercase tracking-wider">Highlight</label>
+                  <div className="relative">
+                    <select 
+                      className="w-full bg-background border-0 rounded-lg py-3 pl-4 pr-10 text-gray-900 appearance-none focus:ring-2 focus:ring-mosque cursor-pointer capitalize"
+                      value={highlightTag}
+                      onChange={e => setHighlightTag(e.target.value)}
+                    >
+                      {HIGHLIGHT_TAG_VALUES.map((value) => (
+                        <option key={value} value={value}>
+                          {value.charAt(0).toUpperCase() + value.slice(1)}
                         </option>
                       ))}
                     </select>

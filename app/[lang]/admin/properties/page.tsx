@@ -19,6 +19,7 @@ interface AdminPropertiesPageProps {
     minPrice?: string; 
     maxPrice?: string; 
     tag?: string; 
+    highlightTag?: string;
     beds?: string; 
     baths?: string; 
     search?: string; 
@@ -37,6 +38,7 @@ export default async function AdminPropertiesPage({
     minPrice: sp.minPrice ? parseInt(sp.minPrice, 10) : undefined,
     maxPrice: sp.maxPrice ? parseInt(sp.maxPrice, 10) : undefined,
     tag: sp.tag,
+    highlightTag: sp.highlightTag,
     beds: sp.beds ? parseInt(sp.beds, 10) : undefined,
     baths: sp.baths ? parseInt(sp.baths, 10) : undefined,
     search: sp.search,
@@ -68,6 +70,9 @@ export default async function AdminPropertiesPage({
   }
   if (filters.tag && filters.tag !== 'any tag') {
     countsQuery = countsQuery.eq('tag', filters.tag);
+  }
+  if (filters.highlightTag && filters.highlightTag !== 'any tag' && filters.highlightTag !== 'any highlight') {
+    countsQuery = countsQuery.eq('highlight_tag', filters.highlightTag);
   }
   if (filters.beds) {
     countsQuery = countsQuery.gte('beds', filters.beds);

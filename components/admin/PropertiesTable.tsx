@@ -10,7 +10,8 @@ interface AdminProperty {
   location: string;
   price: string;
   price_numeric: number | null;
-  tag: string;
+  tag: string | null;
+  highlight_tag: string | null;
   tag_color: string | null;
   is_featured: boolean;
   is_favorite: boolean;
@@ -51,7 +52,7 @@ export default function PropertiesTable({ properties, lang }: PropertiesTablePro
     });
   };
 
-  const getStatusDisplay = (tag: string) => {
+  const getStatusDisplay = (tag: string | null) => {
     if (!tag) return { label: 'Active', classes: 'bg-hint-green text-primary border-primary/10', dot: 'bg-primary' };
     
     const t = tag.toLowerCase();
@@ -126,11 +127,19 @@ export default function PropertiesTable({ properties, lang }: PropertiesTablePro
               </div>
 
               {/* Status */}
-              <div className="col-span-6 md:col-span-2">
-                <span className={`inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium border ${status.classes}`}>
-                  <span className={`w-1.5 h-1.5 rounded-full mr-1.5 ${status.dot}`}></span>
-                  {status.label}
-                </span>
+              <div className="col-span-6 md:col-span-2 flex flex-col gap-1 items-start">
+                {prop.tag && (
+                  <span className={`inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium border ${status.classes}`}>
+                    <span className={`w-1.5 h-1.5 rounded-full mr-1.5 ${status.dot}`}></span>
+                    {status.label}
+                  </span>
+                )}
+                {prop.highlight_tag && (
+                  <span className="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium border bg-blue-100 text-blue-700 border-blue-200">
+                    <span className="w-1.5 h-1.5 rounded-full mr-1.5 bg-blue-500"></span>
+                    {prop.highlight_tag.charAt(0).toUpperCase() + prop.highlight_tag.slice(1)}
+                  </span>
+                )}
               </div>
 
               {/* Actions */}

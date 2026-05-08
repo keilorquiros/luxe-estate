@@ -22,11 +22,18 @@ export default function PropertyCard({ property, lang, dict, className = "" }: {
           <span className="material-icons text-lg">favorite_border</span>
         </button>
         
-        {property.tag && (
-          <div className={`absolute bottom-3 left-3 text-xs font-bold px-2 py-1 rounded uppercase ${getTagColorClasses(property.tag_color)}`}>
-            {property.tag}
-          </div>
-        )}
+        <div className="absolute bottom-3 left-3 flex flex-col gap-1">
+          {property.tag && (
+            <div className={`text-xs font-bold px-2 py-1 rounded ${getTagColorClasses(property.tag_color)}`}>
+              {property.tag.charAt(0).toUpperCase() + property.tag.slice(1)}
+            </div>
+          )}
+          {property.highlight_tag && (
+            <div className="text-xs font-bold px-2 py-1 rounded bg-mosque/90 text-white">
+              {property.highlight_tag.charAt(0).toUpperCase() + property.highlight_tag.slice(1)}
+            </div>
+          )}
+        </div>
       </div>
       <div className="p-4 flex flex-col flex-grow">
         <div className="flex justify-between items-baseline mb-2">

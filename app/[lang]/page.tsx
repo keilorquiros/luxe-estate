@@ -22,6 +22,7 @@ interface HomePageProps {
     minPrice?: string;
     maxPrice?: string;
     tag?: string;
+    highlightTag?: string;
     amenities?: string;
   }>;
 }
@@ -45,6 +46,7 @@ export default async function Home({ params, searchParams }: HomePageProps) {
     minPrice: searchP.minPrice ? parseInt(searchP.minPrice, 10) : undefined,
     maxPrice: searchP.maxPrice ? parseInt(searchP.maxPrice, 10) : undefined,
     tag: searchP.tag,
+    highlightTag: searchP.highlightTag,
     amenities: searchP.amenities ? searchP.amenities.split(",") : undefined,
   };
 
@@ -66,6 +68,7 @@ export default async function Home({ params, searchParams }: HomePageProps) {
     searchP.minPrice ||
     searchP.maxPrice ||
     searchP.tag ||
+    searchP.highlightTag ||
     searchP.amenities
   );
 

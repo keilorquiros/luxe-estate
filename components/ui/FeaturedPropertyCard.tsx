@@ -9,11 +9,18 @@ export default function FeaturedPropertyCard({ property, lang, dict }: { propert
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img alt={property.title} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" src={property.images?.[0] || ""} />
         
-        {property.tag && (
-          <div className="absolute top-4 left-4 bg-white/90 backdrop-blur-sm px-3 py-1 rounded-full text-xs font-semibold uppercase tracking-wider text-nordic-dark">
-            {property.tag}
-          </div>
-        )}
+        <div className="absolute top-4 left-4 flex flex-col gap-1">
+          {property.tag && (
+            <div className="bg-white/90 backdrop-blur-sm px-3 py-1 rounded-full text-xs font-semibold tracking-wider text-nordic-dark">
+              {property.tag.charAt(0).toUpperCase() + property.tag.slice(1)}
+            </div>
+          )}
+          {property.highlight_tag && (
+            <div className="bg-mosque/90 backdrop-blur-sm px-3 py-1 rounded-full text-xs font-semibold tracking-wider text-white">
+              {property.highlight_tag.charAt(0).toUpperCase() + property.highlight_tag.slice(1)}
+            </div>
+          )}
+        </div>
         
         <button className="absolute top-4 right-4 w-10 h-10 rounded-full bg-white/90 backdrop-blur-sm flex items-center justify-center text-nordic-dark hover:bg-mosque hover:text-white transition-all">
           <span className="material-icons text-xl">favorite_border</span>

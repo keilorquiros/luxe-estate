@@ -9,7 +9,8 @@ interface AdminFilterModalProps {
   lang: string;
 }
 
-const TAG_VALUES = ["any tag", "for sale", "for rent", "exclusive", "new arrival"] as const;
+const STATUS_TAG_VALUES = ["any status", "for sale", "for rent", "sold"] as const;
+const HIGHLIGHT_TAG_VALUES = ["any highlight", "exclusive", "new arrival"] as const;
 
 export default function AdminFilterModal({ isOpen, onClose, lang }: AdminFilterModalProps) {
   const router = useRouter();
@@ -18,7 +19,8 @@ export default function AdminFilterModal({ isOpen, onClose, lang }: AdminFilterM
   const [searchQuery, setSearchQuery] = useState("");
   const [minPrice, setMinPrice] = useState("");
   const [maxPrice, setMaxPrice] = useState("");
-  const [tag, setTag] = useState("any tag");
+  const [tag, setTag] = useState("any status");
+  const [highlightTag, setHighlightTag] = useState("any highlight");
   const [beds, setBeds] = useState(0);
   const [baths, setBaths] = useState(0);
 
@@ -28,7 +30,8 @@ export default function AdminFilterModal({ isOpen, onClose, lang }: AdminFilterM
       setSearchQuery(searchParams.get("search") || "");
       setMinPrice(searchParams.get("minPrice") || "");
       setMaxPrice(searchParams.get("maxPrice") || "");
-      setTag(searchParams.get("tag") || "any tag");
+      setTag(searchParams.get("tag") || "any status");
+      setHighlightTag(searchParams.get("highlightTag") || "any highlight");
       setBeds(parseInt(searchParams.get("beds") || "0", 10));
       setBaths(parseInt(searchParams.get("baths") || "0", 10));
     }
@@ -54,7 +57,8 @@ export default function AdminFilterModal({ isOpen, onClose, lang }: AdminFilterM
     if (searchQuery) params.set("search", searchQuery); else params.delete("search");
     if (minPrice) params.set("minPrice", minPrice); else params.delete("minPrice");
     if (maxPrice) params.set("maxPrice", maxPrice); else params.delete("maxPrice");
-    if (tag && tag !== "any tag") params.set("tag", tag); else params.delete("tag");
+    if (tag && tag !== "any status" && tag !== "any tag") params.set("tag", tag); else params.delete("tag");
+    if (highlightTag && highlightTag !== "any highlight") params.set("highlightTag", highlightTag); else params.delete("highlightTag");
     if (beds > 0) params.set("beds", beds.toString()); else params.delete("beds");
     if (baths > 0) params.set("baths", baths.toString()); else params.delete("baths");
     
@@ -68,7 +72,8 @@ export default function AdminFilterModal({ isOpen, onClose, lang }: AdminFilterM
     setSearchQuery("");
     setMinPrice("");
     setMaxPrice("");
-    setTag("any tag");
+    setTag("any status");
+    setHighlightTag("any highlight");
     setBeds(0);
     setBaths(0);
 
@@ -159,7 +164,26 @@ export default function AdminFilterModal({ isOpen, onClose, lang }: AdminFilterM
                       value={tag}
                       onChange={e => setTag(e.target.value)}
                     >
-                      {TAG_VALUES.map((value) => (
+                      {STATUS_TAG_VALUES.map((value) => (
+                        <option key={value} value={value}>
+                          {value.charAt(0).toUpperCase() + value.slice(1)}
+                        </option>
+                      ))}
+                    </select>
+                    <span className="material-icons absolute right-3 top-3 text-gray-400 pointer-events-none">expand_more</span>
+                  </div>
+                </div>
+
+                {/* Highlight Tag */}
+                <div className="space-y-3">
+                  <label className="block text-xs font-semibold text-gray-500 uppercase tracking-wider">Highlight</label>
+                  <div className="relative">
+                    <select 
+                      className="w-full bg-gray-50 border-0 rounded-lg py-3 pl-4 pr-10 text-gray-900 appearance-none focus:ring-2 focus:ring-primary cursor-pointer capitalize"
+                      value={highlightTag}
+                      onChange={e => setHighlightTag(e.target.value)}
+                    >
+                      {HIGHLIGHT_TAG_VALUES.map((value) => (
                         <option key={value} value={value}>
                           {value.charAt(0).toUpperCase() + value.slice(1)}
                         </option>

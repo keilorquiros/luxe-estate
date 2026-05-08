@@ -11,11 +11,12 @@ interface GalleryDict {
 interface PropertyGalleryProps {
   images: string[];
   title: string;
-  tag?: string;
+  tag?: string | null;
+  highlightTag?: string | null;
   galleryDict: GalleryDict;
 }
 
-export default function PropertyGallery({ images, title, tag, galleryDict }: PropertyGalleryProps) {
+export default function PropertyGallery({ images, title, tag, highlightTag, galleryDict }: PropertyGalleryProps) {
   const [activeImage, setActiveImage] = useState(images?.[0] || "");
 
   const allImages = images || [];
@@ -31,11 +32,16 @@ export default function PropertyGallery({ images, title, tag, galleryDict }: Pro
         />
         <div className="absolute top-4 left-4 flex gap-2">
           {tag && (
-            <span className="bg-mosque text-white text-xs font-medium px-3 py-1.5 rounded-full uppercase tracking-wider shadow-sm">
-              {tag}
+            <span className="bg-mosque text-white text-xs font-medium px-3 py-1.5 rounded-full tracking-wider shadow-sm">
+              {tag.charAt(0).toUpperCase() + tag.slice(1)}
             </span>
           )}
-          <span className="bg-white/90 backdrop-blur text-nordic-dark text-xs font-medium px-3 py-1.5 rounded-full uppercase tracking-wider shadow-sm">
+          {highlightTag && (
+            <span className="bg-white/90 backdrop-blur text-nordic-dark text-xs font-medium px-3 py-1.5 rounded-full tracking-wider shadow-sm">
+              {highlightTag.charAt(0).toUpperCase() + highlightTag.slice(1)}
+            </span>
+          )}
+          <span className="bg-white/90 backdrop-blur text-nordic-dark text-xs font-medium px-3 py-1.5 rounded-full tracking-wider shadow-sm">
             {galleryDict.badge_new}
           </span>
         </div>

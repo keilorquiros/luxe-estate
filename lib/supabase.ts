@@ -25,7 +25,8 @@ export interface Property {
   description_i18n?: Record<string, string> | null;
   /** Parallel lists per locale, same phrases translated (not filter keys). */
   amenities_detail_i18n?: Record<string, string[]> | null;
-  tag: string;
+  tag: string | null;
+  highlight_tag: string | null;
   tag_color: "white" | "mosque" | "nordic-dark" | null;
   is_featured: boolean;
   is_favorite: boolean;
@@ -64,6 +65,7 @@ export interface PropertyFilters {
   minPrice?: number;
   maxPrice?: number;
   tag?: string;
+  highlightTag?: string;
   amenities?: string[];
 }
 
@@ -80,8 +82,9 @@ export async function getMarketProperties(
 
   const hasTypeFilter = filters.type && filters.type !== "All" && filters.type !== "Any Type";
   const hasTagFilter = filters.tag && filters.tag !== "Any Tag" && filters.tag !== "any tag";
+  const hasHighlightTagFilter = filters.highlightTag && filters.highlightTag !== "Any Tag" && filters.highlightTag !== "any highlight";
   const hasAmenitiesFilter = filters.amenities && filters.amenities.length > 0;
-  const hasAnyFilter = !!(filters.q || hasTypeFilter || filters.beds || filters.baths || filters.minPrice || filters.maxPrice || hasTagFilter || hasAmenitiesFilter);
+  const hasAnyFilter = !!(filters.q || hasTypeFilter || filters.beds || filters.baths || filters.minPrice || filters.maxPrice || hasTagFilter || hasHighlightTagFilter || hasAmenitiesFilter);
 
   if (!hasAnyFilter) {
     query = query.eq("is_featured", false);
@@ -120,6 +123,10 @@ export async function getMarketProperties(
 
   if (filters.tag && filters.tag !== "Any Tag") {
     query = query.eq('tag', filters.tag);
+  }
+
+  if (filters.highlightTag && filters.highlightTag !== "Any Tag" && filters.highlightTag !== "any highlight") {
+    query = query.eq('highlight_tag', filters.highlightTag);
   }
 
   if (filters.amenities && filters.amenities.length > 0) {
