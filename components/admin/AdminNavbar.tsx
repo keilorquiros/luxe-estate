@@ -2,6 +2,8 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
+import { useState } from 'react';
+import { createClient } from '../../lib/supabase/client';
 
 interface AdminNavbarProps {
   lang: string;
@@ -14,6 +16,19 @@ interface AdminNavbarProps {
 
 export default function AdminNavbar({ lang, currentUserData }: AdminNavbarProps) {
   const pathname = usePathname();
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const supabase = createClient();
+
+  const handleSignOut = async () => {
+    try {
+      supabase.auth.signOut();
+    } catch (error) {
+      console.error('Error signing out:', error);
+    }
+    setTimeout(() => {
+      window.location.href = `/${lang}`;
+    }, 500);
+  };
 
   const navLinks = [
     { name: 'Dashboard', href: `/${lang}/admin`, exact: true },
@@ -59,12 +74,15 @@ export default function AdminNavbar({ lang, currentUserData }: AdminNavbarProps)
             <button className="p-2 rounded-full text-gray-400 hover:text-primary hover:bg-primary/5 transition-colors">
               <span className="material-icons text-xl">notifications_none</span>
             </button>
-            <div className="flex items-center gap-3 pl-4 border-l border-gray-200">
+            <div className="flex items-center gap-3 pl-4 border-l border-gray-200 relative">
               <div className="flex flex-col items-end hidden sm:flex">
                 <span className="text-sm font-semibold text-nordic">{currentUserData?.name}</span>
                 <span className="text-xs text-gray-500">{currentUserData?.role}</span>
               </div>
-              <div className="h-9 w-9 rounded-full bg-gray-200 overflow-hidden ring-2 ring-white cursor-pointer flex items-center justify-center">
+              <div 
+                className="h-9 w-9 rounded-full bg-gray-200 overflow-hidden ring-2 ring-white cursor-pointer flex items-center justify-center"
+                onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+              >
                 {currentUserData?.avatar ? (
                   // eslint-disable-next-line @next/next/no-img-element
                   <img src={currentUserData.avatar} alt="User profile" className="h-full w-full object-cover" />
@@ -72,6 +90,32 @@ export default function AdminNavbar({ lang, currentUserData }: AdminNavbarProps)
                   <span className="material-icons text-gray-400">person</span>
                 )}
               </div>
+
+              {/* Dropdown */}
+              {isDropdownOpen && (
+                <div className="absolute top-full right-0 mt-2 w-48 rounded-lg shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none overflow-hidden z-50 origin-top-right animate-in fade-in zoom-in-95 duration-100">
+                  <div className="py-1" role="menu" aria-orientation="vertical">
+                    <Link
+                      href={`/${lang}/profile`}
+                      className="flex items-center px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 transition-colors"
+                      role="menuitem"
+                      onClick={() => setIsDropdownOpen(false)}
+                    >
+                      <span className="material-icons text-[18px] mr-2 text-gray-400">person</span>
+                      Mi Perfil
+                    </Link>
+                    <div className="border-t border-gray-100 my-1"></div>
+                    <button
+                      onClick={handleSignOut}
+                      className="w-full flex items-center px-4 py-2.5 text-sm text-red-600 hover:bg-red-50 transition-colors cursor-pointer"
+                      role="menuitem"
+                    >
+                      <span className="material-icons text-[18px] mr-2 text-red-500">logout</span>
+                      Cerrar Sesión
+                    </button>
+                  </div>
+                </div>
+              )}
             </div>
           </div>
         </div>
