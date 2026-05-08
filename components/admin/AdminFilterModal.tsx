@@ -9,8 +9,16 @@ interface AdminFilterModalProps {
   lang: string;
 }
 
-const STATUS_TAG_VALUES = ["any status", "for sale", "for rent", "sold"] as const;
-const HIGHLIGHT_TAG_VALUES = ["any highlight", "exclusive", "new arrival"] as const;
+const STATUS_TAG_VALUES = ["any status", "for-sale", "for-rent", "sold"] as const;
+const HIGHLIGHT_TAG_VALUES = ["any highlight", "exclusive", "new-arrival"] as const;
+
+const formatTag = (tag: string) => {
+  if (tag.startsWith('any')) return tag.charAt(0).toUpperCase() + tag.slice(1);
+  return tag
+    .split('-')
+    .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+    .join(' ');
+};
 
 export default function AdminFilterModal({ isOpen, onClose, lang }: AdminFilterModalProps) {
   const router = useRouter();
@@ -166,7 +174,7 @@ export default function AdminFilterModal({ isOpen, onClose, lang }: AdminFilterM
                     >
                       {STATUS_TAG_VALUES.map((value) => (
                         <option key={value} value={value}>
-                          {value.charAt(0).toUpperCase() + value.slice(1)}
+                          {formatTag(value)}
                         </option>
                       ))}
                     </select>
@@ -185,7 +193,7 @@ export default function AdminFilterModal({ isOpen, onClose, lang }: AdminFilterM
                     >
                       {HIGHLIGHT_TAG_VALUES.map((value) => (
                         <option key={value} value={value}>
-                          {value.charAt(0).toUpperCase() + value.slice(1)}
+                          {formatTag(value)}
                         </option>
                       ))}
                     </select>

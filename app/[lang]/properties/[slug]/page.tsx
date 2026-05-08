@@ -190,7 +190,7 @@ export default async function PropertyDetailsPage({ params }: { params: Promise<
                 </div>
                 <div className="flex flex-col items-center justify-center p-4 bg-mosque/5 rounded-lg border border-mosque/10">
                   <span className="material-icons text-mosque text-2xl mb-2">directions_car</span>
-                  <span className="text-xl font-bold text-nordic-dark">2</span>
+                  <span className="text-xl font-bold text-nordic-dark">{property.garages || 0}</span>
                   <span className="text-xs uppercase tracking-wider text-nordic-dark/50">{pd.garage}</span>
                 </div>
               </div>

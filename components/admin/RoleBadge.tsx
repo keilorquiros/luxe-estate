@@ -13,6 +13,10 @@ const roleConfig: Record<UserRole, { label: string; className: string }> = {
     label: 'User',
     className: 'bg-emerald-100 text-emerald-700 ring-1 ring-emerald-200',
   },
+  broker: {
+    label: 'Broker',
+    className: 'bg-blue-100 text-blue-700 ring-1 ring-blue-200',
+  },
 };
 
 export default function RoleBadge({ role }: { role: UserRole }) {

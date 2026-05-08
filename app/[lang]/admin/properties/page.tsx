@@ -5,6 +5,7 @@ import Footer from '../../../../components/layout/Footer';
 import { createClient } from '../../../../lib/supabase/server';
 import type { Metadata } from 'next';
 import AdminFilterButton from '../../../../components/admin/AdminFilterButton';
+import Link from 'next/link';
 
 export const metadata: Metadata = {
   title: 'Properties | Admin — LuxeEstate',
@@ -72,7 +73,7 @@ export default async function AdminPropertiesPage({
     countsQuery = countsQuery.eq('tag', filters.tag);
   }
   if (filters.highlightTag && filters.highlightTag !== 'any tag' && filters.highlightTag !== 'any highlight') {
-    countsQuery = countsQuery.eq('highlight_tag', filters.highlightTag);
+    countsQuery = countsQuery.contains('highlight_tag', [filters.highlightTag]);
   }
   if (filters.beds) {
     countsQuery = countsQuery.gte('beds', filters.beds);
@@ -88,8 +89,8 @@ export default async function AdminPropertiesPage({
 
   const allProps = tagCounts ?? [];
   const featured = allProps.filter((p) => p.is_featured).length;
-  const forSale = allProps.filter((p) => p.tag === 'for sale').length;
-  const forRent = allProps.filter((p) => p.tag === 'for rent').length;
+  const forSale = allProps.filter((p) => p.tag === 'for-sale').length;
+  const forRent = allProps.filter((p) => p.tag === 'for-rent').length;
 
   return (
     <div className="flex-grow flex flex-col w-full min-h-screen bg-background-light text-nordic font-display antialiased">
@@ -103,9 +104,9 @@ export default async function AdminPropertiesPage({
           </div>
           <div className="flex items-center gap-3">
             <AdminFilterButton lang={lang} />
-            <button className="bg-primary hover:bg-primary/90 text-white px-5 py-2.5 rounded-lg text-sm font-medium shadow-md shadow-primary/20 transition-all transform hover:-translate-y-0.5 inline-flex items-center gap-2">
+            <Link href={`/${lang}/admin/properties/new`} className="bg-primary hover:bg-primary/90 text-white px-5 py-2.5 rounded-lg text-sm font-medium shadow-md shadow-primary/20 transition-all transform hover:-translate-y-0.5 inline-flex items-center gap-2">
               <span className="material-icons text-base">add</span> Add New Property
-            </button>
+            </Link>
           </div>
         </div>
 

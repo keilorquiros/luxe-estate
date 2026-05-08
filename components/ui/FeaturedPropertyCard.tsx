@@ -12,14 +12,14 @@ export default function FeaturedPropertyCard({ property, lang, dict }: { propert
         <div className="absolute top-4 left-4 flex flex-col gap-1">
           {property.tag && (
             <div className="bg-white/90 backdrop-blur-sm px-3 py-1 rounded-full text-xs font-semibold tracking-wider text-nordic-dark">
-              {property.tag.charAt(0).toUpperCase() + property.tag.slice(1)}
+              {property.tag.split('-').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ')}
             </div>
           )}
-          {property.highlight_tag && (
-            <div className="bg-mosque/90 backdrop-blur-sm px-3 py-1 rounded-full text-xs font-semibold tracking-wider text-white">
-              {property.highlight_tag.charAt(0).toUpperCase() + property.highlight_tag.slice(1)}
+          {property.highlight_tag && (Array.isArray(property.highlight_tag) ? property.highlight_tag : [property.highlight_tag]).map((ht, idx) => (
+            <div key={idx} className="bg-mosque/90 backdrop-blur-sm px-3 py-1 rounded-full text-xs font-semibold tracking-wider text-white">
+              {ht.split('-').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ')}
             </div>
-          )}
+          ))}
         </div>
         
         <button className="absolute top-4 right-4 w-10 h-10 rounded-full bg-white/90 backdrop-blur-sm flex items-center justify-center text-nordic-dark hover:bg-mosque hover:text-white transition-all">

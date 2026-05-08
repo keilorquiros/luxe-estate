@@ -211,7 +211,7 @@ export async function getAdminProperties(page = 1, filters: AdminPropertiesFilte
     query = query.eq('tag', filters.tag);
   }
   if (filters.highlightTag && filters.highlightTag !== 'any tag' && filters.highlightTag !== 'any highlight') {
-    query = query.eq('highlight_tag', filters.highlightTag);
+    query = query.contains('highlight_tag', [filters.highlightTag]);
   }
   if (filters.beds) {
     query = query.gte('beds', filters.beds);
@@ -255,6 +255,106 @@ export async function deleteProperty(
       .from('properties')
       .delete()
       .eq('id', propertyId);
+
+    if (error) throw new Error(error.message);
+
+    revalidatePath('/[lang]/admin/properties', 'page');
+    return { success: true };
+  } catch (e) {
+    return { success: false, error: (e as Error).message };
+  }
+}
+
+/**
+ * Fetch a single property by id.
+ */
+export async function getProperty(id: string) {
+  await requireAdmin();
+  const supabase = await createClient();
+  const { data, error } = await supabase
+    .from('properties')
+    .select('*')
+    .eq('id', id)
+    .single();
+
+  if (error) throw new Error(error.message);
+  return data;
+}
+
+/**
+ * Create a new property.
+ */
+export async function createProperty(data: any) {
+  try {
+    await requireAdmin();
+    const supabase = await createClient();
+    
+    const slug = data.slug || data.title.toLowerCase().replace(/ /g, '-').replace(/[^\w-]+/g, '');
+
+    const payload = {
+      title: data.title,
+      location: data.location,
+      price: data.price,
+      price_numeric: data.price_numeric ? parseInt(data.price_numeric, 10) : null,
+      beds: data.beds,
+      baths: data.baths,
+      area: data.area,
+      tag: data.status, // map status to tag
+      type: data.type,
+      images: data.images,
+      amenities: data.amenities,
+      description_i18n: data.description_i18n,
+      latitude: data.latitude ? parseFloat(data.latitude) : null,
+      longitude: data.longitude ? parseFloat(data.longitude) : null,
+      slug,
+      garages: data.garages ? parseInt(data.garages, 10) : 0,
+      highlight_tag: data.highlight_tag,
+    };
+
+    const { error } = await supabase
+      .from('properties')
+      .insert([payload]);
+
+    if (error) throw new Error(error.message);
+
+    revalidatePath('/[lang]/admin/properties', 'page');
+    return { success: true };
+  } catch (e) {
+    return { success: false, error: (e as Error).message };
+  }
+}
+
+/**
+ * Update an existing property.
+ */
+export async function updateProperty(id: string, data: any) {
+  try {
+    await requireAdmin();
+    const supabase = await createClient();
+
+    const payload = {
+      title: data.title,
+      location: data.location,
+      price: data.price,
+      price_numeric: data.price_numeric ? parseInt(data.price_numeric, 10) : null,
+      beds: data.beds,
+      baths: data.baths,
+      area: data.area,
+      tag: data.status, // map status to tag
+      type: data.type,
+      images: data.images,
+      amenities: data.amenities,
+      description_i18n: data.description_i18n,
+      latitude: data.latitude ? parseFloat(data.latitude) : null,
+      longitude: data.longitude ? parseFloat(data.longitude) : null,
+      garages: data.garages ? parseInt(data.garages, 10) : 0,
+      highlight_tag: data.highlight_tag,
+    };
+
+    const { error } = await supabase
+      .from('properties')
+      .update(payload)
+      .eq('id', id);
 
     if (error) throw new Error(error.message);
 

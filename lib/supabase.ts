@@ -27,7 +27,7 @@ export interface Property {
   amenities_detail_i18n?: Record<string, string[]> | null;
   tag: string | null;
   type: string | null;
-  highlight_tag: string | null;
+  highlight_tag: string[] | string | null;
   tag_color: "white" | "mosque" | "nordic-dark" | null;
   is_featured: boolean;
   is_favorite: boolean;
@@ -148,7 +148,7 @@ export async function getMarketProperties(
   }
 
   if (filters.highlightTag && filters.highlightTag !== "Any Tag" && filters.highlightTag !== "any highlight") {
-    query = query.eq('highlight_tag', filters.highlightTag);
+    query = query.contains('highlight_tag', [filters.highlightTag]);
   }
 
   if (filters.amenities && filters.amenities.length > 0) {

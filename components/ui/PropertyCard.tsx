@@ -25,14 +25,14 @@ export default function PropertyCard({ property, lang, dict, className = "" }: {
         <div className="absolute bottom-3 left-3 flex flex-col gap-1">
           {property.tag && (
             <div className={`text-xs font-bold px-2 py-1 rounded ${getTagColorClasses(property.tag_color)}`}>
-              {property.tag.charAt(0).toUpperCase() + property.tag.slice(1)}
+              {property.tag.split('-').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ')}
             </div>
           )}
-          {property.highlight_tag && (
-            <div className="text-xs font-bold px-2 py-1 rounded bg-mosque/90 text-white">
-              {property.highlight_tag.charAt(0).toUpperCase() + property.highlight_tag.slice(1)}
+          {property.highlight_tag && (Array.isArray(property.highlight_tag) ? property.highlight_tag : [property.highlight_tag]).map((ht, idx) => (
+            <div key={idx} className="text-xs font-bold px-2 py-1 rounded bg-mosque/90 text-white">
+              {ht.split('-').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ')}
             </div>
-          )}
+          ))}
         </div>
       </div>
       <div className="p-4 flex flex-col flex-grow">

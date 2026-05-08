@@ -11,7 +11,7 @@ interface AdminProperty {
   price: string;
   price_numeric: number | null;
   tag: string | null;
-  highlight_tag: string | null;
+  highlight_tag: string[] | string | null;
   tag_color: string | null;
   is_featured: boolean;
   is_favorite: boolean;
@@ -56,8 +56,8 @@ export default function PropertiesTable({ properties, lang }: PropertiesTablePro
     if (!tag) return { label: 'Active', classes: 'bg-hint-green text-primary border-primary/10', dot: 'bg-primary' };
     
     const t = tag.toLowerCase();
-    if (t === 'for sale') return { label: 'For Sale', classes: 'bg-hint-green text-primary border-primary/10', dot: 'bg-primary' };
-    if (t === 'for rent') return { label: 'For Rent', classes: 'bg-orange-100 text-orange-700 border-orange-200', dot: 'bg-orange-500' };
+    if (t === 'for-sale') return { label: 'For Sale', classes: 'bg-hint-green text-primary border-primary/10', dot: 'bg-primary' };
+    if (t === 'for-rent') return { label: 'For Rent', classes: 'bg-orange-100 text-orange-700 border-orange-200', dot: 'bg-orange-500' };
     if (t === 'sold') return { label: 'Sold', classes: 'bg-gray-100 text-gray-600 border-gray-200', dot: 'bg-gray-500' };
     
     // Fallback to the tag itself capitalized
@@ -134,22 +134,23 @@ export default function PropertiesTable({ properties, lang }: PropertiesTablePro
                     {status.label}
                   </span>
                 )}
-                {prop.highlight_tag && (
-                  <span className="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium border bg-primary/10 text-primary border-primary/10">
+                {prop.highlight_tag && (Array.isArray(prop.highlight_tag) ? prop.highlight_tag : [prop.highlight_tag]).map((ht, idx) => (
+                  <span key={idx} className="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium border bg-primary/10 text-primary border-primary/10">
                     <span className="w-1.5 h-1.5 rounded-full mr-1.5 bg-primary"></span>
-                    {prop.highlight_tag.charAt(0).toUpperCase() + prop.highlight_tag.slice(1)}
+                    {ht.split('-').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ')}
                   </span>
-                )}
+                ))}
               </div>
 
               {/* Actions */}
               <div className="col-span-12 md:col-span-2 flex items-center justify-end gap-2">
-                <button 
+                <Link 
+                  href={`/${lang}/admin/properties/${prop.id}`}
                   className="p-2 rounded-lg text-gray-400 hover:text-primary hover:bg-hint-green/30 transition-all" 
                   title="Edit Property"
                 >
                   <span className="material-icons text-xl">edit</span>
-                </button>
+                </Link>
                 <button 
                   onClick={() => handleDelete(prop.id)}
                   disabled={isDeleting || isPending}

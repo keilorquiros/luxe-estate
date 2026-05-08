@@ -25,8 +25,8 @@ export default function MarketFilters({ lang, dict }: MarketFiltersProps) {
   };
 
   const isAll = currentTag === "any tag" || currentTag === "" || !searchParams.has("tag");
-  const isBuy = currentTag === "for sale";
-  const isRent = currentTag === "for rent";
+  const isBuy = currentTag === "for-sale";
+  const isRent = currentTag === "for-rent";
 
   return (
     <div className="hidden md:flex bg-white p-1 rounded-lg shadow-sm border border-gray-100">
@@ -41,7 +41,7 @@ export default function MarketFilters({ lang, dict }: MarketFiltersProps) {
         {dict.home.filters.all}
       </Link>
       <Link 
-        href={getHref("for sale")}
+        href={getHref("for-sale")}
         className={`px-4 py-1.5 rounded-md text-sm font-medium transition-colors ${
           isBuy 
             ? "bg-nordic-dark text-white shadow-sm" 
@@ -51,7 +51,7 @@ export default function MarketFilters({ lang, dict }: MarketFiltersProps) {
         {dict.home.filters.buy}
       </Link>
       <Link 
-        href={getHref("for rent")}
+        href={getHref("for-rent")}
         className={`px-4 py-1.5 rounded-md text-sm font-medium transition-colors ${
           isRent 
             ? "bg-nordic-dark text-white shadow-sm" 

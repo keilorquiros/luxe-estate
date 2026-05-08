@@ -12,7 +12,7 @@ interface PropertyGalleryProps {
   images: string[];
   title: string;
   tag?: string | null;
-  highlightTag?: string | null;
+  highlightTag?: string[] | string | null;
   galleryDict: GalleryDict;
 }
 
@@ -33,17 +33,15 @@ export default function PropertyGallery({ images, title, tag, highlightTag, gall
         <div className="absolute top-4 left-4 flex gap-2">
           {tag && (
             <span className="bg-mosque text-white text-xs font-medium px-3 py-1.5 rounded-full tracking-wider shadow-sm">
-              {tag.charAt(0).toUpperCase() + tag.slice(1)}
+              {tag.split('-').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ')}
             </span>
           )}
-          {highlightTag && (
-            <span className="bg-white/90 backdrop-blur text-nordic-dark text-xs font-medium px-3 py-1.5 rounded-full tracking-wider shadow-sm">
-              {highlightTag.charAt(0).toUpperCase() + highlightTag.slice(1)}
+          {highlightTag && (Array.isArray(highlightTag) ? highlightTag : [highlightTag]).map((ht, idx) => (
+            <span key={idx} className="bg-white/90 backdrop-blur text-nordic-dark text-xs font-medium px-3 py-1.5 rounded-full tracking-wider shadow-sm">
+              {ht.split('-').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ')}
             </span>
-          )}
-          <span className="bg-white/90 backdrop-blur text-nordic-dark text-xs font-medium px-3 py-1.5 rounded-full tracking-wider shadow-sm">
-            {galleryDict.badge_new}
-          </span>
+          ))}
+
         </div>
         <button className="absolute bottom-4 right-4 bg-white/90 hover:bg-white text-nordic-dark px-4 py-2 rounded-lg text-sm font-medium shadow-lg backdrop-blur transition-all flex items-center gap-2">
           <span className="material-icons text-sm">grid_view</span>
