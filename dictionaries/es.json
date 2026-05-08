@@ -25,12 +25,12 @@
       "buy": "Venta",
       "rent": "Alquiler",
       "property_types": {
-        "House": "Casa",
-        "Apartment": "Apartamento",
-        "Villa": "Villa",
-        "Penthouse": "Ático",
-        "Condo": "Condominio",
-        "Townhouse": "Casa adosada"
+        "house": "Casa",
+        "apartment": "Apartamento",
+        "villa": "Villa",
+        "penthouse": "Ático",
+        "condo": "Condominio",
+        "townhouse": "Casa adosada"
       }
     },
     "filter_modal": {
@@ -48,13 +48,13 @@
       "clear_all": "Borrar todos los filtros",
       "show_results": "Ver resultados",
       "property_types": {
-        "Any Type": "Cualquier tipo",
-        "House": "Casa",
-        "Apartment": "Apartamento",
-        "Condo": "Condominio",
-        "Townhouse": "Casa adosada",
-        "Villa": "Villa",
-        "Penthouse": "Ático"
+        "any type": "Cualquier tipo",
+        "house": "Casa",
+        "apartment": "Apartamento",
+        "condo": "Condominio",
+        "townhouse": "Casa adosada",
+        "villa": "Villa",
+        "penthouse": "Ático"
       },
       "tag": "Estado",
       "tags": {

@@ -63,8 +63,8 @@ export default function PropertiesTable({ properties, lang }: PropertiesTablePro
     // Fallback to the tag itself capitalized
     return { 
       label: tag.charAt(0).toUpperCase() + tag.slice(1), 
-      classes: 'bg-blue-100 text-blue-700 border-blue-200', 
-      dot: 'bg-blue-500' 
+      classes: 'bg-gray-100 text-gray-600 border-gray-200', 
+      dot: 'bg-gray-500' 
     };
   };
 
@@ -87,7 +87,7 @@ export default function PropertiesTable({ properties, lang }: PropertiesTablePro
           return (
             <div 
               key={prop.id} 
-              className={`group grid grid-cols-1 md:grid-cols-12 gap-4 px-6 py-5 hover:bg-background-light transition-colors items-center ${isDeleting ? 'opacity-50' : ''}`}
+              className={`group grid grid-cols-1 md:grid-cols-12 gap-4 px-6 py-5 hover:bg-active-green transition-colors items-center ${isDeleting ? 'opacity-50' : ''}`}
             >
               {/* Property Details */}
               <div className="col-span-12 md:col-span-6 flex gap-4 items-center">
@@ -135,8 +135,8 @@ export default function PropertiesTable({ properties, lang }: PropertiesTablePro
                   </span>
                 )}
                 {prop.highlight_tag && (
-                  <span className="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium border bg-blue-100 text-blue-700 border-blue-200">
-                    <span className="w-1.5 h-1.5 rounded-full mr-1.5 bg-blue-500"></span>
+                  <span className="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium border bg-primary/10 text-primary border-primary/10">
+                    <span className="w-1.5 h-1.5 rounded-full mr-1.5 bg-primary"></span>
                     {prop.highlight_tag.charAt(0).toUpperCase() + prop.highlight_tag.slice(1)}
                   </span>
                 )}

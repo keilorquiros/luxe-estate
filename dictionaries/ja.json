@@ -25,12 +25,12 @@
       "buy": "購入",
       "rent": "賃貸",
       "property_types": {
-        "House": "一軒家",
-        "Apartment": "アパート",
-        "Villa": "別荘",
-        "Penthouse": "ペントハウス",
-        "Condo": "分譲マンション",
-        "Townhouse": "タウンハウス"
+        "house": "一軒家",
+        "apartment": "アパート",
+        "villa": "別荘",
+        "penthouse": "ペントハウス",
+        "condo": "分譲マンション",
+        "townhouse": "タウンハウス"
       }
     },
     "filter_modal": {
@@ -48,13 +48,13 @@
       "clear_all": "すべてクリア",
       "show_results": "結果を表示",
       "property_types": {
-        "Any Type": "すべてのタイプ",
-        "House": "一軒家",
-        "Apartment": "アパート",
-        "Condo": "分譲マンション",
-        "Townhouse": "タウンハウス",
-        "Villa": "別荘",
-        "Penthouse": "ペントハウス"
+        "any type": "すべてのタイプ",
+        "house": "一軒家",
+        "apartment": "アパート",
+        "condo": "分譲マンション",
+        "townhouse": "タウンハウス",
+        "villa": "別荘",
+        "penthouse": "ペントハウス"
       },
       "tag": "ステータス",
       "tags": {

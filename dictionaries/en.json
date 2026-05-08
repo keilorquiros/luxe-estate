@@ -25,12 +25,12 @@
       "buy": "Buy",
       "rent": "Rent",
       "property_types": {
-        "House": "House",
-        "Apartment": "Apartment",
-        "Villa": "Villa",
-        "Penthouse": "Penthouse",
-        "Condo": "Condo",
-        "Townhouse": "Townhouse"
+        "house": "House",
+        "apartment": "Apartment",
+        "villa": "Villa",
+        "penthouse": "Penthouse",
+        "condo": "Condo",
+        "townhouse": "Townhouse"
       }
     },
     "filter_modal": {
@@ -48,13 +48,13 @@
       "clear_all": "Clear all filters",
       "show_results": "Show Results",
       "property_types": {
-        "Any Type": "Any Type",
-        "House": "House",
-        "Apartment": "Apartment",
-        "Condo": "Condo",
-        "Townhouse": "Townhouse",
-        "Villa": "Villa",
-        "Penthouse": "Penthouse"
+        "any type": "Any Type",
+        "house": "House",
+        "apartment": "Apartment",
+        "condo": "Condo",
+        "townhouse": "Townhouse",
+        "villa": "Villa",
+        "penthouse": "Penthouse"
       },
       "tag": "Status",
       "tags": {

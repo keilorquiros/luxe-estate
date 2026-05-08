@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { Locale } from "../../lib/i18n";
 
-const PROPERTY_TYPE_VALUES = ["Any Type", "House", "Apartment", "Condo", "Townhouse", "Villa", "Penthouse"] as const;
+const PROPERTY_TYPE_VALUES = ["any type", "house", "apartment", "condo", "townhouse", "villa", "penthouse"] as const;
 const STATUS_TAG_VALUES = ["any status", "for sale", "for rent", "sold"] as const;
 const HIGHLIGHT_TAG_VALUES = ["any highlight", "exclusive", "new arrival"] as const;
 
@@ -32,7 +32,7 @@ export default function FilterModal({ isOpen, onClose, initialSearchQuery, lang,
   const [searchQuery, setSearchQuery] = useState("");
   const [minPrice, setMinPrice] = useState("");
   const [maxPrice, setMaxPrice] = useState("");
-  const [propertyType, setPropertyType] = useState("Any Type");
+  const [propertyType, setPropertyType] = useState("any type");
   const [tag, setTag] = useState("any status");
   const [highlightTag, setHighlightTag] = useState("any highlight");
   const [beds, setBeds] = useState(0);
@@ -45,7 +45,7 @@ export default function FilterModal({ isOpen, onClose, initialSearchQuery, lang,
       setSearchQuery(initialSearchQuery || searchParams.get("q") || "");
       setMinPrice(searchParams.get("minPrice") || "");
       setMaxPrice(searchParams.get("maxPrice") || "");
-      setPropertyType(searchParams.get("type") || "Any Type");
+      setPropertyType(searchParams.get("type") || "any type");
       setTag(searchParams.get("tag") || "any status");
       setHighlightTag(searchParams.get("highlightTag") || "any highlight");
       setBeds(parseInt(searchParams.get("beds") || "0", 10));
@@ -102,7 +102,7 @@ export default function FilterModal({ isOpen, onClose, initialSearchQuery, lang,
     if (searchQuery) params.set("q", searchQuery); else params.delete("q");
     if (minPrice) params.set("minPrice", minPrice); else params.delete("minPrice");
     if (maxPrice) params.set("maxPrice", maxPrice); else params.delete("maxPrice");
-    if (propertyType && propertyType !== "Any Type") params.set("type", propertyType); else params.delete("type");
+    if (propertyType && propertyType !== "any type") params.set("type", propertyType); else params.delete("type");
     if (tag && tag !== "any status" && tag !== "any tag") params.set("tag", tag); else params.delete("tag");
     if (highlightTag && highlightTag !== "any highlight") params.set("highlightTag", highlightTag); else params.delete("highlightTag");
     if (beds > 0) params.set("beds", beds.toString()); else params.delete("beds");
@@ -119,7 +119,7 @@ export default function FilterModal({ isOpen, onClose, initialSearchQuery, lang,
     setSearchQuery("");
     setMinPrice("");
     setMaxPrice("");
-    setPropertyType("Any Type");
+    setPropertyType("any type");
     setTag("any status");
     setHighlightTag("any highlight");
     setBeds(0);

@@ -40,7 +40,7 @@ export default function SearchArea({ lang, dict }: SearchAreaProps) {
 
   const handleTypeClick = (type: string) => {
     const params = new URLSearchParams(searchParams.toString());
-    if (type !== "All") {
+    if (type !== "all") {
       params.set("type", type);
     } else {
       params.delete("type");
@@ -49,7 +49,7 @@ export default function SearchArea({ lang, dict }: SearchAreaProps) {
     router.push(`/${lang}?${params.toString()}`, { scroll: false });
   };
 
-  const currentType = searchParams.get("type") || "All";
+  const currentType = searchParams.get("type") || "all";
   const hasActiveFilters = Array.from(searchParams.keys()).some(key => key !== "q" && key !== "page");
 
   return (
@@ -76,7 +76,7 @@ export default function SearchArea({ lang, dict }: SearchAreaProps) {
       </form>
       
       <div className="flex items-center justify-center gap-3 overflow-x-auto hide-scroll py-2 px-4 -mx-4">
-        {["All", "House", "Apartment", "Villa", "Penthouse"].map(type => (
+        {["all", "house", "apartment", "villa", "penthouse"].map(type => (
           <button 
             key={type}
             onClick={() => handleTypeClick(type)}
@@ -86,7 +86,7 @@ export default function SearchArea({ lang, dict }: SearchAreaProps) {
                 : "bg-white border border-nordic-dark/5 text-nordic-muted hover:text-nordic-dark hover:border-mosque/50 hover:bg-mosque/5"
             }`}
           >
-            {type === "All" ? dict.home.filters.all : (dict.home.filters.property_types[type] || type)}
+            {type === "all" ? dict.home.filters.all : (dict.home.filters.property_types[type] || type)}
           </button>
         ))}
         

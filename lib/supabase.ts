@@ -26,6 +26,7 @@ export interface Property {
   /** Parallel lists per locale, same phrases translated (not filter keys). */
   amenities_detail_i18n?: Record<string, string[]> | null;
   tag: string | null;
+  type: string | null;
   highlight_tag: string | null;
   tag_color: "white" | "mosque" | "nordic-dark" | null;
   is_featured: boolean;
@@ -122,14 +123,8 @@ export async function getMarketProperties(
     query = query.or(`location.ilike.%${filters.q}%,title.ilike.%${filters.q}%`);
   }
   
-  if (filters.type && filters.type !== "All" && filters.type !== "Any Type") {
-    if (filters.type === "House") {
-      query = query.or(`title.ilike.%House%,title.ilike.%Home%,title.ilike.%Mansion%,title.ilike.%Estate%,title.ilike.%Chalet%,title.ilike.%Retreat%`);
-    } else if (filters.type === "Apartment") {
-      query = query.or(`title.ilike.%Apartment%,title.ilike.%Loft%,title.ilike.%Condo%,title.ilike.%Studio%`);
-    } else {
-      query = query.ilike('title', `%${filters.type}%`);
-    }
+  if (filters.type && filters.type.toLowerCase() !== "all" && filters.type.toLowerCase() !== "any type") {
+    query = query.eq('type', filters.type.toLowerCase());
   }
   
   if (filters.beds && filters.beds > 0) {

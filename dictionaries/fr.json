@@ -25,12 +25,12 @@
       "buy": "Achat",
       "rent": "Location",
       "property_types": {
-        "House": "Maison",
-        "Apartment": "Appartement",
-        "Villa": "Villa",
-        "Penthouse": "Penthouse",
-        "Condo": "Copropriété",
-        "Townhouse": "Maison mitoyenne"
+        "house": "Maison",
+        "apartment": "Appartement",
+        "villa": "Villa",
+        "penthouse": "Penthouse",
+        "condo": "Copropriété",
+        "townhouse": "Maison mitoyenne"
       }
     },
     "filter_modal": {
@@ -48,13 +48,13 @@
       "clear_all": "Effacer tous les filtres",
       "show_results": "Afficher les résultats",
       "property_types": {
-        "Any Type": "Tous les types",
-        "House": "Maison",
-        "Apartment": "Appartement",
-        "Condo": "Copropriété",
-        "Townhouse": "Maison mitoyenne",
-        "Villa": "Villa",
-        "Penthouse": "Penthouse"
+        "any type": "Tous les types",
+        "house": "Maison",
+        "apartment": "Appartement",
+        "condo": "Copropriété",
+        "townhouse": "Maison mitoyenne",
+        "villa": "Villa",
+        "penthouse": "Penthouse"
       },
       "tag": "Statut",
       "tags": {

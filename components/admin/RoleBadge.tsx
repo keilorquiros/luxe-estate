@@ -7,7 +7,7 @@ const roleConfig: Record<UserRole, { label: string; className: string }> = {
   },
   agent: {
     label: 'Agent',
-    className: 'bg-blue-100 text-blue-700 ring-1 ring-blue-200',
+    className: 'bg-gray-100 text-gray-600 ring-1 ring-gray-200',
   },
   user: {
     label: 'User',
