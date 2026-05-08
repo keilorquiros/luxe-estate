@@ -49,6 +49,33 @@ export async function getFeaturedProperties(): Promise<Property[]> {
   return data ?? [];
 }
 
+export async function getPaginatedFeaturedProperties(
+  page: number = 1,
+  pageSize: number = 10
+): Promise<PaginatedProperties> {
+  const from = (page - 1) * pageSize;
+  const to = from + pageSize - 1;
+
+  const { data, error, count } = await supabase
+    .from("properties")
+    .select("*", { count: "exact" })
+    .eq("is_featured", true)
+    .order("created_at", { ascending: true })
+    .range(from, to);
+
+  if (error) throw new Error(error.message);
+
+  const total = count ?? 0;
+  return {
+    properties: data ?? [],
+    total,
+    page,
+    pageSize,
+    totalPages: Math.ceil(total / pageSize),
+  };
+}
+
+
 export interface PaginatedProperties {
   properties: Property[];
   total: number;

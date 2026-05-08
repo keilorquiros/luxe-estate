@@ -8,9 +8,10 @@ interface PaginationProps {
   currentPage: number;
   totalPages: number;
   lang: Locale;
+  basePath?: string;
 }
 
-export default function Pagination({ currentPage, totalPages, lang }: PaginationProps) {
+export default function Pagination({ currentPage, totalPages, lang, basePath }: PaginationProps) {
   const searchParams = useSearchParams();
   
   if (totalPages <= 1) return null;
@@ -18,6 +19,9 @@ export default function Pagination({ currentPage, totalPages, lang }: Pagination
   const getPageHref = (page: number) => {
     const params = new URLSearchParams(searchParams.toString());
     params.set("page", page.toString());
+    if (basePath) {
+      return `${basePath}?${params.toString()}`;
+    }
     return `/${lang}?${params.toString()}#market-section`;
   };
 

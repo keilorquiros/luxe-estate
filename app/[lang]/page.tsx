@@ -88,7 +88,7 @@ export default async function Home({ params, searchParams }: HomePageProps) {
               </div>
               <a
                 className="hidden sm:flex items-center gap-1 text-sm font-medium text-mosque hover:opacity-70 transition-opacity"
-                href="#"
+                href={`/${lang}/featured`}
               >
                 {dict.home.view_all} <span className="material-icons text-sm">arrow_forward</span>
               </a>
