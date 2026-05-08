@@ -116,7 +116,7 @@ export default function AdminNavbar({ lang, currentUserData }: AdminNavbarProps)
                       onClick={() => setIsDropdownOpen(false)}
                     >
                       <span className="material-icons text-[18px] mr-2 text-gray-400">visibility</span>
-                      Ver Sitio Web
+                      Ir a la Página Principal
                     </Link>
                     <div className="border-t border-gray-100 my-1"></div>
                     <Link
