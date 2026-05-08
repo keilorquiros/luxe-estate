@@ -92,8 +92,8 @@ export default async function AdminUsersPage({
               {role && <input type="hidden" name="role" value={role} />}
             </form>
             <button className="inline-flex items-center justify-center px-4 py-2.5 border border-primary text-sm font-medium rounded-lg text-primary bg-transparent hover:bg-primary/5 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary transition-colors whitespace-nowrap">
-              <span className="material-icons text-lg mr-2">add</span>
-              Add User
+              <span className="material-icons text-lg mr-2">mail</span>
+              Invite Agent
             </button>
           </div>
         </div>

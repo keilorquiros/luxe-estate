@@ -4,6 +4,7 @@ import AdminPagination from '../../../../components/admin/AdminPagination';
 import Footer from '../../../../components/layout/Footer';
 import { createClient } from '../../../../lib/supabase/server';
 import type { Metadata } from 'next';
+import AdminFilterButton from '../../../../components/admin/AdminFilterButton';
 
 export const metadata: Metadata = {
   title: 'Properties | Admin — LuxeEstate',
@@ -13,7 +14,15 @@ export const dynamic = 'force-dynamic';
 
 interface AdminPropertiesPageProps {
   params: Promise<{ lang: string }>;
-  searchParams: Promise<{ page?: string }>;
+  searchParams: Promise<{ 
+    page?: string; 
+    minPrice?: string; 
+    maxPrice?: string; 
+    tag?: string; 
+    beds?: string; 
+    baths?: string; 
+    search?: string; 
+  }>;
 }
 
 export default async function AdminPropertiesPage({
@@ -24,7 +33,16 @@ export default async function AdminPropertiesPage({
   const sp = await searchParams;
   const currentPage = Math.max(1, parseInt(sp.page ?? '1', 10));
 
-  const { data: properties, total, totalPages, pageSize } = await getAdminProperties(currentPage);
+  const filters = {
+    minPrice: sp.minPrice ? parseInt(sp.minPrice, 10) : undefined,
+    maxPrice: sp.maxPrice ? parseInt(sp.maxPrice, 10) : undefined,
+    tag: sp.tag,
+    beds: sp.beds ? parseInt(sp.beds, 10) : undefined,
+    baths: sp.baths ? parseInt(sp.baths, 10) : undefined,
+    search: sp.search,
+  };
+
+  const { data: properties, total, totalPages, pageSize } = await getAdminProperties(currentPage, filters);
 
   const supabase = await createClient();
   const { data: { user } } = await supabase.auth.getUser();
@@ -35,13 +53,33 @@ export default async function AdminPropertiesPage({
     avatar: user.user_metadata?.avatar_url || `https://ui-avatars.com/api/?name=${encodeURIComponent(user.email ?? 'A')}&background=006655&color=fff`,
   } : null;
 
-  // Fetch aggregate counts (all rows, not just current page)
-  // We reuse `total` from getAdminProperties for total listing count
-  // For sale/rent we need an extra lightweight query
+  // Fetch aggregate counts matching the current filters
   const supabaseForCounts = await createClient();
-  const { data: tagCounts } = await supabaseForCounts
+  let countsQuery = supabaseForCounts
     .from('properties')
     .select('tag, is_featured');
+
+  // Apply filters to counts query
+  if (filters.minPrice) {
+    countsQuery = countsQuery.gte('price_numeric', filters.minPrice);
+  }
+  if (filters.maxPrice) {
+    countsQuery = countsQuery.lte('price_numeric', filters.maxPrice);
+  }
+  if (filters.tag && filters.tag !== 'any tag') {
+    countsQuery = countsQuery.eq('tag', filters.tag);
+  }
+  if (filters.beds) {
+    countsQuery = countsQuery.gte('beds', filters.beds);
+  }
+  if (filters.baths) {
+    countsQuery = countsQuery.gte('baths', filters.baths);
+  }
+  if (filters.search) {
+    countsQuery = countsQuery.ilike('title', `%${filters.search}%`);
+  }
+
+  const { data: tagCounts } = await countsQuery;
 
   const allProps = tagCounts ?? [];
   const featured = allProps.filter((p) => p.is_featured).length;
@@ -59,9 +97,7 @@ export default async function AdminPropertiesPage({
             <p className="text-gray-500 mt-1">Manage your portfolio and track performance.</p>
           </div>
           <div className="flex items-center gap-3">
-            <button className="bg-white border border-gray-200 text-nordic hover:bg-gray-50 px-4 py-2.5 rounded-lg text-sm font-medium transition-colors shadow-sm inline-flex items-center gap-2">
-              <span className="material-icons text-base">filter_list</span> Filter
-            </button>
+            <AdminFilterButton lang={lang} />
             <button className="bg-primary hover:bg-primary/90 text-white px-5 py-2.5 rounded-lg text-sm font-medium shadow-md shadow-primary/20 transition-all transform hover:-translate-y-0.5 inline-flex items-center gap-2">
               <span className="material-icons text-base">add</span> Add New Property
             </button>

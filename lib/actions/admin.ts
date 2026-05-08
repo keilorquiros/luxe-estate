@@ -171,11 +171,20 @@ export async function updateUserRole(
 
 const ADMIN_PAGE_SIZE = 10;
 
+export interface AdminPropertiesFilters {
+  minPrice?: number;
+  maxPrice?: number;
+  tag?: string;
+  beds?: number;
+  baths?: number;
+  search?: string;
+}
+
 /**
  * Fetch paginated properties (no is_featured filter) for admin view.
  * Returns data for the requested page plus total count metadata.
  */
-export async function getAdminProperties(page = 1) {
+export async function getAdminProperties(page = 1, filters: AdminPropertiesFilters = {}) {
   await requireAdmin();
 
   const supabase = await createClient();
@@ -183,12 +192,34 @@ export async function getAdminProperties(page = 1) {
   const from = (page - 1) * ADMIN_PAGE_SIZE;
   const to = from + ADMIN_PAGE_SIZE - 1;
 
-  const { data, error, count } = await supabase
+  let query = supabase
     .from('properties')
     .select(
       'id, title, location, price, price_numeric, tag, tag_color, is_featured, is_favorite, beds, baths, area, slug, created_at, images',
       { count: 'exact' }
-    )
+    );
+
+  // Apply filters
+  if (filters.minPrice) {
+    query = query.gte('price_numeric', filters.minPrice);
+  }
+  if (filters.maxPrice) {
+    query = query.lte('price_numeric', filters.maxPrice);
+  }
+  if (filters.tag && filters.tag !== 'any tag') {
+    query = query.eq('tag', filters.tag);
+  }
+  if (filters.beds) {
+    query = query.gte('beds', filters.beds);
+  }
+  if (filters.baths) {
+    query = query.gte('baths', filters.baths);
+  }
+  if (filters.search) {
+    query = query.ilike('title', `%${filters.search}%`);
+  }
+
+  const { data, error, count } = await query
     .order('created_at', { ascending: false })
     .range(from, to);
 

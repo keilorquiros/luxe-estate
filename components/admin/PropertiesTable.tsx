@@ -52,11 +52,19 @@ export default function PropertiesTable({ properties, lang }: PropertiesTablePro
   };
 
   const getStatusDisplay = (tag: string) => {
+    if (!tag) return { label: 'Active', classes: 'bg-hint-green text-primary border-primary/10', dot: 'bg-primary' };
+    
     const t = tag.toLowerCase();
     if (t === 'for sale') return { label: 'For Sale', classes: 'bg-hint-green text-primary border-primary/10', dot: 'bg-primary' };
     if (t === 'for rent') return { label: 'For Rent', classes: 'bg-orange-100 text-orange-700 border-orange-200', dot: 'bg-orange-500' };
     if (t === 'sold') return { label: 'Sold', classes: 'bg-gray-100 text-gray-600 border-gray-200', dot: 'bg-gray-500' };
-    return { label: 'Active', classes: 'bg-hint-green text-primary border-primary/10', dot: 'bg-primary' };
+    
+    // Fallback to the tag itself capitalized
+    return { 
+      label: tag.charAt(0).toUpperCase() + tag.slice(1), 
+      classes: 'bg-blue-100 text-blue-700 border-blue-200', 
+      dot: 'bg-blue-500' 
+    };
   };
 
   return (
