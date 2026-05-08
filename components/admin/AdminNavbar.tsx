@@ -110,6 +110,16 @@ export default function AdminNavbar({ lang, currentUserData }: AdminNavbarProps)
                 <div className="absolute top-full right-0 mt-2 w-48 rounded-lg shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none overflow-hidden z-50 origin-top-right animate-in fade-in zoom-in-95 duration-100">
                   <div className="py-1" role="menu" aria-orientation="vertical">
                     <Link
+                      href={`/${lang}`}
+                      className="flex items-center px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 transition-colors"
+                      role="menuitem"
+                      onClick={() => setIsDropdownOpen(false)}
+                    >
+                      <span className="material-icons text-[18px] mr-2 text-gray-400">visibility</span>
+                      Ver Sitio Web
+                    </Link>
+                    <div className="border-t border-gray-100 my-1"></div>
+                    <Link
                       href={`/${lang}/profile`}
                       className="flex items-center px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 transition-colors"
                       role="menuitem"
