@@ -1,3 +1,23 @@
+# 🏡 Luxe Estate
+
+**Luxe Estate** es una plataforma web premium de bienes raíces diseñada para ofrecer una experiencia visual impactante y una gestión de propiedades fluida. Construida con tecnologías modernas y de alto rendimiento.
+
+## 🚀 Características Principales
+
+*   **Diseño Premium y Dinámico:** Interfaz de usuario moderna con animaciones sutiles y estética de alto nivel.
+*   **Gestión de Propiedades:** Panel de administración completo para gestionar usuarios y catálogo de inmuebles.
+*   **Mapas Interactivos:** Integración con Leaflet y OpenStreetMap para geolocalización de propiedades.
+*   **Soporte Multi-idioma (i18n):** Preparado para audiencias globales con detección de idioma y rutas localizadas.
+*   **Galería de Imágenes Avanzada:** Sistema interactivo para visualizar las propiedades en detalle.
+
+## 🛠️ Stack Tecnológico
+
+*   **Framework:** Next.js
+*   **Base de Datos y Autenticación:** Supabase
+*   **Estilos:** Tailwind CSS v4
+*   **Mapas:** Leaflet / React-Leaflet
+
+
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
 ## Getting Started
