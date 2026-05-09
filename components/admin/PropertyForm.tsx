@@ -43,6 +43,7 @@ export default function PropertyForm({ lang, property }: PropertyFormProps) {
     amenities: property?.amenities || [],
     images: property?.images || [],
     highlight_tag: Array.isArray(property?.highlight_tag) ? property.highlight_tag.join(', ') : (property?.highlight_tag || ''),
+    is_active: property?.is_active !== undefined ? property.is_active : true,
   });
 
   const geocodeAddress = async (address: string) => {
@@ -183,8 +184,8 @@ export default function PropertyForm({ lang, property }: PropertyFormProps) {
       const highlightTagsArray = formData.highlight_tag
         ? formData.highlight_tag
             .split(',')
-            .map(t => t.trim().toLowerCase().replace(/\s+/g, '-'))
-            .filter(t => t !== '')
+            .map((t: string) => t.trim().toLowerCase().replace(/\s+/g, '-'))
+            .filter((t: string) => t !== '')
         : [];
 
       const dataToSubmit = {
@@ -339,6 +340,18 @@ export default function PropertyForm({ lang, property }: PropertyFormProps) {
                     onChange={handleChange}
                   />
                 </div>
+              </div>
+              <div className="mt-6">
+                <label className="flex items-center gap-2.5 cursor-pointer group">
+                  <input 
+                    className="w-4 h-4 text-mosque border-gray-300 rounded focus:ring-mosque cursor-pointer" 
+                    id="is_active"
+                    type="checkbox"
+                    checked={formData.is_active}
+                    onChange={(e) => setFormData(prev => ({ ...prev, is_active: e.target.checked }))}
+                  />
+                  <span className="text-sm font-medium text-nordic font-sf-pro group-hover:text-mosque transition-colors cursor-pointer">Active Property (Visible on public site)</span>
+                </label>
               </div>
             </div>
           </div>

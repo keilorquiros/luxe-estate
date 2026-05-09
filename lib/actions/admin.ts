@@ -196,7 +196,7 @@ export async function getAdminProperties(page = 1, filters: AdminPropertiesFilte
   let query = supabase
     .from('properties')
     .select(
-      'id, title, location, price, price_numeric, tag, highlight_tag, tag_color, is_featured, is_favorite, beds, baths, area, slug, created_at, images',
+      'id, title, location, price, price_numeric, tag, highlight_tag, tag_color, is_featured, is_favorite, beds, baths, area, slug, created_at, images, is_active',
       { count: 'exact' }
     );
 
@@ -242,10 +242,11 @@ export async function getAdminProperties(page = 1, filters: AdminPropertiesFilte
 }
 
 /**
- * Delete a property by id.
+ * Toggle property visibility (active/inactive).
  */
-export async function deleteProperty(
-  propertyId: string
+export async function togglePropertyVisibility(
+  propertyId: string,
+  isActive: boolean
 ): Promise<{ success: boolean; error?: string }> {
   try {
     await requireAdmin();
@@ -253,7 +254,7 @@ export async function deleteProperty(
     const supabase = await createClient();
     const { error } = await supabase
       .from('properties')
-      .delete()
+      .update({ is_active: isActive })
       .eq('id', propertyId);
 
     if (error) throw new Error(error.message);
@@ -309,6 +310,7 @@ export async function createProperty(data: any) {
       slug,
       garages: data.garages ? parseInt(data.garages, 10) : 0,
       highlight_tag: data.highlight_tag,
+      is_active: data.is_active !== undefined ? data.is_active : true,
     };
 
     const { error } = await supabase
@@ -349,6 +351,7 @@ export async function updateProperty(id: string, data: any) {
       longitude: data.longitude ? parseFloat(data.longitude) : null,
       garages: data.garages ? parseInt(data.garages, 10) : 0,
       highlight_tag: data.highlight_tag,
+      is_active: data.is_active,
     };
 
     const { error } = await supabase

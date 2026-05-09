@@ -2,7 +2,7 @@
 
 import { useState, useTransition, useEffect } from 'react';
 import Link from 'next/link';
-import { deleteProperty } from '../../lib/actions/admin';
+import { togglePropertyVisibility } from '../../lib/actions/admin';
 
 interface AdminProperty {
   id: string;
@@ -21,6 +21,7 @@ interface AdminProperty {
   slug: string | null;
   created_at: string;
   images?: string[];
+  is_active?: boolean;
 }
 
 interface PropertiesTableProps {
@@ -38,13 +39,13 @@ export default function PropertiesTable({ properties, lang }: PropertiesTablePro
   const [isPending, startTransition] = useTransition();
   const [deletingId, setDeletingId] = useState<string | null>(null);
 
-  const handleDelete = (id: string) => {
-    if (!confirm('¿Eliminar esta propiedad? Esta acción no se puede deshacer.')) return;
+  const handleToggleVisibility = (id: string, currentStatus: boolean | undefined) => {
+    const isActive = currentStatus !== undefined ? currentStatus : true;
     setDeletingId(id);
     startTransition(async () => {
-      const res = await deleteProperty(id);
+      const res = await togglePropertyVisibility(id, !isActive);
       if (res.success) {
-        setItems((prev) => prev.filter((p) => p.id !== id));
+        setItems((prev) => prev.map((p) => p.id === id ? { ...p, is_active: !isActive } : p));
       } else {
         alert(`Error: ${res.error}`);
       }
@@ -87,7 +88,7 @@ export default function PropertiesTable({ properties, lang }: PropertiesTablePro
           return (
             <div 
               key={prop.id} 
-              className={`group grid grid-cols-1 md:grid-cols-12 gap-4 px-6 py-5 hover:bg-active-green transition-colors items-center ${isDeleting ? 'opacity-50' : ''}`}
+              className={`group grid grid-cols-1 md:grid-cols-12 gap-4 px-6 py-5 hover:bg-active-green transition-colors items-center ${isDeleting ? 'opacity-50' : ''} ${prop.is_active === false ? 'opacity-60 bg-gray-50/50' : ''}`}
             >
               {/* Property Details */}
               <div className="col-span-12 md:col-span-6 flex gap-4 items-center">
@@ -128,6 +129,12 @@ export default function PropertiesTable({ properties, lang }: PropertiesTablePro
 
               {/* Status */}
               <div className="col-span-6 md:col-span-2 flex flex-col gap-1 items-start">
+                {prop.is_active === false && (
+                  <span className="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium border bg-red-100 text-red-700 border-red-200">
+                    <span className="w-1.5 h-1.5 rounded-full mr-1.5 bg-red-500"></span>
+                    Deactivated
+                  </span>
+                )}
                 {prop.tag && (
                   <span className={`inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium border ${status.classes}`}>
                     <span className={`w-1.5 h-1.5 rounded-full mr-1.5 ${status.dot}`}></span>
@@ -152,13 +159,13 @@ export default function PropertiesTable({ properties, lang }: PropertiesTablePro
                   <span className="material-icons text-xl">edit</span>
                 </Link>
                 <button 
-                  onClick={() => handleDelete(prop.id)}
+                  onClick={() => handleToggleVisibility(prop.id, prop.is_active)}
                   disabled={isDeleting || isPending}
-                  className="p-2 rounded-lg text-gray-400 hover:text-red-600 hover:bg-red-50 transition-all disabled:opacity-50" 
-                  title="Delete Property"
+                  className="p-2 rounded-lg text-gray-400 hover:text-primary hover:bg-hint-green/30 transition-all disabled:opacity-50" 
+                  title={prop.is_active === false ? "Activate Property" : "Deactivate Property"}
                 >
                   <span className={`material-icons text-xl ${isDeleting ? 'animate-spin' : ''}`}>
-                    {isDeleting ? 'refresh' : 'delete_outline'}
+                    {isDeleting ? 'refresh' : (prop.is_active === false ? 'visibility_off' : 'visibility')}
                   </span>
                 </button>
               </div>

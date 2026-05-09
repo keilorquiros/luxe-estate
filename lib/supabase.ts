@@ -31,6 +31,8 @@ export interface Property {
   tag_color: "white" | "mosque" | "nordic-dark" | null;
   is_featured: boolean;
   is_favorite: boolean;
+  is_active?: boolean;
+  garages?: number;
   created_at: string;
   slug: string;
 }
@@ -44,6 +46,7 @@ export async function getFeaturedProperties(): Promise<Property[]> {
     .from("properties")
     .select("*")
     .eq("is_featured", true)
+    .eq("is_active", true)
     .order("created_at", { ascending: true });
 
   if (error) throw new Error(error.message);
@@ -61,6 +64,7 @@ export async function getPaginatedFeaturedProperties(
     .from("properties")
     .select("*", { count: "exact" })
     .eq("is_featured", true)
+    .eq("is_active", true)
     .order("created_at", { ascending: true })
     .range(from, to);
 
@@ -106,7 +110,8 @@ export async function getMarketProperties(
 
   let query = supabase
     .from("properties")
-    .select("*", { count: "exact" });
+    .select("*", { count: "exact" })
+    .eq("is_active", true);
 
   const hasTypeFilter = filters.type && filters.type !== "All" && filters.type !== "Any Type";
   const hasTagFilter = filters.tag && filters.tag !== "Any Tag" && filters.tag !== "any tag";
@@ -176,6 +181,7 @@ export async function getPropertyBySlug(slug: string): Promise<Property | null> 
     .from("properties")
     .select("*")
     .eq("slug", slug)
+    .eq("is_active", true)
     .single();
 
   if (error) {
