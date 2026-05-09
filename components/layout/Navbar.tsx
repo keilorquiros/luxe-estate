@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
 import LanguageSelector from "../ui/LanguageSelector";
 import { Locale } from "../../lib/i18n";
 import { createClient } from "../../lib/supabase/client";
@@ -15,6 +16,9 @@ interface NavbarProps {
 
 export default function Navbar({ lang = 'es', dict, showSearch = true }: NavbarProps) {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isSearchExpanded, setIsSearchExpanded] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
+  const router = useRouter();
   const [user, setUser] = useState<User | null>(null);
   const [isAdmin, setIsAdmin] = useState(false);
   const supabase = createClient();
@@ -56,7 +60,7 @@ export default function Navbar({ lang = 'es', dict, showSearch = true }: NavbarP
   // For now, if no dict, use fallback or limited UI
   
   return (
-    <nav className="sticky top-0 z-50 bg-background-light/95 backdrop-blur-md border-b border-nordic-dark/10">
+    <nav className="sticky top-0 z-50 bg-background-light/95 backdrop-blur-md border-b border-nordic-dark/10 [&_a]:cursor-pointer [&_button]:cursor-pointer">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-20">
           <Link href={`/${lang}`} className="flex-shrink-0 flex items-center gap-2 cursor-pointer">
@@ -86,9 +90,42 @@ export default function Navbar({ lang = 'es', dict, showSearch = true }: NavbarP
               <LanguageSelector currentLocale={lang} dict={dict} />
             </div>
             {showSearch && (
-              <button className="text-nordic-dark hover:text-mosque transition-colors">
-                <span className="material-icons">search</span>
-              </button>
+              <div className="flex items-center gap-2">
+                <div className={`relative flex items-center transition-all duration-300 ${isSearchExpanded ? 'w-40 sm:w-48' : 'w-0 overflow-hidden'}`}>
+                  <form 
+                    onSubmit={(e) => {
+                      e.preventDefault();
+                      if (searchQuery.trim()) {
+                        router.push(`/${lang}?q=${encodeURIComponent(searchQuery)}#market-section`);
+                        setIsSearchExpanded(false);
+                      }
+                    }}
+                    className="w-full"
+                  >
+                    <input
+                      type="text"
+                      value={searchQuery}
+                      onChange={(e) => setSearchQuery(e.target.value)}
+                      placeholder={dict?.nav?.search || "Search..."}
+                      className="w-full pl-3 pr-3 py-1.5 text-sm rounded-full border border-nordic-dark/20 focus:border-mosque focus:ring-1 focus:ring-mosque outline-none bg-background-light/90 backdrop-blur-sm"
+                    />
+                  </form>
+                </div>
+                <button 
+                  onClick={() => {
+                    if (isSearchExpanded) {
+                      setSearchQuery("");
+                      setIsSearchExpanded(false);
+                    } else {
+                      setIsSearchExpanded(true);
+                    }
+                  }}
+                  className="text-nordic-dark hover:text-mosque transition-colors"
+                  aria-label="Toggle search"
+                >
+                  <span className="material-icons">{isSearchExpanded ? 'close' : 'search'}</span>
+                </button>
+              </div>
             )}
             <button className="text-nordic-dark hover:text-mosque transition-colors relative">
               <span className="material-icons">notifications_none</span>
