@@ -10,7 +10,7 @@ const MapSelector = dynamic(() => import('./MapSelector'), {
   loading: () => <div className="w-full h-[300px] bg-gray-100 animate-pulse rounded-lg flex items-center justify-center text-gray-400">Loading map...</div>
 });
 import { createClient } from '../../lib/supabase/client';
-import { createProperty, updateProperty } from '../../lib/actions/admin';
+import { createProperty, updateProperty, uploadPropertyImage } from '../../lib/actions/admin';
 
 interface PropertyFormProps {
   lang: string;
@@ -23,6 +23,7 @@ export default function PropertyForm({ lang, property }: PropertyFormProps) {
   const [isPending, startTransition] = useTransition();
   const [uploading, setUploading] = useState(false);
   const [deletedFiles, setDeletedFiles] = useState<string[]>([]);
+  const [imageErrors, setImageErrors] = useState<Record<number, boolean>>({});
 
   const [isGeocoding, setIsGeocoding] = useState(false);
 
@@ -127,30 +128,27 @@ export default function PropertyForm({ lang, property }: PropertyFormProps) {
     if (!files || files.length === 0) return;
 
     setUploading(true);
+    console.log('Starting upload for', files.length, 'files via Server Action');
     try {
-      const supabase = createClient();
       const newImages = [...formData.images];
 
       for (let i = 0; i < files.length; i++) {
         const file = files[i];
-        const fileExt = file.name.split('.').pop();
-        const fileName = `${Date.now()}-${Math.random().toString(36).substring(2, 15)}.${fileExt}`;
-        const filePath = `properties/${fileName}`;
+        console.log(`Uploading file ${i + 1}/${files.length} via Server Action`);
 
-        const { error } = await supabase.storage
-          .from('properties')
-          .upload(filePath, file);
+        const uploadFormData = new FormData();
+        uploadFormData.append('file', file);
 
-        if (error) {
-          alert(`Error uploading image: ${error.message}`);
+        const result = await uploadPropertyImage(uploadFormData);
+
+        if (!result.success || !result.publicUrl) {
+          console.error(`Error uploading file ${i + 1}:`, result.error);
+          alert(`Error uploading image: ${result.error}`);
           continue;
         }
 
-        const { data: { publicUrl } } = supabase.storage
-          .from('properties')
-          .getPublicUrl(filePath);
-
-        newImages.push(publicUrl);
+        console.log(`File ${i + 1} uploaded successfully via Server Action`);
+        newImages.push(result.publicUrl);
       }
 
       setFormData((prev) => ({ ...prev, images: newImages }));
@@ -158,6 +156,7 @@ export default function PropertyForm({ lang, property }: PropertyFormProps) {
       console.error('Error in handleImageUpload:', error);
       alert(`An unexpected error occurred: ${(error as Error).message}`);
     } finally {
+      console.log('Upload process finished');
       setUploading(false);
     }
   };
@@ -399,12 +398,23 @@ export default function PropertyForm({ lang, property }: PropertyFormProps) {
                 <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mt-6">
                   {formData.images.map((url: string, index: number) => {
                     const isVideo = url.match(/\.(mp4|webm|ogg|mov)(\?.*)?$/i);
+                    const hasError = imageErrors[index];
                     return (
                       <div key={index} className="aspect-square rounded-lg overflow-hidden relative group shadow-sm">
-                        {isVideo ? (
+                        {hasError ? (
+                          <div className="w-full h-full flex flex-col items-center justify-center bg-gray-100 text-gray-400 gap-2">
+                            <span className="material-icons text-2xl">broken_image</span>
+                            <span className="text-xs font-sf-pro">No se pudo cargar</span>
+                          </div>
+                        ) : isVideo ? (
                           <video src={url} className="w-full h-full object-cover" controls={false} muted />
                         ) : (
-                          <img alt={`Property image ${index + 1}`} className="w-full h-full object-cover" src={url} />
+                          <img 
+                            alt={`Property image ${index + 1}`} 
+                            className="w-full h-full object-cover" 
+                            src={url} 
+                            onError={() => setImageErrors(prev => ({ ...prev, [index]: true }))}
+                          />
                         )}
                         <div className="absolute inset-0 bg-nordic/60 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-2 backdrop-blur-[2px]">
                         <button 

@@ -359,8 +359,45 @@ export async function updateProperty(id: string, data: any) {
     if (error) throw new Error(error.message);
 
     revalidatePath('/[lang]/admin/properties', 'page');
+    revalidatePath('/[lang]/properties', 'layout');
+    revalidatePath('/[lang]/admin/properties/[id]', 'page');
     return { success: true };
   } catch (e) {
     return { success: false, error: (e as Error).message };
   }
 }
+
+/**
+ * Upload an image to Supabase Storage via Server Action.
+ */
+export async function uploadPropertyImage(formData: FormData) {
+  try {
+    await requireAdmin();
+    const file = formData.get('file') as File;
+    if (!file) throw new Error('No file provided');
+
+    const adminClient = getAdminSupabaseClient();
+    const fileExt = file.name.split('.').pop();
+    const fileName = `${Date.now()}-${Math.random().toString(36).substring(2, 15)}.${fileExt}`;
+    const filePath = `properties/${fileName}`;
+
+    const arrayBuffer = await file.arrayBuffer();
+    
+    const { error } = await adminClient.storage
+      .from('properties')
+      .upload(filePath, arrayBuffer, {
+        contentType: file.type,
+      });
+
+    if (error) throw new Error(error.message);
+
+    const { data: { publicUrl } } = adminClient.storage
+      .from('properties')
+      .getPublicUrl(filePath);
+
+    return { success: true, publicUrl };
+  } catch (e) {
+    return { success: false, error: (e as Error).message };
+  }
+}
+
