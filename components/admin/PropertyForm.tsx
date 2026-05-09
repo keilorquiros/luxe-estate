@@ -22,6 +22,7 @@ export default function PropertyForm({ lang, property }: PropertyFormProps) {
   const router = useRouter();
   const [isPending, startTransition] = useTransition();
   const [uploading, setUploading] = useState(false);
+  const [deletedFiles, setDeletedFiles] = useState<string[]>([]);
 
   const [isGeocoding, setIsGeocoding] = useState(false);
 
@@ -126,36 +127,50 @@ export default function PropertyForm({ lang, property }: PropertyFormProps) {
     if (!files || files.length === 0) return;
 
     setUploading(true);
-    const supabase = createClient();
-    const newImages = [...formData.images];
+    try {
+      const supabase = createClient();
+      const newImages = [...formData.images];
 
-    for (let i = 0; i < files.length; i++) {
-      const file = files[i];
-      const fileExt = file.name.split('.').pop();
-      const fileName = `${Date.now()}-${Math.random().toString(36).substring(2, 15)}.${fileExt}`;
-      const filePath = `properties/${fileName}`;
+      for (let i = 0; i < files.length; i++) {
+        const file = files[i];
+        const fileExt = file.name.split('.').pop();
+        const fileName = `${Date.now()}-${Math.random().toString(36).substring(2, 15)}.${fileExt}`;
+        const filePath = `properties/${fileName}`;
 
-      const { error } = await supabase.storage
-        .from('properties')
-        .upload(filePath, file);
+        const { error } = await supabase.storage
+          .from('properties')
+          .upload(filePath, file);
 
-      if (error) {
-        alert(`Error uploading image: ${error.message}`);
-        continue;
+        if (error) {
+          alert(`Error uploading image: ${error.message}`);
+          continue;
+        }
+
+        const { data: { publicUrl } } = supabase.storage
+          .from('properties')
+          .getPublicUrl(filePath);
+
+        newImages.push(publicUrl);
       }
 
-      const { data: { publicUrl } } = supabase.storage
-        .from('properties')
-        .getPublicUrl(filePath);
-
-      newImages.push(publicUrl);
+      setFormData((prev) => ({ ...prev, images: newImages }));
+    } catch (error) {
+      console.error('Error in handleImageUpload:', error);
+      alert(`An unexpected error occurred: ${(error as Error).message}`);
+    } finally {
+      setUploading(false);
     }
-
-    setFormData((prev) => ({ ...prev, images: newImages }));
-    setUploading(false);
   };
 
   const handleRemoveImage = (index: number) => {
+    const url = formData.images[index];
+    if (url.includes('/storage/v1/object/public/properties/')) {
+      const parts = url.split('/storage/v1/object/public/properties/');
+      if (parts.length > 1) {
+        const filePath = parts[1];
+        setDeletedFiles(prev => [...prev, filePath]);
+      }
+    }
     setFormData((prev) => ({
       ...prev,
       images: prev.images.filter((_: string, i: number) => i !== index),
@@ -191,6 +206,10 @@ export default function PropertyForm({ lang, property }: PropertyFormProps) {
       }
 
       if (result.success) {
+        if (deletedFiles.length > 0) {
+          const supabase = createClient();
+          await Promise.all(deletedFiles.map(path => supabase.storage.from('properties').remove([path])));
+        }
         router.push(`/${lang}/admin/properties`);
         router.refresh();
       } else {
@@ -353,7 +372,7 @@ export default function PropertyForm({ lang, property }: PropertyFormProps) {
                 </div>
                 <h2 className="text-xl font-bold text-nordic">Gallery</h2>
               </div>
-              <span className="text-xs font-medium text-gray-500 bg-gray-100 px-2 py-1 rounded font-sf-pro">JPG, PNG, WEBP</span>
+              <span className="text-xs font-medium text-gray-500 bg-gray-100 px-2 py-1 rounded font-sf-pro">Imágenes, Videos</span>
             </div>
             <div className="p-8">
               <div className="relative border-2 border-dashed border-gray-300 rounded-xl bg-gray-50/50 p-10 text-center hover:bg-hint-green/10 hover:border-mosque/40 transition-colors cursor-pointer group">
@@ -361,7 +380,7 @@ export default function PropertyForm({ lang, property }: PropertyFormProps) {
                   className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10" 
                   multiple 
                   type="file"
-                  accept="image/*"
+                  accept="image/*,video/*"
                   onChange={handleImageUpload}
                   disabled={uploading}
                 />
@@ -370,18 +389,24 @@ export default function PropertyForm({ lang, property }: PropertyFormProps) {
                     <span className="material-icons text-2xl">{uploading ? 'refresh' : 'cloud_upload'}</span>
                   </div>
                   <div className="space-y-1">
-                    <p className="text-base font-medium text-nordic font-sf-pro">{uploading ? 'Uploading...' : 'Click or drag images here'}</p>
-                    <p className="text-xs text-gray-400 font-sf-pro">Max file size 5MB per image</p>
+                    <p className="text-base font-medium text-nordic font-sf-pro">{uploading ? 'Uploading...' : 'Click or drag media here'}</p>
+                    <p className="text-xs text-gray-400 font-sf-pro">Max file size 5MB per file</p>
                   </div>
                 </div>
               </div>
               
               {formData.images.length > 0 && (
                 <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mt-6">
-                  {formData.images.map((url: string, index: number) => (
-                    <div key={index} className="aspect-square rounded-lg overflow-hidden relative group shadow-sm">
-                      <img alt={`Property image ${index + 1}`} className="w-full h-full object-cover" src={url} />
-                      <div className="absolute inset-0 bg-nordic/60 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-2 backdrop-blur-[2px]">
+                  {formData.images.map((url: string, index: number) => {
+                    const isVideo = url.match(/\.(mp4|webm|ogg|mov)(\?.*)?$/i);
+                    return (
+                      <div key={index} className="aspect-square rounded-lg overflow-hidden relative group shadow-sm">
+                        {isVideo ? (
+                          <video src={url} className="w-full h-full object-cover" controls={false} muted />
+                        ) : (
+                          <img alt={`Property image ${index + 1}`} className="w-full h-full object-cover" src={url} />
+                        )}
+                        <div className="absolute inset-0 bg-nordic/60 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-2 backdrop-blur-[2px]">
                         <button 
                           className="w-8 h-8 rounded-full bg-white text-red-500 hover:bg-red-50 flex items-center justify-center transition-colors" 
                           type="button"
@@ -394,7 +419,8 @@ export default function PropertyForm({ lang, property }: PropertyFormProps) {
                         <span className="absolute top-2 left-2 bg-mosque text-white text-[10px] font-bold px-2 py-0.5 rounded shadow-sm font-sf-pro uppercase tracking-wider">Main</span>
                       )}
                     </div>
-                  ))}
+                  );
+                })}
                 </div>
               )}
             </div>

@@ -30,7 +30,8 @@ function getLocale(request: NextRequest): string {
 
 // ─── Proxy ─────────────────────────────────────────────────────────────────────
 
-export async function proxy(request: NextRequest) {
+export default async function proxy(request: NextRequest) {
+  console.log('Proxy running for:', request.nextUrl.pathname);
   const { pathname } = request.nextUrl;
 
   // ── 1. i18n redirect ────────────────────────────────────────────────────────
