@@ -10,9 +10,10 @@ import { User } from "@supabase/supabase-js";
 interface NavbarProps {
   lang?: Locale;
   dict?: any;
+  showSearch?: boolean;
 }
 
-export default function Navbar({ lang = 'es', dict }: NavbarProps) {
+export default function Navbar({ lang = 'es', dict, showSearch = true }: NavbarProps) {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [user, setUser] = useState<User | null>(null);
   const [isAdmin, setIsAdmin] = useState(false);
@@ -84,9 +85,11 @@ export default function Navbar({ lang = 'es', dict }: NavbarProps) {
             <div className="hidden sm:block">
               <LanguageSelector currentLocale={lang} dict={dict} />
             </div>
-            <button className="text-nordic-dark hover:text-mosque transition-colors">
-              <span className="material-icons">search</span>
-            </button>
+            {showSearch && (
+              <button className="text-nordic-dark hover:text-mosque transition-colors">
+                <span className="material-icons">search</span>
+              </button>
+            )}
             <button className="text-nordic-dark hover:text-mosque transition-colors relative">
               <span className="material-icons">notifications_none</span>
               <span className="absolute top-0 right-0 w-2 h-2 bg-red-500 rounded-full border-2 border-background-light"></span>

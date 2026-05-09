@@ -74,7 +74,7 @@ export default async function Home({ params, searchParams }: HomePageProps) {
 
   return (
     <>
-      <Navbar lang={lang as Locale} dict={dict} />
+      <Navbar lang={lang as Locale} dict={dict} showSearch={false} />
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-20">
         <HeroSection lang={lang as Locale} dict={dict} />
 
